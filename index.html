@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KARD · the κ-deck duel · ◊</title>
+<meta name="description" content="A sovereign single-file AI-augmented card game · 7 factions · audit-chain match history · BYOK LLM · MIT.">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%238b1a1a'/%3E%3Ctext x='32' y='44' font-size='38' text-anchor='middle' fill='%23e8e8ea'%3E◊%3C/text%3E%3C/svg%3E">
+
+<style>
+:root{
+  --void:#0a0a0f; --void-2:#11131a; --void-3:#1a1a22;
+  --ox:#8b1a1a; --ox-2:#a32424; --ox-dim:#5a1212;
+  --cream:#e8e8ea; --cream-dim:#8a8a92; --cream-deep:#5a5a62;
+  --gold:#b8974a; --green:#22a558; --blue:#2563eb; --red:#dc2626; --purple:#7e3eb3;
+  --line:#1a1a22; --radius:6px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--void);color:var(--cream);font:14px/1.5 -apple-system,BlinkMacSystemFont,system-ui,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:1180px;margin:0 auto;padding:18px 14px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+header .brand{font:700 22px/1 'Times New Roman',serif;letter-spacing:.5px}
+header .brand .ox{color:var(--ox-2)}
+header nav{display:flex;gap:6px}
+.nav-btn{background:none;border:1px solid var(--line);color:var(--cream-dim);padding:7px 12px;border-radius:5px;cursor:pointer;font:13px/1 inherit;letter-spacing:.3px}
+.nav-btn:hover{border-color:var(--gold);color:var(--cream)}
+.nav-btn.active{background:var(--ox);color:#fff;border-color:var(--ox)}
+.view{display:none}
+.view.active{display:block}
+.tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.dim{color:var(--cream-dim)}
+.btn{display:inline-block;background:var(--ox);color:#fff;border:0;padding:9px 16px;border-radius:5px;font:600 13px/1 inherit;cursor:pointer;letter-spacing:.3px}
+.btn:hover{background:var(--ox-2)}
+.btn-ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* HOME */
+.home-hero{padding:42px 28px;background:linear-gradient(180deg,#15171f,var(--void));border:1px solid var(--line);border-radius:10px;text-align:center;margin-bottom:18px}
+.home-hero h1{margin:0 0 6px;font:700 36px/1.05 'Times New Roman',serif;color:var(--cream)}
+.home-hero h1 .hl{color:var(--ox-2)}
+.home-hero p{color:var(--cream-dim);max-width:580px;margin:8px auto 18px;font-size:15px}
+.home-hero .cta-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.faction-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:18px}
+.fc-card{background:var(--void-2);border:1px solid var(--line);border-radius:6px;padding:14px;text-align:center}
+.fc-card .ic{font-size:30px;margin-bottom:4px}
+.fc-card h4{margin:4px 0 2px;font-size:13px;color:var(--cream)}
+.fc-card .sub{font-size:11px;color:var(--cream-dim);line-height:1.4}
+.fc-card .pr{font-size:10px;color:var(--gold);letter-spacing:1px;margin-top:6px}
+
+/* DECK BUILDER */
+.db-grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
+@media(max-width:880px){.db-grid{grid-template-columns:1fr}}
+.collection{background:var(--void-2);border:1px solid var(--line);border-radius:6px;padding:12px}
+.coll-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.coll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;max-height:540px;overflow-y:auto;padding-right:4px}
+.deck-panel{background:var(--void-2);border:1px solid var(--line);border-radius:6px;padding:12px;position:sticky;top:14px;align-self:start}
+.deck-list{max-height:480px;overflow-y:auto}
+.deck-row{display:flex;justify-content:space-between;align-items:center;padding:5px 6px;border-bottom:1px solid var(--line);font-size:12px}
+.deck-row:hover{background:var(--void-3)}
+.deck-row .x{cursor:pointer;color:var(--ox-2);font-weight:600}
+
+/* CARD */
+.card{position:relative;background:linear-gradient(180deg,#1b1d27,#11131a);border:1px solid var(--line);border-radius:6px;padding:8px;font-size:12px;cursor:pointer;transition:transform .08s,border-color .08s;min-height:140px;display:flex;flex-direction:column;gap:4px}
+.card:hover{transform:translateY(-2px);border-color:var(--gold)}
+.card.selected{border-color:var(--ox-2);box-shadow:0 0 0 1px var(--ox-2)}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.card .cost{background:var(--gold);color:#000;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.card .nm{font-weight:600;font-size:11.5px;line-height:1.2;color:var(--cream)}
+.card .fc{font-size:10px;color:var(--cream-dim);letter-spacing:1px}
+.card .tx{font-size:11px;color:var(--cream-dim);line-height:1.4;flex:1;margin:4px 0}
+.card .stats{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;margin-top:auto}
+.card .atk{color:var(--ox-2)}
+.card .hp{color:var(--green)}
+.card .ab{display:flex;flex-wrap:wrap;gap:3px;font-size:9px}
+.card .ab span{background:rgba(184,151,74,.18);color:var(--gold);padding:1px 5px;border-radius:3px;letter-spacing:.5px}
+.card.spell{border-style:dashed}
+.card.spell .stats{display:none}
+.card[data-fc=MAGNA]    {border-top:2px solid var(--blue)}
+.card[data-fc=LIBERTY]  {border-top:2px solid var(--cream-dim)}
+.card[data-fc=CROWN]    {border-top:2px solid var(--ox-2)}
+.card[data-fc=EQUITY]   {border-top:2px solid var(--gold)}
+.card[data-fc=HEARTH]   {border-top:2px solid var(--green)}
+.card[data-fc=GUILD]    {border-top:2px solid var(--purple)}
+.card[data-fc=ADMIRALTY]{border-top:2px solid #4ab8a0}
+.card.unaffordable{opacity:.5}
+
+/* MATCH */
+.board{display:grid;grid-template-rows:auto auto 1fr auto auto;gap:8px;min-height:540px}
+.hero-row{display:flex;justify-content:space-between;align-items:center;background:var(--void-2);border:1px solid var(--line);border-radius:6px;padding:10px 14px}
+.hero{display:flex;align-items:center;gap:10px}
+.hero .av{width:48px;height:48px;border-radius:50%;background:var(--ox);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff}
+.hero .info .nm{font-weight:600}
+.hero .info .hp{font-size:12px;color:var(--cream-dim)}
+.hero .hp-num{font-size:24px;font-weight:700;color:var(--green);margin-left:auto}
+.hero.danger .hp-num{color:var(--ox-2)}
+.battlefield{background:radial-gradient(circle at center,#1a1c25,var(--void-2));border:1px solid var(--line);border-radius:6px;padding:14px;display:grid;grid-template-rows:1fr 1fr;gap:14px;min-height:340px}
+.bf-row{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;min-height:148px;padding:6px;border:1px dashed var(--void-3);border-radius:5px}
+.bf-row .empty{color:var(--cream-deep);font-size:11px;letter-spacing:1px}
+.bf-card{width:135px}
+.bf-card.attackable{cursor:crosshair}
+.bf-card.attackable:hover{border-color:var(--ox-2)}
+.bf-card.target-mode{outline:2px dashed var(--ox-2)}
+.bf-card.has-shield::after{content:"";position:absolute;inset:-2px;border:2px solid var(--gold);border-radius:7px;pointer-events:none}
+.bf-card.exhausted{filter:grayscale(.7);opacity:.65}
+.hand-row{display:flex;justify-content:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:6px 4px}
+.hand-card{width:135px;flex-shrink:0}
+.controls{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:var(--void-2);border:1px solid var(--line);border-radius:6px;font-size:12px}
+.mana-pip{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--gold);margin:0 1px;box-shadow:0 0 4px rgba(184,151,74,.5)}
+.mana-pip.empty{background:transparent;border:1px solid var(--cream-deep);box-shadow:none}
+.log{background:var(--void-2);border:1px solid var(--line);border-radius:6px;padding:10px 14px;max-height:120px;overflow-y:auto;font:12px/1.5 ui-monospace,monospace;color:var(--cream-dim)}
+.log .l{padding:1px 0;border-bottom:1px dashed var(--void-3)}
+.log .l:last-child{border-bottom:0}
+.log .l b{color:var(--cream)}
+.log .l.you{color:var(--green)}
+.log .l.ai{color:var(--ox-2)}
+
+/* HISTORY */
+.match-list{display:grid;gap:6px}
+.match{background:var(--void-2);border:1px solid var(--line);border-radius:5px;padding:10px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;font-size:13px}
+.match .outcome{font-weight:700;font-size:11px;letter-spacing:1.5px;padding:4px 8px;border-radius:3px;text-transform:uppercase}
+.match .outcome.win{background:rgba(34,165,88,.18);color:var(--green)}
+.match .outcome.loss{background:rgba(220,38,38,.18);color:var(--red)}
+.match .hash{font-family:ui-monospace,monospace;font-size:10px;color:var(--cream-deep)}
+.match .ts{color:var(--cream-dim);font-size:11px}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;z-index:90;padding:16px}
+.modal.open{display:flex}
+.modal-card{background:var(--void-2);border:1px solid var(--line);border-radius:8px;padding:24px;max-width:520px;width:100%;max-height:92vh;overflow:auto}
+.modal-card h3{margin:0 0 6px;font:700 22px/1.1 'Times New Roman',serif}
+.modal-card p{color:var(--cream-dim);margin:8px 0}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+
+footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--cream-deep);text-align:center;line-height:1.7}
+footer a{color:var(--cream-dim);text-decoration:none;border-bottom:1px dotted var(--line)}
+footer a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="brand">◊ <span class="ox">KARD</span> · the κ-deck duel</div>
+  <nav>
+    <button class="nav-btn active" onclick="goView('home')">home</button>
+    <button class="nav-btn" onclick="goView('deck')">deck</button>
+    <button class="nav-btn" onclick="goView('match')">match</button>
+    <button class="nav-btn" onclick="goView('history')">history</button>
+  </nav>
+</header>
+
+<!-- ═══════════ HOME ═══════════ -->
+<section class="view active" id="home">
+  <div class="home-hero">
+    <div class="tag">v1.0 · sovereign single-file · BYOK LLM-ready · MIT</div>
+    <h1>A turn-based card duel · <span class="hl">7 factions · 56 cards · audit-chained matches.</span></h1>
+    <p>Build a 30-card deck across MAGNA · LIBERTY · CROWN · EQUITY · HEARTH · GUILD · ADMIRALTY. Duel an AI opponent. Every move is hash-chained. Winner gets a signed κ-trophy. Works offline. No accounts. No cloud.</p>
+    <div class="cta-row">
+      <button class="btn" onclick="quickStart()">Quick duel vs AI</button>
+      <button class="btn btn-ghost" onclick="goView('deck')">Build a deck</button>
+      <button class="btn btn-ghost" onclick="goView('history')">Match history</button>
+    </div>
+  </div>
+
+  <div class="tag">the 7 factions</div>
+  <div class="faction-grid" id="factionGrid"></div>
+
+  <div style="margin-top:28px;padding:18px;background:var(--void-2);border:1px solid var(--line);border-radius:6px">
+    <div class="tag">for builders</div>
+    <h3 style="margin:4px 0 8px;font-size:16px">Card engine has a pro-slot.</h3>
+    <p class="dim" style="margin:0;font-size:13px">The default engine is hardcoded for transparent play. The interface is 3 functions: <code style="color:var(--gold);font-family:ui-monospace,monospace">generatePack()</code> · <code style="color:var(--gold);font-family:ui-monospace,monospace">resolveAbility()</code> · <code style="color:var(--gold);font-family:ui-monospace,monospace">opponentMove()</code>. Swap any of them with your own implementation (LLM-driven · ML-driven · game-theory engine · whatever). See <code style="color:var(--gold);font-family:ui-monospace,monospace">src/pro-slot.md</code> for the contract.</p>
+  </div>
+</section>
+
+<!-- ═══════════ DECK BUILDER ═══════════ -->
+<section class="view" id="deck">
+  <div class="tag">deck builder</div>
+  <h2 style="margin:4px 0 14px;font:700 22px/1.1 'Times New Roman',serif">Build your 30-card deck.</h2>
+  <div class="db-grid">
+    <div>
+      <div class="collection">
+        <div class="coll-filter" id="collFilter"></div>
+        <div class="coll-grid" id="collGrid"></div>
+      </div>
+    </div>
+    <div class="deck-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3 style="margin:0;font-size:15px">Your deck <span class="dim" style="font-size:11px">(<span id="deckCount">0</span>/30)</span></h3>
+        <button class="btn btn-ghost btn-sm" onclick="clearDeck()">clear</button>
+      </div>
+      <div class="deck-list" id="deckList"></div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="randomDeck()">random 30</button>
+        <button class="btn btn-sm" style="flex:1" id="startBtn" onclick="startMatch()" disabled>duel</button>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--cream-deep);line-height:1.5">tip · max 2 of any card · balance creatures vs spells · climb the mana curve</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ MATCH ═══════════ -->
+<section class="view" id="match">
+  <div class="board" id="boardWrap">
+    <div class="hero-row" id="enemyHero">
+      <div class="hero"><div class="av">AI</div><div class="info"><div class="nm">Opponent</div><div class="hp">audit-shadow</div></div></div>
+      <div class="hp-num"><span id="enemyHp">30</span> HP</div>
+    </div>
+
+    <div class="battlefield">
+      <div class="bf-row" id="enemyBoard"><div class="empty">enemy battlefield</div></div>
+      <div class="bf-row" id="myBoard"><div class="empty">your battlefield</div></div>
+    </div>
+
+    <div class="hero-row" id="myHero">
+      <div class="hero"><div class="av">◊</div><div class="info"><div class="nm">You</div><div class="hp" id="myMana">κ 1/1</div></div></div>
+      <div class="hp-num"><span id="myHp">30</span> HP</div>
+    </div>
+
+    <div class="hand-row" id="myHand"></div>
+
+    <div class="controls">
+      <div>
+        <button class="btn btn-ghost btn-sm" onclick="goView('deck')">leave duel</button>
+      </div>
+      <div id="manaPips"></div>
+      <div>
+        <button class="btn btn-sm" id="endTurnBtn" onclick="endTurn()">end turn</button>
+      </div>
+    </div>
+
+    <div class="log" id="matchLog"></div>
+  </div>
+</section>
+
+<!-- ═══════════ HISTORY ═══════════ -->
+<section class="view" id="history">
+  <div class="tag">audit chain · every match permanent</div>
+  <h2 style="margin:4px 0 14px;font:700 22px/1.1 'Times New Roman',serif">Match history.</h2>
+  <div class="match-list" id="matchList"></div>
+  <p class="dim" style="margin-top:18px;font-size:12px">Every move in every match is SHA-256-chained against the previous · winners receive a signed κ-trophy in their local store. Export any match as JSON for a verifiable replay.</p>
+</section>
+
+<footer>
+  <div>◊ <strong>KARD</strong> · v1.0 · MIT open source · zero tracking · sovereign single-file · plays offline</div>
+  <div style="margin-top:6px">part of the Fall* estate · sister tools: <a href="https://github.com/sjgant80-hub/groundlevel">groundlevel</a> · <a href="https://github.com/sjgant80-hub/fall-euaiact">fall-euaiact</a> · <a href="https://github.com/sjgant80-hub/nhs-reinjection">nhs-reinjection</a> · <a href="https://github.com/sjgant80-hub/groundlevel-sdk">groundlevel-sdk</a></div>
+  <div style="margin-top:6px">repo · <a href="https://github.com/sjgant80-hub/kard">github.com/sjgant80-hub/kard</a> · pro-slot doc · <a href="https://github.com/sjgant80-hub/kard/blob/main/src/pro-slot.md">src/pro-slot.md</a></div>
+</footer>
+
+</div>
+
+<!-- ═══════════ MODAL ═══════════ -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h3 id="mTitle">Title</h3>
+    <p id="mBody">Body</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()" id="mCancel">close</button>
+      <button class="btn btn-sm" onclick="mConfirm()" id="mOk">ok</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ═════════════════════════════════════════════════════════════
+// CARD DATA · loaded from decks/starter.json
+// ═════════════════════════════════════════════════════════════
+const CARDS = {};
+const FACTIONS = [];
+const ABILITIES = {};
+
+async function loadCards() {
+  try {
+    const r = await fetch('./decks/starter.json');
+    const j = await r.json();
+    j.cards.forEach(c => CARDS[c.id] = c);
+    j.factions.forEach(f => FACTIONS.push(f));
+    Object.assign(ABILITIES, j.abilities);
+  } catch (e) {
+    // file:// fallback · inline a small set so the page still demos
+    console.warn('falling back to inline deck (fetch blocked · run via http server or upload to Pages)');
+    const inline = window.__INLINE_FALLBACK__ || [];
+    inline.forEach(c => CARDS[c.id] = c);
+  }
+}
+
+// ═════════════════════════════════════════════════════════════
+// VIEWS
+// ═════════════════════════════════════════════════════════════
+function goView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === name));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === name));
+  if (name === 'deck') renderDeckBuilder();
+  if (name === 'history') renderHistory();
+}
+
+// ═════════════════════════════════════════════════════════════
+// STATE · local storage backed
+// ═════════════════════════════════════════════════════════════
+const LS = 'kard.v1.';
+function save(k, v) { try { localStorage.setItem(LS + k, JSON.stringify(v)); } catch (_) {} }
+function load(k, fb) { try { const r = localStorage.getItem(LS + k); return r ? JSON.parse(r) : fb; } catch (_) { return fb; } }
+
+let DECK = load('deck', []);
+let HISTORY = load('history', []);
+
+// ═════════════════════════════════════════════════════════════
+// HOME · faction grid
+// ═════════════════════════════════════════════════════════════
+function renderFactions() {
+  const html = FACTIONS.map(f => `
+    <div class="fc-card">
+      <div class="ic">${f.icon}</div>
+      <h4>${f.name}</h4>
+      <div class="sub">${f.tagline}</div>
+      <div class="pr">prime ${f.prime}</div>
+    </div>
+  `).join('');
+  document.getElementById('factionGrid').innerHTML = html;
+}
+
+// ═════════════════════════════════════════════════════════════
+// CARD RENDERING
+// ═════════════════════════════════════════════════════════════
+function cardEl(c, opts) {
+  opts = opts || {};
+  const div = document.createElement('div');
+  div.className = 'card' + (c.type === 'spell' ? ' spell' : '');
+  div.dataset.id = c.id;
+  div.dataset.fc = c.faction;
+  if (opts.classes) div.classList.add(opts.classes);
+  const abChips = (c.abilities || []).filter(a => a !== 'spell').map(a => `<span title="${ABILITIES[a] || ''}">${a}</span>`).join('');
+  div.innerHTML = `
+    <div class="top">
+      <div class="cost">${c.cost}</div>
+      <div style="text-align:right">
+        <div class="nm">${c.name}</div>
+        <div class="fc">${c.faction}</div>
+      </div>
+    </div>
+    <div class="tx">${c.text}</div>
+    <div class="ab">${abChips}</div>
+    ${c.type === 'creature' ? `<div class="stats"><span class="atk">⚔ ${c.attack}</span><span class="hp">♥ ${c.health}</span></div>` : ''}
+  `;
+  return div;
+}
+
+// ═════════════════════════════════════════════════════════════
+// DECK BUILDER
+// ═════════════════════════════════════════════════════════════
+let collectionFilter = 'ALL';
+
+function renderDeckBuilder() {
+  const filt = document.getElementById('collFilter');
+  filt.innerHTML = ['ALL', ...FACTIONS.map(f => f.id)].map(k => `
+    <button class="nav-btn ${k === collectionFilter ? 'active' : ''}" onclick="setCollFilter('${k}')">${k === 'ALL' ? 'all' : k}</button>
+  `).join('');
+
+  const grid = document.getElementById('collGrid');
+  grid.innerHTML = '';
+  Object.values(CARDS)
+    .filter(c => collectionFilter === 'ALL' || c.faction === collectionFilter)
+    .sort((a,b) => a.cost - b.cost || a.name.localeCompare(b.name))
+    .forEach(c => {
+      const el = cardEl(c);
+      el.addEventListener('click', () => addToDeck(c.id));
+      grid.appendChild(el);
+    });
+
+  renderDeckList();
+}
+
+function setCollFilter(f) { collectionFilter = f; renderDeckBuilder(); }
+
+function addToDeck(id) {
+  if (DECK.length >= 30) { return toast('deck is full (30)'); }
+  const count = DECK.filter(x => x === id).length;
+  if (count >= 2) { return toast('max 2 of any card'); }
+  DECK.push(id);
+  save('deck', DECK);
+  renderDeckList();
+}
+
+function removeFromDeck(idx) {
+  DECK.splice(idx, 1);
+  save('deck', DECK);
+  renderDeckList();
+}
+
+function clearDeck() { DECK = []; save('deck', DECK); renderDeckList(); }
+
+function randomDeck() {
+  const all = Object.keys(CARDS);
+  DECK = [];
+  while (DECK.length < 30) {
+    const id = all[Math.floor(Math.random() * all.length)];
+    if (DECK.filter(x => x === id).length < 2) DECK.push(id);
+  }
+  save('deck', DECK);
+  renderDeckList();
+}
+
+function renderDeckList() {
+  const list = document.getElementById('deckList');
+  const counts = {};
+  DECK.forEach(id => counts[id] = (counts[id] || 0) + 1);
+  const items = Object.entries(counts).map(([id, n]) => {
+    const c = CARDS[id];
+    return `<div class="deck-row">
+      <span><span style="color:var(--gold)">${c.cost}</span> ${n}× ${c.name}</span>
+      <span class="x" onclick="removeFromDeckById('${id}')">✕</span>
+    </div>`;
+  }).join('');
+  list.innerHTML = items || '<div class="dim" style="text-align:center;padding:20px;font-size:12px">click cards to add</div>';
+  document.getElementById('deckCount').textContent = DECK.length;
+  document.getElementById('startBtn').disabled = DECK.length < 20;
+}
+
+function removeFromDeckById(id) {
+  const idx = DECK.indexOf(id);
+  if (idx >= 0) removeFromDeck(idx);
+}
+
+// ═════════════════════════════════════════════════════════════
+// CARD ENGINE · the swappable interface (see src/pro-slot.md)
+// ═════════════════════════════════════════════════════════════
+const cardEngine = {
+  // L1 · CARD GENERATION (default: returns starter pool · pro-slot: LLM-driven)
+  async generatePack(theme, count = 5) {
+    const pool = Object.values(CARDS);
+    return Array.from({length: count}, () => pool[Math.floor(Math.random() * pool.length)]);
+  },
+
+  // L2 · ABILITY RESOLUTION (default: hardcoded switch · pro-slot: LLM rules-judge)
+  resolveAbility(card, ctx) {
+    // ctx = { state, target, source, action }
+    if (card.type === 'spell') return resolveSpell(card, ctx);
+    // creatures resolve their keyword abilities passively in the combat fn
+    return { ok: true };
+  },
+
+  // L3 · OPPONENT MOVE (default: greedy heuristic · pro-slot: game-theory engine)
+  opponentMove(state) {
+    return aiPlanMoves(state);
+  },
+};
+
+// ═════════════════════════════════════════════════════════════
+// MATCH ENGINE
+// ═════════════════════════════════════════════════════════════
+let M = null; // active match state
+
+function newMatchState() {
+  return {
+    turn: 1,
+    activePlayer: 'me',
+    me:    { hp: 30, mana: 1, maxMana: 1, deck: shuffle([...DECK]), hand: [], board: [] },
+    enemy: { hp: 30, mana: 1, maxMana: 1, deck: shuffle(enemyDeck()), hand: [], board: [] },
+    log: [],
+    chain: [],
+    prevHash: '0'.repeat(64),
+    startedAt: new Date().toISOString(),
+  };
+}
+
+function enemyDeck() {
+  // build a balanced 30 from a wide pool
+  const all = Object.keys(CARDS);
+  const deck = [];
+  while (deck.length < 30) {
+    const id = all[Math.floor(Math.random() * all.length)];
+    if (deck.filter(x => x === id).length < 2) deck.push(id);
+  }
+  return deck;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startMatch() {
+  if (DECK.length < 20) return toast('deck must have at least 20 cards · use random 30 if stuck');
+  M = newMatchState();
+  // opening hand · 3 for me, 4 for enemy (slight first-player penalty for me)
+  for (let i = 0; i < 3; i++) drawCard(M.me);
+  for (let i = 0; i < 4; i++) drawCard(M.enemy);
+  logLine('match begins. you have 3 cards, opponent has 4 (going second is hard).');
+  goView('match');
+  renderMatch();
+}
+
+function quickStart() {
+  if (DECK.length < 20) randomDeck();
+  startMatch();
+}
+
+function drawCard(p) {
+  if (p.deck.length === 0) {
+    // fatigue damage (Hearthstone-style)
+    const fatigue = (p.fatigue || 0) + 1;
+    p.fatigue = fatigue;
+    p.hp -= fatigue;
+    logLine((p === M.me ? 'you take' : 'opponent takes') + ' ' + fatigue + ' fatigue damage (deck empty).', p === M.me ? 'you' : 'ai');
+    return;
+  }
+  if (p.hand.length >= 10) {
+    p.deck.shift(); // burn
+    logLine((p === M.me ? 'you' : 'opponent') + ' burned a card (hand full).');
+    return;
+  }
+  p.hand.push(p.deck.shift());
+}
+
+function canPlay(p, cardId) {
+  const c = CARDS[cardId];
+  if (!c) return false;
+  if (c.cost > p.mana) return false;
+  if (c.type === 'creature' && p.board.length >= 7) return false;
+  return true;
+}
+
+function playCard(p, idx, targetId) {
+  const cardId = p.hand[idx];
+  const c = CARDS[cardId];
+  if (!canPlay(p, cardId)) return false;
+  p.hand.splice(idx, 1);
+  p.mana -= c.cost;
+  logLine((p === M.me ? 'you play' : 'opponent plays') + ' ' + c.name + ' (κ' + c.cost + ').', p === M.me ? 'you' : 'ai');
+  if (c.type === 'creature') {
+    const minion = {
+      cardId: c.id,
+      attack: c.attack,
+      health: c.health,
+      maxHealth: c.health,
+      abilities: [...(c.abilities || [])],
+      canAttack: c.abilities && (c.abilities.includes('charge') || c.abilities.includes('rush')),
+      attackedCreaturesOnly: c.abilities && c.abilities.includes('rush') && !c.abilities.includes('charge'),
+      uid: Math.random().toString(36).slice(2),
+    };
+    p.board.push(minion);
+  } else {
+    cardEngine.resolveAbility(c, { state: M, owner: p, target: targetId });
+  }
+  hashMove(p === M.me ? 'me' : 'enemy', 'play', { card: c.id, target: targetId || null });
+  return true;
+}
+
+function resolveSpell(c, ctx) {
+  const owner = ctx.owner;
+  const enemy = owner === M.me ? M.enemy : M.me;
+  const id = c.id;
+
+  // by-id handlers (deterministic v1.0 · LLM rules-judge slots in here later)
+  switch (id) {
+    case 'm03': // High Court Judgment · 4 dmg to a creature
+      damageMinion(findMinionByUid(ctx.target), 4); break;
+    case 'm05': // Writ of Habeas · return friendly creature to hand
+      returnMinion(owner, ctx.target); break;
+    case 'm07': // Section 172 Strike · 3 dmg to all enemy creatures
+      enemy.board.forEach(m => damageMinion(m, 3)); cleanBoard(); break;
+    case 'l02': // Whisper Network · draw 2
+      drawCard(owner); drawCard(owner); break;
+    case 'l04': // Article 8 · silence
+      silenceMinion(findMinionByUid(ctx.target)); break;
+    case 'c02': // Caution Notice · 2 dmg
+      genericDamage(ctx.target, 2); break;
+    case 'c04': // Search Warrant · destroy creature ≤3 HP
+      { const m = findMinionByUid(ctx.target); if (m && m.health <= 3) { m.health = 0; cleanBoard(); } } break;
+    case 'c06': // Cease and Desist · silence + 2 dmg
+      { const m = findMinionByUid(ctx.target); if (m) { silenceMinion(m); damageMinion(m, 2); cleanBoard(); } } break;
+    case 'c08': // Royal Decree · 4 dmg all enemies
+      enemy.board.forEach(m => damageMinion(m, 4)); enemy.hp -= 4; cleanBoard(); break;
+    case 'e02': // Doctrine of Estoppel · return creature to owner's hand
+      returnAnyMinion(ctx.target); break;
+    case 'e04': // Equal Shares · both draw 1
+      drawCard(owner); drawCard(enemy); break;
+    case 'e06': // Specific Performance · heal friendly to full
+      { const m = findMinionByUid(ctx.target); if (m && owner.board.includes(m)) m.health = m.maxHealth; } break;
+    case 'h02': // Section 11 · heal hero 4
+      owner.hp = Math.min(30, owner.hp + 4); break;
+    case 'h04': // Tenancy Defended · heal 5
+      { const m = findMinionByUid(ctx.target); if (m) m.health = Math.min(m.maxHealth, m.health + 5); } break;
+    case 'h07': // Right to Return · return all friendly creatures
+      while (owner.board.length > 0) returnMinionByIdx(owner, 0); break;
+    case 'g02': // Trade Treaty · +2 mana this turn
+      owner.mana += 2; updateManaPips(); break;
+    case 'g04': // Open Market · draw 3
+      drawCard(owner); drawCard(owner); drawCard(owner); break;
+    case 'g07': // Audit Trail · draw 4 discard 1
+      drawCard(owner); drawCard(owner); drawCard(owner); drawCard(owner);
+      if (owner.hand.length) owner.hand.pop(); break;
+    case 'a02': // Schrems Clause · banish to deck
+      { const m = findMinionByUid(ctx.target); if (m) banishToDeck(m); } break;
+    case 'a04': // Letter of Marque · take control until eot (simplified: damage 2 + silence)
+      { const m = findMinionByUid(ctx.target); if (m && m.attack <= 3) { silenceMinion(m); damageMinion(m, 2); cleanBoard(); } } break;
+    case 'a06': // Adequacy Decision · move (no-op in v1.0 visually)
+      break;
+    default:
+      // unknown spell · default fallback (the LLM rules-judge slots in here in v2)
+      logLine('unknown spell · resolves as no-op (LLM rules-judge can replace this branch).');
+  }
+}
+
+function findMinionByUid(uid) {
+  if (!uid) return null;
+  return [...M.me.board, ...M.enemy.board].find(m => m.uid === uid);
+}
+
+function damageMinion(m, dmg) {
+  if (!m) return;
+  if (m.abilities && m.abilities.includes('shield')) {
+    m.abilities = m.abilities.filter(a => a !== 'shield');
+    logLine('shield absorbs damage.');
+    return;
+  }
+  m.health -= dmg;
+}
+
+function genericDamage(targetId, dmg) {
+  if (targetId === 'enemy_hero') { M.enemy.hp -= dmg; return; }
+  if (targetId === 'my_hero')    { M.me.hp -= dmg; return; }
+  damageMinion(findMinionByUid(targetId), dmg); cleanBoard();
+}
+
+function silenceMinion(m) { if (m) m.abilities = []; }
+
+function returnMinion(player, uid) {
+  if (!uid) return;
+  const i = player.board.findIndex(m => m.uid === uid);
+  if (i >= 0) returnMinionByIdx(player, i);
+}
+
+function returnMinionByIdx(player, idx) {
+  const m = player.board[idx];
+  if (!m) return;
+  if (player.hand.length < 10) player.hand.push(m.cardId);
+  player.board.splice(idx, 1);
+}
+
+function returnAnyMinion(uid) {
+  if (findMinionByUid(uid)) {
+    if (M.me.board.some(m => m.uid === uid)) returnMinion(M.me, uid);
+    else returnMinion(M.enemy, uid);
+  }
+}
+
+function banishToDeck(m) {
+  if (!m) return;
+  const owner = M.me.board.includes(m) ? M.me : M.enemy;
+  owner.deck.push(m.cardId);
+  owner.deck = shuffle(owner.deck);
+  owner.board = owner.board.filter(x => x.uid !== m.uid);
+}
+
+function cleanBoard() {
+  M.me.board    = M.me.board.filter(m => m.health > 0);
+  M.enemy.board = M.enemy.board.filter(m => m.health > 0);
+}
+
+// ═════════════════════════════════════════════════════════════
+// COMBAT
+// ═════════════════════════════════════════════════════════════
+let selectedAttacker = null;
+
+function selectAttacker(uid) {
+  if (M.activePlayer !== 'me') return;
+  const m = M.me.board.find(x => x.uid === uid);
+  if (!m || !m.canAttack) return;
+  selectedAttacker = uid;
+  renderMatch();
+}
+
+function attackTarget(targetUid) {
+  if (!selectedAttacker) return;
+  const attacker = M.me.board.find(m => m.uid === selectedAttacker);
+  if (!attacker) return;
+  // attack hero?
+  if (targetUid === 'enemy_hero') {
+    const tauntPresent = M.enemy.board.some(m => m.abilities && m.abilities.includes('taunt'));
+    if (tauntPresent) { toast('must attack taunt creature first'); return; }
+    M.enemy.hp -= attacker.attack;
+    if (attacker.abilities && attacker.abilities.includes('lifesteal')) M.me.hp = Math.min(30, M.me.hp + attacker.attack);
+    logLine('your ' + cardName(attacker.cardId) + ' hits hero for ' + attacker.attack + '.', 'you');
+    attacker.canAttack = false;
+    hashMove('me', 'attack', { src: attacker.cardId, dst: 'enemy_hero' });
+    selectedAttacker = null;
+    afterAction();
+    return;
+  }
+  // attack minion
+  const target = M.enemy.board.find(m => m.uid === targetUid);
+  if (!target) return;
+  if (attacker.attackedCreaturesOnly && targetUid === 'enemy_hero') return; // rush can't hit hero
+  // taunt check
+  const tauntPresent = M.enemy.board.some(m => m.abilities && m.abilities.includes('taunt'));
+  if (tauntPresent && !(target.abilities && target.abilities.includes('taunt'))) {
+    toast('must attack taunt creature first'); return;
+  }
+  damageMinion(target, attacker.attack);
+  damageMinion(attacker, target.attack);
+  if (attacker.abilities && attacker.abilities.includes('lifesteal')) M.me.hp = Math.min(30, M.me.hp + attacker.attack);
+  logLine('your ' + cardName(attacker.cardId) + ' clashes with ' + cardName(target.cardId) + '.', 'you');
+  attacker.canAttack = false;
+  hashMove('me', 'attack', { src: attacker.cardId, dst: target.cardId });
+  cleanBoard();
+  selectedAttacker = null;
+  afterAction();
+}
+
+function cardName(id) { return CARDS[id] ? CARDS[id].name : id; }
+
+// ═════════════════════════════════════════════════════════════
+// AI · greedy + simple value scoring (pro-slot replaces this)
+// ═════════════════════════════════════════════════════════════
+function aiPlanMoves(state) {
+  const e = state.enemy;
+  const moves = [];
+  // 1. play best affordable card
+  let kept = true;
+  while (kept) {
+    kept = false;
+    // sort hand by cost desc to spend mana
+    const order = e.hand.map((id, i) => ({ id, i, cost: CARDS[id].cost })).sort((a, b) => b.cost - a.cost);
+    for (const { id, i } of order) {
+      if (canPlay(e, id)) {
+        const c = CARDS[id];
+        let target = null;
+        if (c.type === 'spell') {
+          // spells targeting need a target; pick best
+          if (['m03','c02','c04','c06','a02','a04'].includes(id)) {
+            const t = state.me.board.sort((a,b)=> b.attack - a.attack)[0] || null;
+            target = t ? t.uid : 'my_hero';
+          } else if (id === 'l04') {
+            target = (state.me.board.find(m => m.abilities && m.abilities.length))?.uid || null;
+          } else if (id === 'h04' || id === 'e06') {
+            const t = e.board.sort((a,b)=> (a.maxHealth - a.health) - (b.maxHealth - b.health))[0];
+            target = t ? t.uid : null;
+          }
+        }
+        moves.push({ kind: 'play', idx: i, target });
+        kept = true;
+        break;
+      }
+    }
+    // simulate "playing" so we update mana for next iteration
+    if (kept) {
+      const m = moves[moves.length - 1];
+      const c = CARDS[e.hand[m.idx]];
+      e.hand.splice(m.idx, 1);
+      e.mana -= c.cost;
+      if (c.type === 'creature') {
+        const minion = {
+          cardId: c.id, attack: c.attack, health: c.health, maxHealth: c.health,
+          abilities: [...(c.abilities || [])],
+          canAttack: c.abilities && (c.abilities.includes('charge') || c.abilities.includes('rush')),
+          attackedCreaturesOnly: c.abilities && c.abilities.includes('rush') && !c.abilities.includes('charge'),
+          uid: 'sim-' + Math.random(),
+        };
+        e.board.push(minion);
+      } else {
+        cardEngine.resolveAbility(c, { state, owner: e, target: m.target });
+        cleanBoard();
+      }
+    }
+  }
+  // 2. attack with whatever can attack
+  const tauntPresent = state.me.board.some(m => m.abilities && m.abilities.includes('taunt'));
+  e.board.filter(m => m.canAttack).forEach(att => {
+    let target;
+    if (tauntPresent) {
+      target = state.me.board.find(m => m.abilities && m.abilities.includes('taunt'));
+    } else if (state.me.hp <= att.attack) {
+      target = { uid: 'my_hero' };
+    } else {
+      // trade if possible · prefer killing high-value targets
+      target = state.me.board.sort((a,b)=>{
+        const aLethal = att.attack >= a.health ? 1 : 0;
+        const bLethal = att.attack >= b.health ? 1 : 0;
+        if (aLethal !== bLethal) return bLethal - aLethal;
+        return b.attack - a.attack;
+      })[0];
+      if (!target || (att.attack < target.health && target.attack >= att.health)) {
+        // bad trade · just hit face
+        target = { uid: 'my_hero' };
+      }
+    }
+    if (target) moves.push({ kind: 'attack', srcUid: att.uid, dstUid: target.uid });
+  });
+  return moves;
+}
+
+async function runOpponentTurn() {
+  // restore mana etc · already done in endTurn() before this
+  // draw
+  drawCard(M.enemy);
+
+  // reset attacks
+  M.enemy.board.forEach(m => m.canAttack = true);
+  // simulate plan
+  // SAFE COPY for planning · the AI fn mutates a copy
+  const planState = JSON.parse(JSON.stringify(M));
+  // restore methods isn't needed for plain data
+  const moves = cardEngine.opponentMove(planState);
+
+  // execute moves against the real state
+  for (const mv of moves) {
+    await sleep(550);
+    if (mv.kind === 'play') {
+      // re-find the card index in current hand by card id since hand may have shifted
+      // we know the original plan was based on a fresh copy; re-find by best-fit
+      const cardIdCandidates = M.enemy.hand.map((id, i) => ({ id, i, c: CARDS[id] }))
+        .filter(x => canPlay(M.enemy, x.id))
+        .sort((a,b) => b.c.cost - a.c.cost);
+      if (cardIdCandidates.length === 0) continue;
+      const pick = cardIdCandidates[0];
+      // pick a target if it's a spell
+      let target = mv.target;
+      if (CARDS[pick.id].type === 'spell') {
+        // recompute target on real state
+        if (['m03','c02','c04','c06','a02','a04'].includes(pick.id)) {
+          const t = M.me.board.sort((a,b)=> b.attack - a.attack)[0] || null;
+          target = t ? t.uid : 'my_hero';
+        } else if (pick.id === 'l04') {
+          target = (M.me.board.find(m => m.abilities && m.abilities.length))?.uid || null;
+        } else if (pick.id === 'h04' || pick.id === 'e06') {
+          const t = M.enemy.board.sort((a,b)=> (a.maxHealth - a.health) - (b.maxHealth - b.health))[0];
+          target = t ? t.uid : null;
+        }
+      }
+      playCard(M.enemy, pick.i, target);
+      cleanBoard();
+      renderMatch();
+      if (checkWin()) return;
+    }
+    if (mv.kind === 'attack') {
+      // find attacker by best available
+      const att = M.enemy.board.find(m => m.canAttack);
+      if (!att) continue;
+      // pick target
+      const tauntPresent = M.me.board.some(m => m.abilities && m.abilities.includes('taunt'));
+      let tgt;
+      if (tauntPresent) tgt = M.me.board.find(m => m.abilities && m.abilities.includes('taunt'));
+      else if (M.me.hp <= att.attack) tgt = null; // hit hero
+      else tgt = M.me.board.sort((a,b)=> b.attack - a.attack)[0];
+      if (!tgt) {
+        // attack hero
+        if (att.attackedCreaturesOnly && !tauntPresent && M.me.board.length === 0) { att.canAttack = false; continue; }
+        if (att.attackedCreaturesOnly) { att.canAttack = false; continue; }
+        M.me.hp -= att.attack;
+        if (att.abilities && att.abilities.includes('lifesteal')) M.enemy.hp = Math.min(30, M.enemy.hp + att.attack);
+        logLine('opponent ' + cardName(att.cardId) + ' hits your hero for ' + att.attack + '.', 'ai');
+        att.canAttack = false;
+        hashMove('enemy', 'attack', { src: att.cardId, dst: 'my_hero' });
+      } else {
+        damageMinion(tgt, att.attack);
+        damageMinion(att, tgt.attack);
+        if (att.abilities && att.abilities.includes('lifesteal')) M.enemy.hp = Math.min(30, M.enemy.hp + att.attack);
+        logLine('opponent ' + cardName(att.cardId) + ' clashes with your ' + cardName(tgt.cardId) + '.', 'ai');
+        att.canAttack = false;
+        hashMove('enemy', 'attack', { src: att.cardId, dst: tgt.cardId });
+        cleanBoard();
+      }
+      renderMatch();
+      if (checkWin()) return;
+    }
+  }
+  // end of opponent turn
+  await sleep(400);
+  startTurn('me');
+}
+
+// ═════════════════════════════════════════════════════════════
+// TURN FLOW
+// ═════════════════════════════════════════════════════════════
+function startTurn(who) {
+  M.activePlayer = who;
+  selectedAttacker = null;
+  if (who === 'me') {
+    M.turn++;
+    M.me.maxMana = Math.min(10, M.me.maxMana + 1);
+    M.me.mana = M.me.maxMana;
+    M.me.board.forEach(m => m.canAttack = true);
+    drawCard(M.me);
+    logLine('— your turn —');
+  } else {
+    M.enemy.maxMana = Math.min(10, M.enemy.maxMana + 1);
+    M.enemy.mana = M.enemy.maxMana;
+    logLine('— opponent turn —');
+  }
+  renderMatch();
+  if (who === 'enemy') setTimeout(runOpponentTurn, 600);
+}
+
+function endTurn() {
+  if (M.activePlayer !== 'me') return;
+  selectedAttacker = null;
+  startTurn('enemy');
+}
+
+function afterAction() {
+  cleanBoard();
+  if (checkWin()) return;
+  renderMatch();
+}
+
+function checkWin() {
+  if (M.me.hp <= 0 && M.enemy.hp <= 0) { finishMatch('draw'); return true; }
+  if (M.me.hp <= 0) { finishMatch('loss'); return true; }
+  if (M.enemy.hp <= 0) { finishMatch('win'); return true; }
+  return false;
+}
+
+function finishMatch(outcome) {
+  const final = {
+    outcome,
+    turns: M.turn,
+    chain: M.chain.slice(),
+    startedAt: M.startedAt,
+    endedAt: new Date().toISOString(),
+    lastHash: M.prevHash,
+    deck: DECK.slice(),
+  };
+  HISTORY.unshift(final);
+  if (HISTORY.length > 50) HISTORY.length = 50;
+  save('history', HISTORY);
+  showModal(
+    outcome === 'win' ? '◊ victory · κ-trophy minted' :
+    outcome === 'loss' ? 'defeat · audit chain sealed' :
+    'a draw · chain sealed',
+    outcome === 'win'
+      ? 'You took the field in ' + M.turn + ' turns. Match hash: ' + M.prevHash.slice(0,16) + '… A signed trophy was minted to local storage. View it in History.'
+      : 'Better hand next time. The match\'s full chain is saved to local history.',
+    () => { closeModal(); goView('history'); }
+  );
+}
+
+// ═════════════════════════════════════════════════════════════
+// AUDIT CHAIN
+// ═════════════════════════════════════════════════════════════
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function hashMove(who, kind, data) {
+  // synchronous-ish · we async-update prevHash next tick
+  const entry = { turn: M.turn, who, kind, data, prev: M.prevHash, ts: Date.now() };
+  M.chain.push(entry);
+  // async hash
+  sha256(JSON.stringify(entry)).then(h => { entry.hash = h; M.prevHash = h; });
+}
+
+// ═════════════════════════════════════════════════════════════
+// RENDER MATCH
+// ═════════════════════════════════════════════════════════════
+function renderMatch() {
+  if (!M) return;
+  document.getElementById('myHp').textContent = M.me.hp;
+  document.getElementById('enemyHp').textContent = M.enemy.hp;
+  document.getElementById('myMana').textContent = 'κ ' + M.me.mana + '/' + M.me.maxMana;
+  document.getElementById('myHero').classList.toggle('danger', M.me.hp <= 10);
+  document.getElementById('enemyHero').classList.toggle('danger', M.enemy.hp <= 10);
+  updateManaPips();
+
+  // boards
+  renderBoard('enemyBoard', M.enemy.board, true);
+  renderBoard('myBoard', M.me.board, false);
+
+  // hand
+  const hand = document.getElementById('myHand');
+  hand.innerHTML = '';
+  M.me.hand.forEach((id, idx) => {
+    const c = CARDS[id];
+    const el = cardEl(c, { classes: 'hand-card' });
+    if (!canPlay(M.me, id)) el.classList.add('unaffordable');
+    el.addEventListener('click', () => handleHandClick(idx));
+    hand.appendChild(el);
+  });
+
+  // log
+  const log = document.getElementById('matchLog');
+  log.innerHTML = M.log.slice(-40).map(l => `<div class="l ${l.kind || ''}">${l.text}</div>`).join('');
+  log.scrollTop = log.scrollHeight;
+}
+
+function renderBoard(elId, list, isEnemy) {
+  const el = document.getElementById(elId);
+  el.innerHTML = '';
+  if (list.length === 0) {
+    el.innerHTML = `<div class="empty">${isEnemy ? 'enemy battlefield' : 'your battlefield'}</div>`;
+    return;
+  }
+  list.forEach(m => {
+    const c = CARDS[m.cardId];
+    const div = cardEl({...c, attack: m.attack, health: m.health, abilities: m.abilities}, { classes: 'bf-card' });
+    div.dataset.uid = m.uid;
+    if (m.abilities && m.abilities.includes('shield')) div.classList.add('has-shield');
+    if (!m.canAttack && !isEnemy) div.classList.add('exhausted');
+    if (isEnemy) {
+      div.classList.add('attackable');
+      div.addEventListener('click', () => attackTarget(m.uid));
+    } else {
+      if (m.uid === selectedAttacker) div.classList.add('target-mode');
+      div.addEventListener('click', () => selectAttacker(m.uid));
+    }
+    el.appendChild(div);
+  });
+}
+
+function updateManaPips() {
+  if (!M) return;
+  const pips = document.getElementById('manaPips');
+  const m = M.me.maxMana;
+  const cur = M.me.mana;
+  pips.innerHTML = Array.from({length: m}, (_, i) => `<span class="mana-pip ${i < cur ? '' : 'empty'}"></span>`).join('');
+}
+
+function handleHandClick(idx) {
+  if (M.activePlayer !== 'me') return;
+  const c = CARDS[M.me.hand[idx]];
+  if (!canPlay(M.me, c.id)) { toast('not enough mana'); return; }
+
+  // does this card need a target?
+  const needsTarget = ['m03','c02','c04','c06','a02','a04','l04','h04','e02','e06','m05'];
+  if (c.type === 'spell' && needsTarget.includes(c.id)) {
+    enterTargetMode(idx);
+  } else {
+    playCard(M.me, idx, null);
+    afterAction();
+  }
+}
+
+let targetingHandIdx = null;
+function enterTargetMode(handIdx) {
+  targetingHandIdx = handIdx;
+  // make enemy creatures + enemy hero clickable; tap to fire
+  // simple modal-free approach: cancel any selection, attach one-shot listeners
+  const candidates = [...M.enemy.board, ...M.me.board, { uid: 'enemy_hero' }, { uid: 'my_hero' }];
+  // visual hint: mark targetable
+  document.querySelectorAll('.bf-card').forEach(el => el.classList.add('target-mode'));
+  const fire = (uid) => {
+    document.querySelectorAll('.bf-card').forEach(el => el.classList.remove('target-mode'));
+    playCard(M.me, targetingHandIdx, uid);
+    targetingHandIdx = null;
+    afterAction();
+  };
+  // wire up: temporarily replace click handlers
+  document.querySelectorAll('.bf-card').forEach(el => {
+    const uid = el.dataset.uid;
+    el.onclick = () => fire(uid);
+  });
+  // hero click
+  document.getElementById('enemyHero').onclick = () => fire('enemy_hero');
+  document.getElementById('myHero').onclick = () => fire('my_hero');
+}
+
+// ═════════════════════════════════════════════════════════════
+// HISTORY
+// ═════════════════════════════════════════════════════════════
+function renderHistory() {
+  const list = document.getElementById('matchList');
+  if (HISTORY.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--cream-dim);font-size:13px">no matches yet · go duel</div>';
+    return;
+  }
+  list.innerHTML = HISTORY.map((h, idx) => `
+    <div class="match">
+      <span class="outcome ${h.outcome}">${h.outcome}</span>
+      <span>
+        <span class="ts">${new Date(h.startedAt).toLocaleString()}</span><br>
+        <span class="hash">${h.lastHash ? h.lastHash.slice(0,40) + '…' : 'chain pending'}</span>
+      </span>
+      <button class="btn btn-ghost btn-sm" onclick="exportMatch(${idx})">export JSON</button>
+    </div>
+  `).join('');
+}
+
+function exportMatch(idx) {
+  const h = HISTORY[idx];
+  const blob = new Blob([JSON.stringify(h, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'kard-match-' + h.startedAt.replace(/[:.]/g,'-') + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ═════════════════════════════════════════════════════════════
+// HELPERS
+// ═════════════════════════════════════════════════════════════
+function logLine(text, kind) {
+  if (!M) return;
+  M.log.push({ text, kind });
+  const el = document.getElementById('matchLog');
+  if (el) {
+    el.innerHTML = M.log.slice(-40).map(l => `<div class="l ${l.kind || ''}">${l.text}</div>`).join('');
+    el.scrollTop = el.scrollHeight;
+  }
+}
+
+function toast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  Object.assign(t.style, {position:'fixed',bottom:'24px',left:'50%',transform:'translateX(-50%)',background:'var(--void-2)',border:'1px solid var(--gold)',color:'var(--cream)',padding:'9px 18px',borderRadius:'5px',zIndex:'100',fontSize:'13px'});
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 1800);
+}
+
+let modalConfirm = () => {};
+function showModal(title, body, onOk) {
+  document.getElementById('mTitle').textContent = title;
+  document.getElementById('mBody').textContent = body;
+  modalConfirm = onOk || closeModal;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function mConfirm() { modalConfirm(); closeModal(); }
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ═════════════════════════════════════════════════════════════
+// BOOT
+// ═════════════════════════════════════════════════════════════
+(async function boot() {
+  await loadCards();
+  renderFactions();
+  renderDeckBuilder();
+  renderHistory();
+  // estate doctrine · mesh emit
+  try { new BroadcastChannel('fall-signal').postMessage({ type: 'tool:ready', tool: 'kard', ts: Date.now() }); } catch (_) {}
+})();
+</script>
+
+</body>
+</html>
