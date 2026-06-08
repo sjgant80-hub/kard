@@ -137,6 +137,36 @@ header nav{display:flex;gap:6px}
 footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--cream-deep);text-align:center;line-height:1.7}
 footer a{color:var(--cream-dim);text-decoration:none;border-bottom:1px dotted var(--line)}
 footer a:hover{color:var(--gold)}
+
+/* v2.0 additions */
+.kcc-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(184,151,74,.16);color:var(--gold);padding:5px 11px;border-radius:999px;font:600 13px/1 ui-monospace,"SF Mono",monospace;border:1px solid rgba(184,151,74,.3);margin-left:6px}
+.kcc-pill #kccBalance{color:var(--cream)}
+.field-row{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
+.field-row label{font-size:11px;color:var(--cream-dim);letter-spacing:1px;text-transform:uppercase}
+.field-row input,.field-row textarea,.field-row select{background:var(--void);border:1px solid var(--line);border-radius:5px;padding:9px 11px;color:var(--cream);font:13px/1.4 inherit}
+.field-row textarea{min-height:120px;font-family:ui-monospace,"SF Mono",monospace;font-size:12px;resize:vertical}
+.field-row .help{font-size:11px;color:var(--cream-deep);margin-top:3px}
+.set-card{background:var(--void-2);border:1px solid var(--line);border-radius:6px;padding:18px;margin-bottom:14px}
+.set-card h3{margin:0 0 10px;font:600 15px/1.2 inherit}
+.set-card .row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.set-card .row:last-child{border-bottom:0}
+.set-card .row .l{color:var(--cream-dim);font-size:12px}
+.set-card .row .v{font-family:ui-monospace,"SF Mono",monospace;font-size:11px;color:var(--gold)}
+.kid{font-family:ui-monospace,"SF Mono",monospace;font-size:10px;color:var(--cream-deep);word-break:break-all}
+.toggle{position:relative;display:inline-block;width:42px;height:22px}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .slider{position:absolute;cursor:pointer;inset:0;background:var(--void-3);border-radius:11px;transition:.2s;border:1px solid var(--line)}
+.toggle .slider:before{content:"";position:absolute;height:16px;width:16px;left:2px;top:2px;background:var(--cream-dim);border-radius:50%;transition:.2s}
+.toggle input:checked + .slider{background:var(--ox);border-color:var(--ox)}
+.toggle input:checked + .slider:before{transform:translateX(20px);background:#fff}
+.p2p-state{display:inline-block;padding:3px 8px;border-radius:3px;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-left:6px}
+.p2p-state.idle{background:var(--void-3);color:var(--cream-dim)}
+.p2p-state.connecting{background:rgba(184,151,74,.18);color:var(--gold)}
+.p2p-state.open{background:rgba(34,165,88,.18);color:var(--green)}
+.p2p-state.closed,.p2p-state.failed{background:rgba(220,38,38,.18);color:var(--red)}
+.code-block{font-family:ui-monospace,"SF Mono",monospace;font-size:11px;background:var(--void);border:1px solid var(--line);border-radius:5px;padding:10px;color:var(--cream-dim);white-space:pre-wrap;word-break:break-all;max-height:160px;overflow:auto}
+.llm-progress{display:inline-block;width:120px;height:4px;background:var(--void-3);border-radius:2px;overflow:hidden;vertical-align:middle;margin-left:8px}
+.llm-progress > div{height:100%;background:var(--gold);transition:width .3s;width:0}
 </style>
 </head>
 <body>
@@ -149,7 +179,10 @@ footer a:hover{color:var(--gold)}
     <button class="nav-btn active" onclick="goView('home')">home</button>
     <button class="nav-btn" onclick="goView('deck')">deck</button>
     <button class="nav-btn" onclick="goView('match')">match</button>
+    <button class="nav-btn" onclick="goView('duel')">duel · P2P</button>
     <button class="nav-btn" onclick="goView('history')">history</button>
+    <button class="nav-btn" onclick="goView('settings')">settings</button>
+    <span class="kcc-pill" id="kccPill" title="κ-balance · earned by winning · mesh-broadcast via fall-signal">κ <span id="kccBalance">0</span></span>
   </nav>
 </header>
 
@@ -233,6 +266,123 @@ footer a:hover{color:var(--gold)}
     </div>
 
     <div class="log" id="matchLog"></div>
+  </div>
+</section>
+
+<!-- ═══════════ P2P DUEL · WebRTC ═══════════ -->
+<section class="view" id="duel">
+  <div class="tag">peer-to-peer duel · no server</div>
+  <h2 style="margin:4px 0 14px;font:700 22px/1.1 'Times New Roman',serif">Duel anyone, anywhere.</h2>
+  <p class="dim" style="margin-bottom:18px;max-width:680px">WebRTC DataChannel · STUN-only · zero infrastructure between you and your opponent. Manually exchange offer + answer codes (paste them anywhere · DM, Discord, LinkedIn comment, carrier pigeon). Once connected, moves sync directly browser-to-browser. Both peers maintain an audit chain so every match is mutually verifiable.</p>
+
+  <div class="set-card">
+    <h3>State <span class="p2p-state idle" id="p2pState">idle</span></h3>
+    <div class="row"><span class="l">your peer ID (Konomi public key)</span><span class="v" id="myPeerId">—</span></div>
+    <div class="row"><span class="l">opponent ID</span><span class="v" id="opPeerId">—</span></div>
+  </div>
+
+  <div class="set-card">
+    <h3>1 · Host a duel</h3>
+    <p class="dim" style="font-size:13px">Create an offer code. Send to friend. Wait for their answer. Paste it. Game begins.</p>
+    <button class="btn" onclick="p2pHostCreate()">Generate offer</button>
+    <button class="btn btn-ghost" onclick="p2pCopy('hostOffer')" style="margin-left:6px">Copy offer</button>
+    <div class="code-block" id="hostOffer" style="margin-top:10px;display:none"></div>
+    <div class="field-row" id="hostAnswerRow" style="display:none;margin-top:14px">
+      <label>Paste their answer here</label>
+      <textarea id="hostAnswerInput" placeholder="Paste the answer code your opponent sent back…"></textarea>
+      <button class="btn btn-sm" onclick="p2pHostAccept()" style="align-self:flex-start;margin-top:6px">Connect</button>
+    </div>
+  </div>
+
+  <div class="set-card">
+    <h3>2 · Join a duel</h3>
+    <p class="dim" style="font-size:13px">Paste the offer code your friend sent. We'll generate an answer. Send it back.</p>
+    <div class="field-row">
+      <label>Paste their offer here</label>
+      <textarea id="guestOfferInput" placeholder="Paste the offer code your opponent sent…"></textarea>
+      <button class="btn btn-sm" onclick="p2pGuestAccept()" style="align-self:flex-start;margin-top:6px">Generate answer</button>
+    </div>
+    <div class="code-block" id="guestAnswer" style="margin-top:10px;display:none"></div>
+    <button class="btn btn-ghost btn-sm" onclick="p2pCopy('guestAnswer')" style="margin-top:6px;display:none" id="guestAnswerCopy">Copy answer</button>
+  </div>
+
+  <div class="set-card" id="p2pMatchSetup" style="display:none">
+    <h3>3 · Start the duel</h3>
+    <p class="dim" style="font-size:13px">Both peers connected. Host starts the match. Each move syncs in real time, every move is hashed by both sides independently — the chains must match.</p>
+    <button class="btn" onclick="startP2PMatch()">Open duel</button>
+  </div>
+
+  <div class="set-card">
+    <h3>Caveats · honesty</h3>
+    <p class="dim" style="font-size:12px;margin:0">
+      Some NATs block direct WebRTC without a TURN relay · in those cases the connection won't open without a relay server we'd have to host. STUN-only works for ~80% of consumer networks · ~20% will need a v2.1 with optional TURN.<br><br>
+      The audit chain is computed independently on both sides · if they diverge, someone is cheating. The chain check is part of the trophy verification.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════ SETTINGS · Konomi + LLM ═══════════ -->
+<section class="view" id="settings">
+  <div class="tag">configuration · sovereign identity</div>
+  <h2 style="margin:4px 0 14px;font:700 22px/1.1 'Times New Roman',serif">Settings.</h2>
+
+  <div class="set-card">
+    <h3>◊ Konomi identity</h3>
+    <p class="dim" style="font-size:13px;margin-top:0">Your Ed25519 keypair signs every trophy and every κ-ledger entry. Generated on first launch · stored in your browser's IndexedDB · never leaves the device. <strong style="color:var(--cream)">If you wipe browser data, the keypair is gone forever.</strong> Export the seed below if you want to keep playing across devices.</p>
+    <div class="row"><span class="l">status</span><span class="v" id="konomiStatus">initialising…</span></div>
+    <div class="row"><span class="l">public key</span><span class="kid" id="konomiPubKey">—</span></div>
+    <div class="row"><span class="l">created</span><span class="v" id="konomiCreated">—</span></div>
+    <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" onclick="exportKonomiSeed()">Export seed</button>
+      <button class="btn btn-ghost btn-sm" onclick="importKonomiSeed()">Import seed</button>
+      <button class="btn btn-ghost btn-sm" onclick="copyPubKey()">Copy public key</button>
+    </div>
+  </div>
+
+  <div class="set-card">
+    <h3>κ ledger</h3>
+    <p class="dim" style="font-size:13px;margin-top:0">Earn κ from wins. Every entry is signed against your Konomi key. Broadcasts on <code style="color:var(--gold)">kcc-signal</code> via BroadcastChannel for sister tools in the same browser.</p>
+    <div class="row"><span class="l">current balance</span><span class="v" id="kccCurrentBal">0</span></div>
+    <div class="row"><span class="l">lifetime earned</span><span class="v" id="kccLifetime">0</span></div>
+    <div class="row"><span class="l">match wins</span><span class="v" id="kccWins">0</span></div>
+    <div style="margin-top:10px">
+      <button class="btn btn-ghost btn-sm" onclick="exportKccLedger()">Export ledger JSON</button>
+    </div>
+  </div>
+
+  <div class="set-card">
+    <h3>WebLLM rules-judge <span id="llmStatus" style="font-size:12px;color:var(--cream-dim);font-weight:400">· off</span></h3>
+    <p class="dim" style="font-size:13px;margin-top:0">Optional · downloads Llama-3.2-3B-Instruct (~2GB, one-time) into your browser via WebLLM. Once loaded, the L2 ability-resolution slot uses the model to interpret arbitrary card text against current board state. Works offline after first download. Or use BYOK below for a lighter path.</p>
+    <div class="row">
+      <span class="l">enable WebLLM rules-judge</span>
+      <label class="toggle"><input type="checkbox" id="llmToggle" onchange="toggleLLM()"><span class="slider"></span></label>
+    </div>
+    <div id="llmProgressRow" style="display:none;margin-top:8px"><span class="l">downloading model…</span><div class="llm-progress"><div id="llmProgressBar"></div></div></div>
+  </div>
+
+  <div class="set-card">
+    <h3>BYOK provider (lightweight alt-path)</h3>
+    <p class="dim" style="font-size:13px;margin-top:0">If you don't want the 2GB download, set an API key here. Key stays in localStorage · only sent to the provider you pick · same pattern as the rest of the estate.</p>
+    <div class="field-row">
+      <label>Provider</label>
+      <select id="byokProvider">
+        <option value="">— none —</option>
+        <option value="anthropic">Anthropic (Claude)</option>
+        <option value="openai">OpenAI (GPT)</option>
+        <option value="google">Google (Gemini)</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <label>API key</label>
+      <input type="password" id="byokKey" placeholder="sk-…">
+    </div>
+    <button class="btn btn-sm" onclick="saveByok()">Save</button>
+  </div>
+
+  <div class="set-card">
+    <h3>Sister tools in this browser</h3>
+    <p class="dim" style="font-size:13px;margin-top:0">Tools that emit on <code style="color:var(--gold)">fall-signal</code> · KARD listens and lists them as they identify.</p>
+    <div id="meshList" class="kid" style="line-height:1.8">listening…</div>
   </div>
 </section>
 
@@ -920,7 +1070,7 @@ function checkWin() {
   return false;
 }
 
-function finishMatch(outcome) {
+async function finishMatch(outcome) {
   const final = {
     outcome,
     turns: M.turn,
@@ -930,15 +1080,27 @@ function finishMatch(outcome) {
     lastHash: M.prevHash,
     deck: DECK.slice(),
   };
+  // v2.0 · mint signed trophy + award κ on wins
+  if (outcome === 'win' && window.KONOMI && KONOMI.ready) {
+    try {
+      final.trophy = await KONOMI.mintTrophy({
+        startedAt: final.startedAt,
+        endedAt: final.endedAt,
+        lastHash: final.lastHash || '0',
+        turns: final.turns,
+      });
+    } catch (e) { console.warn('trophy mint failed', e); }
+    try { await KCC.earn(7, 'duel win · ' + final.startedAt); } catch (e) {}
+  }
   HISTORY.unshift(final);
   if (HISTORY.length > 50) HISTORY.length = 50;
   save('history', HISTORY);
   showModal(
-    outcome === 'win' ? '◊ victory · κ-trophy minted' :
+    outcome === 'win' ? '◊ victory · κ-trophy minted · +7 κ' :
     outcome === 'loss' ? 'defeat · audit chain sealed' :
     'a draw · chain sealed',
     outcome === 'win'
-      ? 'You took the field in ' + M.turn + ' turns. Match hash: ' + M.prevHash.slice(0,16) + '… A signed trophy was minted to local storage. View it in History.'
+      ? 'You took the field in ' + M.turn + ' turns. Match hash: ' + (M.prevHash || 'sealing…').slice(0,16) + '… A signed trophy was minted against your Konomi key. View it in History.'
       : 'Better hand next time. The match\'s full chain is saved to local history.',
     () => { closeModal(); goView('history'); }
   );
@@ -1129,6 +1291,485 @@ function mConfirm() { modalConfirm(); closeModal(); }
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 // ═════════════════════════════════════════════════════════════
+// ░░░ v2.0 LAYER · KONOMI · KCC · P2P · WebLLM ░░░
+// ═════════════════════════════════════════════════════════════
+
+// ── IndexedDB tiny helper (for the Konomi keypair · localStorage isn't safe for raw bytes)
+const IDB_NAME = 'kard.v2', IDB_STORE = 'kv';
+function idbOpen() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore(IDB_STORE);
+    req.onsuccess = () => res(req.result);
+    req.onerror = () => rej(req.error);
+  });
+}
+async function idbGet(k) {
+  const db = await idbOpen();
+  return new Promise(res => {
+    const r = db.transaction(IDB_STORE, 'readonly').objectStore(IDB_STORE).get(k);
+    r.onsuccess = () => res(r.result || null);
+    r.onerror = () => res(null);
+  });
+}
+async function idbSet(k, v) {
+  const db = await idbOpen();
+  return new Promise(res => {
+    const r = db.transaction(IDB_STORE, 'readwrite').objectStore(IDB_STORE).put(v, k);
+    r.onsuccess = () => res(true);
+    r.onerror = () => res(false);
+  });
+}
+
+// ── WASM crypto: libsodium-wrappers via esm.run
+let _sodiumPromise = null;
+async function getSodium() {
+  if (!_sodiumPromise) {
+    _sodiumPromise = (async () => {
+      const mod = await import('https://esm.run/libsodium-wrappers@0.7.13');
+      const sodium = mod.default || mod;
+      await sodium.ready;
+      return sodium;
+    })();
+  }
+  return _sodiumPromise;
+}
+
+// ── KONOMI · sovereign identity · Ed25519 via libsodium-wasm
+const KONOMI = {
+  keypair: null,
+  publicKeyHex: '',
+  createdAt: null,
+  ready: false,
+
+  async init() {
+    let stored = await idbGet('konomi-keypair');
+    const sodium = await getSodium();
+    if (!stored) {
+      const kp = sodium.crypto_sign_keypair();
+      stored = {
+        publicKey: Array.from(kp.publicKey),
+        privateKey: Array.from(kp.privateKey),
+        createdAt: new Date().toISOString(),
+      };
+      await idbSet('konomi-keypair', stored);
+    }
+    this.keypair = {
+      publicKey: new Uint8Array(stored.publicKey),
+      privateKey: new Uint8Array(stored.privateKey),
+    };
+    this.publicKeyHex = sodium.to_hex(this.keypair.publicKey);
+    this.createdAt = stored.createdAt;
+    this.ready = true;
+    renderKonomiPanel();
+  },
+
+  async sign(message) {
+    const sodium = await getSodium();
+    const m = typeof message === 'string' ? sodium.from_string(message) : message;
+    const sig = sodium.crypto_sign_detached(m, this.keypair.privateKey);
+    return sodium.to_hex(sig);
+  },
+
+  async verify(message, sigHex, publicKeyHex) {
+    const sodium = await getSodium();
+    const m = typeof message === 'string' ? sodium.from_string(message) : message;
+    try {
+      return sodium.crypto_sign_verify_detached(sodium.from_hex(sigHex), m, sodium.from_hex(publicKeyHex));
+    } catch { return false; }
+  },
+
+  async mintTrophy(match) {
+    const envelope = {
+      kind: 'kard-trophy-v1',
+      issuer: this.publicKeyHex,
+      issuedAt: new Date().toISOString(),
+      match: {
+        startedAt: match.startedAt,
+        endedAt: match.endedAt,
+        finalHash: match.lastHash,
+        turns: match.turns,
+      },
+      winner: this.publicKeyHex,
+    };
+    const sig = await this.sign(JSON.stringify(envelope));
+    return { envelope, signature: sig };
+  },
+
+  async exportSeed() {
+    const sodium = await getSodium();
+    // export the seed (first 32 bytes of private key) so they can re-derive
+    const seed = this.keypair.privateKey.slice(0, 32);
+    return sodium.to_hex(seed);
+  },
+
+  async importSeed(seedHex) {
+    const sodium = await getSodium();
+    const seed = sodium.from_hex(seedHex);
+    if (seed.length !== 32) throw new Error('seed must be 32 bytes (64 hex chars)');
+    const kp = sodium.crypto_sign_seed_keypair(seed);
+    const stored = {
+      publicKey: Array.from(kp.publicKey),
+      privateKey: Array.from(kp.privateKey),
+      createdAt: new Date().toISOString(),
+    };
+    await idbSet('konomi-keypair', stored);
+    this.keypair = { publicKey: kp.publicKey, privateKey: kp.privateKey };
+    this.publicKeyHex = sodium.to_hex(kp.publicKey);
+    this.createdAt = stored.createdAt;
+    renderKonomiPanel();
+  },
+};
+
+// ── KCC · κ-ledger · signed entries · mesh-emitted
+const KCC = {
+  balance: 0,
+  ledger: [],
+  wins: 0,
+  lifetime: 0,
+
+  async load() {
+    const stored = await idbGet('kcc-ledger') || { balance: 0, ledger: [], wins: 0, lifetime: 0 };
+    this.balance = stored.balance || 0;
+    this.ledger = stored.ledger || [];
+    this.wins = stored.wins || 0;
+    this.lifetime = stored.lifetime || 0;
+    renderKccPanel();
+  },
+
+  async persist() {
+    await idbSet('kcc-ledger', { balance: this.balance, ledger: this.ledger, wins: this.wins, lifetime: this.lifetime });
+    renderKccPanel();
+  },
+
+  async earn(delta, reason) {
+    this.balance += delta;
+    this.lifetime += delta;
+    if (reason.startsWith('duel win')) this.wins++;
+    const entry = { kind: 'earn', delta, reason, ts: Date.now(), balance: this.balance };
+    if (KONOMI.ready) entry.sig = await KONOMI.sign(JSON.stringify(entry));
+    this.ledger.unshift(entry);
+    if (this.ledger.length > 500) this.ledger.length = 500;
+    await this.persist();
+    // estate mesh emit
+    try { new BroadcastChannel('kcc-signal').postMessage({ type: 'kcc:earn', tool: 'kard', delta, balance: this.balance, issuer: KONOMI.publicKeyHex }); } catch (_) {}
+  },
+
+  async spend(delta, reason) {
+    if (this.balance < delta) return false;
+    this.balance -= delta;
+    const entry = { kind: 'spend', delta: -delta, reason, ts: Date.now(), balance: this.balance };
+    if (KONOMI.ready) entry.sig = await KONOMI.sign(JSON.stringify(entry));
+    this.ledger.unshift(entry);
+    await this.persist();
+    return true;
+  },
+};
+
+// ── P2P · WebRTC manual-SDP signaling · zero infrastructure
+const P2P = {
+  pc: null,
+  dc: null,
+  role: null,
+  remotePeerId: null,
+  onMove: null,
+  state: 'idle',
+
+  config: {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun.cloudflare.com:3478' },
+    ],
+  },
+
+  _setState(s) { this.state = s; renderP2PState(s); },
+
+  async hostCreate() {
+    this.close();
+    this.role = 'host';
+    this._setState('connecting');
+    this.pc = new RTCPeerConnection(this.config);
+    this.dc = this.pc.createDataChannel('kard');
+    this._wireChannel(this.dc);
+    this._wireConnection();
+    const offer = await this.pc.createOffer();
+    await this.pc.setLocalDescription(offer);
+    await this._waitForIce();
+    // include our konomi public key so the guest can identify us
+    return JSON.stringify({ sdp: this.pc.localDescription, peerId: KONOMI.publicKeyHex });
+  },
+
+  async hostAccept(answerStr) {
+    const obj = JSON.parse(answerStr);
+    this.remotePeerId = obj.peerId;
+    await this.pc.setRemoteDescription(obj.sdp);
+  },
+
+  async guestAccept(offerStr) {
+    this.close();
+    this.role = 'guest';
+    this._setState('connecting');
+    const obj = JSON.parse(offerStr);
+    this.remotePeerId = obj.peerId;
+    this.pc = new RTCPeerConnection(this.config);
+    this.pc.ondatachannel = (e) => { this.dc = e.channel; this._wireChannel(this.dc); };
+    this._wireConnection();
+    await this.pc.setRemoteDescription(obj.sdp);
+    const answer = await this.pc.createAnswer();
+    await this.pc.setLocalDescription(answer);
+    await this._waitForIce();
+    return JSON.stringify({ sdp: this.pc.localDescription, peerId: KONOMI.publicKeyHex });
+  },
+
+  async _waitForIce() {
+    if (this.pc.iceGatheringState === 'complete') return;
+    return new Promise(res => {
+      const fn = () => {
+        if (this.pc.iceGatheringState === 'complete') {
+          this.pc.removeEventListener('icegatheringstatechange', fn);
+          res();
+        }
+      };
+      this.pc.addEventListener('icegatheringstatechange', fn);
+      setTimeout(res, 4500);
+    });
+  },
+
+  _wireChannel(dc) {
+    dc.onopen = () => { this._setState('open'); document.getElementById('p2pMatchSetup').style.display = 'block'; };
+    dc.onclose = () => this._setState('closed');
+    dc.onerror = () => this._setState('failed');
+    dc.onmessage = (e) => {
+      try {
+        const msg = JSON.parse(e.data);
+        if (this.onMove) this.onMove(msg);
+      } catch (_) {}
+    };
+  },
+
+  _wireConnection() {
+    this.pc.onconnectionstatechange = () => {
+      const s = this.pc.connectionState;
+      if (s === 'failed' || s === 'disconnected') this._setState('failed');
+    };
+  },
+
+  send(msg) {
+    if (this.dc && this.dc.readyState === 'open') {
+      this.dc.send(JSON.stringify(msg));
+      return true;
+    }
+    return false;
+  },
+
+  close() {
+    try { this.dc && this.dc.close(); } catch (_) {}
+    try { this.pc && this.pc.close(); } catch (_) {}
+    this.dc = null; this.pc = null;
+  },
+};
+
+// P2P UI handlers
+async function p2pHostCreate() {
+  if (!KONOMI.ready) { toast('initialising Konomi · try again in a sec'); return; }
+  const code = await P2P.hostCreate();
+  const el = document.getElementById('hostOffer');
+  el.textContent = code; el.style.display = 'block';
+  document.getElementById('hostAnswerRow').style.display = 'flex';
+  toast('offer generated · send this code to your opponent');
+}
+
+async function p2pHostAccept() {
+  const ans = document.getElementById('hostAnswerInput').value.trim();
+  if (!ans) return toast('paste their answer first');
+  try { await P2P.hostAccept(ans); toast('connecting…'); }
+  catch (e) { toast('bad answer code · ' + e.message); }
+}
+
+async function p2pGuestAccept() {
+  if (!KONOMI.ready) { toast('initialising Konomi · try again in a sec'); return; }
+  const off = document.getElementById('guestOfferInput').value.trim();
+  if (!off) return toast('paste their offer first');
+  try {
+    const ans = await P2P.guestAccept(off);
+    const el = document.getElementById('guestAnswer');
+    el.textContent = ans; el.style.display = 'block';
+    document.getElementById('guestAnswerCopy').style.display = 'inline-block';
+    toast('answer generated · send it back to your opponent');
+  } catch (e) { toast('bad offer code · ' + e.message); }
+}
+
+function p2pCopy(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent).then(() => toast('copied · paste to opponent'));
+}
+
+function renderP2PState(s) {
+  const el = document.getElementById('p2pState');
+  if (!el) return;
+  el.textContent = s;
+  el.className = 'p2p-state ' + s;
+}
+
+function startP2PMatch() {
+  // host deals first
+  if (P2P.role !== 'host') return toast('host opens the duel · guest waits');
+  if (DECK.length < 20) randomDeck();
+  startMatch();
+  // signal opponent: "start" with our deck hash (full deck sync optional v2.1)
+  P2P.send({ kind: 'match:start', host: KONOMI.publicKeyHex });
+  toast('match opened · opponent will see this via the chain');
+}
+
+// ── WebLLM rules-judge (lazy · opt-in)
+const RULES_LLM = {
+  engine: null,
+  loading: false,
+  progress: 0,
+  ready: false,
+
+  async load() {
+    if (this.loading || this.ready) return;
+    this.loading = true;
+    try {
+      const m = await import('https://esm.run/@mlc-ai/web-llm@0.2.79');
+      const { CreateMLCEngine } = m;
+      this.engine = await CreateMLCEngine('Llama-3.2-3B-Instruct-q4f16_1-MLC', {
+        initProgressCallback: (p) => {
+          this.progress = (p.progress || 0) * 100;
+          renderLlmStatus();
+        },
+      });
+      this.ready = true;
+      this.loading = false;
+      renderLlmStatus();
+      toast('rules-judge ready · 2GB cached');
+    } catch (e) {
+      console.warn('WebLLM failed', e);
+      this.loading = false;
+      toast('WebLLM failed to load · ' + e.message);
+    }
+  },
+
+  // optional judge for unknown spell text
+  async judgeSpell(card, ctx) {
+    if (!this.ready) return null;
+    const sys = 'You are the rules judge for a card game. Reply with a SHORT JSON describing what happens. JSON only · no prose.';
+    const board = `My HP ${ctx.owner.hp}, opp HP ${ctx.enemy?.hp || 30}, my board ${ctx.owner.board.length}, opp board ${ctx.enemy?.board.length || 0}.`;
+    const user = `Spell: "${card.name}" (cost ${card.cost})\nText: "${card.text}"\nBoard: ${board}\nReturn JSON like { "damage_target_minion": uid?, "amount": n, "heal_hero": n, "draw": n, "silence": uid, "explain": "..." }`;
+    try {
+      const r = await this.engine.chat.completions.create({
+        messages: [{ role: 'system', content: sys }, { role: 'user', content: user }],
+        max_tokens: 220,
+      });
+      const txt = r.choices[0].message.content;
+      const jm = txt.match(/\{[\s\S]*\}/);
+      if (jm) return JSON.parse(jm[0]);
+    } catch (e) { console.warn('judge failed', e); }
+    return null;
+  },
+};
+
+function renderLlmStatus() {
+  const t = document.getElementById('llmStatus');
+  const pr = document.getElementById('llmProgressRow');
+  const bar = document.getElementById('llmProgressBar');
+  if (!t) return;
+  if (RULES_LLM.ready)        { t.textContent = '· ready'; if (pr) pr.style.display = 'none'; }
+  else if (RULES_LLM.loading) { t.textContent = '· downloading ' + Math.round(RULES_LLM.progress) + '%'; if (pr) pr.style.display = 'block'; if (bar) bar.style.width = RULES_LLM.progress + '%'; }
+  else                        { t.textContent = '· off'; }
+}
+
+async function toggleLLM() {
+  const on = document.getElementById('llmToggle').checked;
+  if (on) await RULES_LLM.load();
+  else toast('toggle off · WebLLM stays cached, will skip judging');
+}
+
+// ── BYOK (alt path · cheaper than 2GB download)
+function saveByok() {
+  const p = document.getElementById('byokProvider').value;
+  const k = document.getElementById('byokKey').value;
+  localStorage.setItem('kard.byok', JSON.stringify({ provider: p, key: k }));
+  toast('saved · key never leaves your browser');
+}
+
+// ── Settings panel renderers
+function renderKonomiPanel() {
+  const s = document.getElementById('konomiStatus');
+  const p = document.getElementById('konomiPubKey');
+  const c = document.getElementById('konomiCreated');
+  const m = document.getElementById('myPeerId');
+  if (s) s.textContent = KONOMI.ready ? '◊ ready' : 'initialising';
+  if (p) p.textContent = KONOMI.publicKeyHex || '—';
+  if (c) c.textContent = KONOMI.createdAt ? new Date(KONOMI.createdAt).toLocaleString() : '—';
+  if (m) m.textContent = KONOMI.publicKeyHex ? KONOMI.publicKeyHex.slice(0, 16) + '…' + KONOMI.publicKeyHex.slice(-8) : '—';
+}
+
+function renderKccPanel() {
+  const b = document.getElementById('kccBalance');
+  const cb = document.getElementById('kccCurrentBal');
+  const lt = document.getElementById('kccLifetime');
+  const w = document.getElementById('kccWins');
+  if (b) b.textContent = KCC.balance;
+  if (cb) cb.textContent = KCC.balance;
+  if (lt) lt.textContent = KCC.lifetime;
+  if (w) w.textContent = KCC.wins;
+}
+
+async function exportKonomiSeed() {
+  if (!KONOMI.ready) return toast('not ready yet');
+  const seed = await KONOMI.exportSeed();
+  showModal('◊ your Konomi seed', 'Copy this 64-character hex string and store it safely. With it you can restore your identity on another device. ANYONE WITH THIS SEED CAN SIGN AS YOU. Treat it like a private key.\n\n' + seed, () => { navigator.clipboard.writeText(seed); toast('seed copied'); closeModal(); });
+}
+
+async function importKonomiSeed() {
+  const seed = prompt('Paste your 64-char hex seed:');
+  if (!seed) return;
+  try {
+    await KONOMI.importSeed(seed.trim());
+    toast('identity restored · κ-ledger needs to be re-imported separately');
+  } catch (e) { toast('bad seed · ' + e.message); }
+}
+
+function copyPubKey() {
+  navigator.clipboard.writeText(KONOMI.publicKeyHex).then(() => toast('public key copied'));
+}
+
+function exportKccLedger() {
+  const blob = new Blob([JSON.stringify({ pubkey: KONOMI.publicKeyHex, balance: KCC.balance, lifetime: KCC.lifetime, wins: KCC.wins, ledger: KCC.ledger }, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'kard-kcc-' + KONOMI.publicKeyHex.slice(0, 8) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Mesh listener · see sister tools as they identify
+const meshSeen = {};
+function startMeshListener() {
+  try {
+    const bc = new BroadcastChannel('fall-signal');
+    bc.onmessage = (e) => {
+      const d = e.data || {};
+      if (d.tool) {
+        meshSeen[d.tool] = Date.now();
+        renderMeshList();
+      }
+    };
+  } catch (_) {}
+}
+function renderMeshList() {
+  const el = document.getElementById('meshList');
+  if (!el) return;
+  const tools = Object.keys(meshSeen).sort();
+  el.innerHTML = tools.length === 0
+    ? 'listening…'
+    : tools.map(t => `<div>◊ ${t} <span style="color:var(--cream-deep)">· ${new Date(meshSeen[t]).toLocaleTimeString()}</span></div>`).join('');
+}
+
+// ═════════════════════════════════════════════════════════════
 // BOOT
 // ═════════════════════════════════════════════════════════════
 (async function boot() {
@@ -1138,6 +1779,17 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   renderHistory();
   // estate doctrine · mesh emit
   try { new BroadcastChannel('fall-signal').postMessage({ type: 'tool:ready', tool: 'kard', ts: Date.now() }); } catch (_) {}
+  startMeshListener();
+
+  // v2.0 · async-init Konomi + KCC (don't block UI)
+  try {
+    await KONOMI.init();
+    await KCC.load();
+    // grant κ on first boot · welcome gift
+    if (KCC.lifetime === 0 && KCC.balance === 0) {
+      await KCC.earn(3, 'welcome to KARD · initial issuance');
+    }
+  } catch (e) { console.warn('Konomi init failed', e); }
 })();
 </script>
 

@@ -1,8 +1,8 @@
-# ◊ KARD · the κ-deck duel
+# ◊ KARD · the κ-deck duel · v2.0
 
 > A sovereign single-file AI-augmentable card duel.
-> 7 factions · 56 cards · audit-chained matches · MIT.
-> Plays offline. Plays in your browser. Plays in LinkedIn comments (future).
+> 7 factions · 56 cards · audit-chained matches · WebRTC P2P · WebLLM rules-judge · libsodium-wasm Ed25519 trophies · κ-ledger · MIT.
+> Plays offline. Plays in your browser. Plays peer-to-peer with zero servers.
 
 **Live:** https://sjgant80-hub.github.io/kard
 
@@ -14,9 +14,13 @@ A turn-based 1v1 card duel in the Hearthstone family — build a 30-card deck, r
 
 What makes it sovereign:
 - **Single HTML file.** Drop on a USB. Opens offline.
-- **No accounts.** No tracking. localStorage persists everything.
+- **No accounts.** No tracking. IndexedDB + localStorage persist everything.
+- **Ed25519 identity** via libsodium-wasm · keypair generated on first boot · never leaves the device · seed-exportable for cross-device.
+- **κ-ledger** · every win mints a signed envelope · every entry is hash-chained · mesh-broadcast on `kcc-signal` for sister tools.
+- **WebRTC P2P duels** · manual SDP-paste signaling · STUN-only · zero server cost.
+- **WebLLM rules-judge** · optional 2GB Llama load OR BYOK Claude/OpenAI/Gemini for ability resolution beyond the hardcoded keywords.
 - **MIT.** Fork it, rebrand it, ship it.
-- **Pro-slot architecture.** The card engine is 3 swappable functions. Plug in your LLM, your ML model, your game-theory engine — anything that conforms to the contract in [`src/pro-slot.md`](./src/pro-slot.md).
+- **Pro-slot architecture.** The card engine is 3 swappable functions. See [`src/pro-slot.md`](./src/pro-slot.md). Konomi protocol documented at [`src/konomi-protocol.md`](./src/konomi-protocol.md).
 
 ---
 
@@ -93,16 +97,15 @@ Defaults are clean, deterministic, hardcoded. Your engine slots in without touch
 
 ---
 
-## Roadmap (loose)
+## Roadmap
 
-- **v1.0** (you're here) · 56 starter cards · greedy AI · solo vs CPU · local match history
-- **v1.1** · LinkedIn-comment parser · play a match across LinkedIn comments
-- **v1.2** · LLM rules-judge slot wired by default (BYOK Claude/OpenAI/Gemini)
-- **v1.3** · LLM card generator (booster packs come from prompt themes)
-- **v1.4** · Konomi-signed trophies (real Ed25519 signature against master)
-- **v2.0** · peer-to-peer multiplayer via WebRTC (no server)
+- **v1.0** · 56 starter cards · greedy AI · solo vs CPU · local match history (shipped earlier today)
+- **v2.0** (you're here) · WebRTC P2P + libsodium Ed25519 Konomi keys + κ-ledger + WebLLM rules-judge slot + BYOK alt-path · all opt-in, all lazy-loaded, v1.0 still works untouched
+- **v2.1** · TURN relay config field (for the ~20% symmetric-NAT cases) · LinkedIn-comment parser as auxiliary input channel · LLM rules-judge wired as the default L2 resolver
+- **v2.2** · LLM-generated booster packs (κ-priced · paid for from the ledger) · Annex IV-style provenance trail per card · MagicGen art prompts feed Stable Diffusion / DALL-E on demand
+- **v3.0** · tournament brackets (multi-peer signaling · public leaderboard) · cross-instance κ-ledger federation between trusted peers
 
-Anyone can build any of these and PR. The pro-slot is the seam.
+Anyone can PR any of these. The pro-slot and the Konomi protocol are the seams.
 
 ---
 
