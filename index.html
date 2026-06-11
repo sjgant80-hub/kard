@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KARD · the κ-deck duel · ◊</title>
+<title>KARD v2 · the κ-deck duel + ◊ Konomi Zoo</title>
 <meta name="description" content="A sovereign single-file AI-augmented card game · 7 factions · audit-chain match history · BYOK LLM · MIT.">
 <meta name="theme-color" content="#0a0a0f">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%238b1a1a'/%3E%3Ctext x='32' y='44' font-size='38' text-anchor='middle' fill='%23e8e8ea'%3E◊%3C/text%3E%3C/svg%3E">
@@ -189,9 +189,10 @@ footer a:hover{color:var(--gold)}
 <!-- ═══════════ HOME ═══════════ -->
 <section class="view active" id="home">
   <div class="home-hero">
-    <div class="tag">v1.0 · sovereign single-file · BYOK LLM-ready · MIT</div>
+    <div class="tag">v2.0 · sovereign single-file · BYOK LLM-ready · MIT · ◊ KonomiZoo deck added</div>
     <h1>A turn-based card duel · <span class="hl">7 factions · 56 cards · audit-chained matches.</span></h1>
-    <p>Build a 30-card deck across MAGNA · LIBERTY · CROWN · EQUITY · HEARTH · GUILD · ADMIRALTY. Duel an AI opponent. Every move is hash-chained. Winner gets a signed κ-trophy. Works offline. No accounts. No cloud.</p>
+    <p>Two decks ship by default. <strong>KARD</strong> · 7 legal-archetype factions, the original ruleset. <strong>◊ KonomiZoo</strong> · the sovereign substrate as a bestiary, organs as Konomi-signed fork-grants, the 7 rings as factions, Thomas Frumkin + Simon Gant as ultra-rare legendary peers. Every match Konomi-signed. Audit-chained. Works offline. No accounts. No cloud.</p>
+    <div id="deck-picker"></div>
     <div class="cta-row">
       <button class="btn" onclick="quickStart()">Quick duel vs AI</button>
       <button class="btn btn-ghost" onclick="goView('deck')">Build a deck</button>
@@ -199,7 +200,7 @@ footer a:hover{color:var(--gold)}
     </div>
   </div>
 
-  <div class="tag">the 7 factions</div>
+  <div class="tag">the factions</div>
   <div class="faction-grid" id="factionGrid"></div>
 
   <div style="margin-top:28px;padding:18px;background:var(--void-2);border:1px solid var(--line);border-radius:6px">
@@ -424,19 +425,66 @@ const CARDS = {};
 const FACTIONS = [];
 const ABILITIES = {};
 
+// ◊ v2 · deck registry · konomi-zoo joins starter as a selectable deck
+const DECKS = {
+  starter:     { path:'./decks/starter.json',     title:'KARD · the κ-deck duel',          subtitle:'7 factions · 56 cards · the original ruleset' },
+  'konomi-zoo':{ path:'./decks/konomi-zoo.json',  title:'Konomi Zoo · the substrate bestiary', subtitle:'7 rings · 56 organs · 2 legendary peers · doctrine spells · KCC fold-in' },
+};
+let CURRENT_DECK = (function(){
+  try { return localStorage.getItem('kard.deck') || 'starter'; } catch(_) { return 'starter'; }
+})();
+let DECK_META = {};
+
 async function loadCards() {
+  // clear in case we're hot-swapping decks
+  for (const k of Object.keys(CARDS)) delete CARDS[k];
+  FACTIONS.length = 0;
+  for (const k of Object.keys(ABILITIES)) delete ABILITIES[k];
+  const spec = DECKS[CURRENT_DECK] || DECKS.starter;
   try {
-    const r = await fetch('./decks/starter.json');
+    const r = await fetch(spec.path);
     const j = await r.json();
-    j.cards.forEach(c => CARDS[c.id] = c);
+    // organ cards + legendary peers (v2) both indexed into CARDS
+    (j.cards || []).forEach(c => CARDS[c.id] = c);
+    (j.legendaries || []).forEach(c => CARDS[c.id] = c);
     j.factions.forEach(f => FACTIONS.push(f));
-    Object.assign(ABILITIES, j.abilities);
+    Object.assign(ABILITIES, j.abilities || {});
+    DECK_META = { name: j.name, title: j.title, subtitle: j.subtitle, lineage: j.lineage, envelope: j.konomi_envelope_at_match_end };
   } catch (e) {
-    // file:// fallback · inline a small set so the page still demos
-    console.warn('falling back to inline deck (fetch blocked · run via http server or upload to Pages)');
+    console.warn('deck load failed for', spec.path, '· try fetch via http server');
     const inline = window.__INLINE_FALLBACK__ || [];
     inline.forEach(c => CARDS[c.id] = c);
   }
+}
+
+async function setDeck(name) {
+  if (!DECKS[name]) return;
+  CURRENT_DECK = name;
+  try { localStorage.setItem('kard.deck', name); } catch(_) {}
+  // reset current deck list since faction roster just changed
+  DECK = [];
+  try { localStorage.setItem(LS + 'deck', JSON.stringify(DECK)); } catch(_) {}
+  await loadCards();
+  renderFactions();
+  renderDeckPicker();
+}
+
+function renderDeckPicker() {
+  const host = document.getElementById('deck-picker');
+  if (!host) return;
+  const spec = DECKS[CURRENT_DECK];
+  host.innerHTML = `
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0">
+      <span class="dim" style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.15em">deck:</span>
+      ${Object.entries(DECKS).map(([k,d]) => `
+        <button class="nav-btn ${k===CURRENT_DECK?'active':''}" data-deck="${k}" style="padding:8px 14px;font-size:12px">
+          ${k === 'konomi-zoo' ? '◊ ' : ''}${k}
+        </button>
+      `).join('')}
+    </div>
+    <div class="dim" style="font-size:13px;margin-bottom:14px">${spec.subtitle}</div>
+  `;
+  host.querySelectorAll('button[data-deck]').forEach(b => b.onclick = () => setDeck(b.dataset.deck));
 }
 
 // ═════════════════════════════════════════════════════════════
@@ -1079,6 +1127,7 @@ async function finishMatch(outcome) {
     endedAt: new Date().toISOString(),
     lastHash: M.prevHash,
     deck: DECK.slice(),
+    deck_name: CURRENT_DECK,
   };
   // v2.0 · mint signed trophy + award κ on wins
   if (outcome === 'win' && window.KONOMI && KONOMI.ready) {
@@ -1091,6 +1140,31 @@ async function finishMatch(outcome) {
       });
     } catch (e) { console.warn('trophy mint failed', e); }
     try { await KCC.earn(7, 'duel win · ' + final.startedAt); } catch (e) {}
+  }
+  // ◊ v2 · KonomiZoo envelope · only for konomi-zoo deck · Konomi-signed match record
+  if (CURRENT_DECK === 'konomi-zoo' && window.KONOMI && KONOMI.ready) {
+    try {
+      const envelope = {
+        kind: 'fall-forge:match_complete',
+        version: 'niceassos-mesh-v1',
+        ts: final.endedAt,
+        payload: {
+          winner_pub: outcome === 'win' ? (KONOMI.publicKeyHex || null) : null,
+          deck_used: 'konomi-zoo',
+          outcome,
+          turns: final.turns,
+          last_hash: final.lastHash || null,
+          kappa_remaining_winner: outcome === 'win' ? (M.me.hp || 0) : null,
+          kcc_anchor_request: true,
+        },
+      };
+      const canon = JSON.stringify(envelope);
+      if (KONOMI.sign) envelope.signature = await KONOMI.sign(canon);
+      final.konomi_envelope = envelope;
+      // Broadcast on fall-signal so any listening organ (FallMind v2, FallLearn, mesh) sees it
+      try { new BroadcastChannel('fall-signal').postMessage({ kind:'konomi-zoo:match_complete', envelope }); } catch(_) {}
+      try { new BroadcastChannel('niceassos-mesh').postMessage(envelope); } catch(_) {}
+    } catch (e) { console.warn('konomi-zoo envelope mint failed', e); }
   }
   HISTORY.unshift(final);
   if (HISTORY.length > 50) HISTORY.length = 50;
@@ -1775,6 +1849,7 @@ function renderMeshList() {
 (async function boot() {
   await loadCards();
   renderFactions();
+  renderDeckPicker();
   renderDeckBuilder();
   renderHistory();
   // estate doctrine · mesh emit
