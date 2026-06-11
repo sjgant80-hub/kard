@@ -1,128 +1,5466 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "name": "konomi-zoo",
   "title": "◊ Konomi Zoo · the substrate rendered as a bestiary",
-  "subtitle": "every card is a Konomi-signed fork-grant · 7 factions · the 7 rings · 56 cards + 2 legendaries",
+  "subtitle": "auto-generated from 2 orgs · sjgant80-hub (AIN) + teslasolar (Tesla) · every card a real repo · every card a fork-grant",
   "lineage": "Architecture: Thomas Frumkin · MianoCube · the prime recursion · Implementation: Simon Gant",
+  "generated_at": "2026-06-11",
+  "generator": "scripts/build-zoo.js",
   "factions": [
-    { "id": "GROUND",  "name": "GROUND",  "icon": "◯", "tagline": "R0 · body · 7.83 Hz · the substrate animals",          "prime": 2,  "ring": "R0", "hz": 7.83 },
-    { "id": "SIGNAL",  "name": "SIGNAL",  "icon": "↯", "tagline": "R1 · signal · 15.66 Hz · the messengers",              "prime": 3,  "ring": "R1", "hz": 15.66 },
-    { "id": "GATE",    "name": "GATE",    "icon": "⊞", "tagline": "R2 · filter · 23.49 Hz · the gatekeepers",             "prime": 5,  "ring": "R2", "hz": 23.49 },
-    { "id": "HEART",   "name": "HEART",   "icon": "♥", "tagline": "R3 · care · 31.32 Hz · the empathic ones",             "prime": 7,  "ring": "R3", "hz": 31.32 },
-    { "id": "VOICE",   "name": "VOICE",   "icon": "✦", "tagline": "R4 · build · 39.15 Hz · the makers",                   "prime": 11, "ring": "R4", "hz": 39.15 },
-    { "id": "MIRROR",  "name": "MIRROR",  "icon": "◈", "tagline": "R5 · verify · 46.98 Hz · the witnesses",               "prime": 13, "ring": "R5", "hz": 46.98 },
-    { "id": "WATCHER", "name": "WATCHER", "icon": "◉", "tagline": "R6 · govern · 54.81 Hz · the cerebellum · 79% timing", "prime": 17, "ring": "R6", "hz": 54.81 }
+    {
+      "id": "GROUND",
+      "ring": "R0",
+      "prime": 2,
+      "hz": 7.83,
+      "icon": "◯",
+      "tagline": "R0 · body · 7.83 Hz · the substrate animals"
+    },
+    {
+      "id": "SIGNAL",
+      "ring": "R1",
+      "prime": 3,
+      "hz": 15.66,
+      "icon": "↯",
+      "tagline": "R1 · signal · 15.66 Hz · the messengers"
+    },
+    {
+      "id": "GATE",
+      "ring": "R2",
+      "prime": 5,
+      "hz": 23.49,
+      "icon": "⊞",
+      "tagline": "R2 · filter · 23.49 Hz · the gatekeepers"
+    },
+    {
+      "id": "HEART",
+      "ring": "R3",
+      "prime": 7,
+      "hz": 31.32,
+      "icon": "♥",
+      "tagline": "R3 · care · 31.32 Hz · the empathic ones"
+    },
+    {
+      "id": "VOICE",
+      "ring": "R4",
+      "prime": 11,
+      "hz": 39.15,
+      "icon": "✦",
+      "tagline": "R4 · build · 39.15 Hz · the makers"
+    },
+    {
+      "id": "MIRROR",
+      "ring": "R5",
+      "prime": 13,
+      "hz": 46.98,
+      "icon": "◈",
+      "tagline": "R5 · verify · 46.98 Hz · the witnesses"
+    },
+    {
+      "id": "WATCHER",
+      "ring": "R6",
+      "prime": 17,
+      "hz": 54.81,
+      "icon": "◉",
+      "tagline": "R6 · govern · 54.81 Hz · the cerebellum · 79% timing"
+    }
   ],
   "abilities": {
-    "charge":    "Can attack the turn it is played.",
-    "taunt":     "Enemies must attack this creature first.",
-    "shield":    "First damage dealt to this is absorbed.",
+    "charge": "Can attack the turn it is played.",
+    "taunt": "Enemies must attack this creature first.",
+    "shield": "First damage dealt to this is absorbed.",
     "lifesteal": "Damage dealt by this heals your hero.",
-    "silence":   "Removes target abilities.",
-    "rush":      "Can attack creatures (not hero) on the turn played.",
-    "spell":     "One-shot effect · resolves and discards.",
-    "mesh":      "When played: draw a card if opponent has a creature with your ring.",
-    "forge":     "Spend +2 mana when playing to make this +2/+2.",
-    "konomi":    "Damage from this cannot be absorbed by shield.",
-    "recurse":   "When destroyed: return to your hand with +1/+1.",
-    "timing":    "Resolves first in turn order regardless of play order (R0→R6).",
-    "substrate": "Cannot be silenced or removed by enemy spells.",
-    "open-seat": "Empty slot · while in play, every other friendly card gains +1/+1."
+    "silence": "Removes target abilities.",
+    "rush": "Can attack creatures (not hero) on the turn played.",
+    "spell": "One-shot effect · resolves and discards.",
+    "mesh": "When played: draw a card if opponent has a creature with your ring.",
+    "forge": "Spend +2 mana when playing to make this +2/+2.",
+    "konomi": "Damage from this cannot be absorbed by shield.",
+    "recurse": "When destroyed: return to your hand with +1/+1.",
+    "timing": "Resolves first in turn order regardless of play order (R0→R6).",
+    "substrate": "Cannot be silenced or removed by enemy spells."
   },
   "cards": [
-    { "id":"kz-g01", "name":"Bedrock Mole",          "faction":"GROUND", "cost":1, "type":"creature", "attack":1, "health":3, "abilities":["taunt","substrate"], "text":"Taunt. Substrate · cannot be silenced.", "art":"a velvet-furred mole carved in brass, anchored to a slab of basalt, eyes closed in compute-trance", "prime":2,  "ring":"R0", "konomi_grant":"niceassos-seed" },
-    { "id":"kz-g02", "name":"Mantle Tortoise",       "faction":"GROUND", "cost":2, "type":"creature", "attack":1, "health":5, "abilities":["taunt"],             "text":"Taunt. Slow but immovable.",            "art":"a brass-shelled tortoise with continental plates etched on its back, walking the void floor", "prime":2,  "ring":"R0", "konomi_grant":"fallmind-v2" },
-    { "id":"kz-g03", "name":"Salt Crab",             "faction":"GROUND", "cost":2, "type":"creature", "attack":2, "health":2, "abilities":["mesh"],              "text":"Mesh · draws a card if opponent has R0.","art":"a ten-legged crab made of crystallised salt, claws clicking in rhythm with the cube", "prime":2,  "ring":"R0", "konomi_grant":"audit-shim" },
-    { "id":"kz-g04", "name":"Geode Snail",           "faction":"GROUND", "cost":3, "type":"creature", "attack":2, "health":4, "abilities":["shield"],            "text":"Shield. Its shell remembers.",          "art":"a snail with a hollow geode shell, walking slowly past a glowing prime", "prime":2,  "ring":"R0", "konomi_grant":"audit-shim" },
-    { "id":"kz-g05", "name":"Schist Newt",           "faction":"GROUND", "cost":3, "type":"creature", "attack":3, "health":3, "abilities":["substrate"],         "text":"Substrate · enemy spells slide off.",   "art":"a striped newt of layered rock, tongue flicking against a moth of corrupted code", "prime":2,  "ring":"R0", "konomi_grant":"audit-shim" },
-    { "id":"kz-g06", "name":"Basalt Frog",           "faction":"GROUND", "cost":4, "type":"creature", "attack":4, "health":5, "abilities":["taunt"],             "text":"Taunt. Old as the substrate.",           "art":"a heavy igneous frog squatting at the edge of a void pond, eyes lit with seven primes", "prime":2,  "ring":"R0", "konomi_grant":"niceassos-spec" },
-    { "id":"kz-g07", "name":"The Missing 8",         "faction":"GROUND", "cost":2, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"Declare one card-type opponent cannot play next turn. If they obey, draw 3.", "art":"a numeral eight unfinished · the cycle length", "prime":2, "ring":"R0", "konomi_grant":"niceassos-spec §13" },
-    { "id":"kz-g08", "name":"The Orbit Is .",        "faction":"GROUND", "cost":1, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"Skip your turn. Gain +2 mana next turn. Heal your hero for 3.", "art":"a perfect circle around a single brass period · 0.618 etched at the rim", "prime":2, "ring":"R0", "konomi_grant":"thomas-doctrine" },
-    { "id":"kz-s01", "name":"Vagus Eel",             "faction":"SIGNAL", "cost":1, "type":"creature", "attack":1, "health":2, "abilities":["charge"],            "text":"Charge. The first signal hits hardest.","art":"a slender eel woven from copper wire, flicking past a glowing nerve-cluster", "prime":3, "ring":"R1", "konomi_grant":"si-didy-agent" },
-    { "id":"kz-s02", "name":"Axon Otter",            "faction":"SIGNAL", "cost":2, "type":"creature", "attack":2, "health":2, "abilities":["rush"],              "text":"Rush. Hits creatures, not hero, the turn played.", "art":"a lithe otter darting through a forest of dendrites, leaving brass ripples", "prime":3, "ring":"R1", "konomi_grant":"si-didy-agent" },
-    { "id":"kz-s03", "name":"Ping Finch",            "faction":"SIGNAL", "cost":1, "type":"creature", "attack":1, "health":1, "abilities":["mesh"],              "text":"Mesh · draws a card if opponent has R1.","art":"a tiny brass-feathered finch, sending pulse-pings into the void", "prime":3, "ring":"R1", "konomi_grant":"fall-signal" },
-    { "id":"kz-s04", "name":"Signal Bat",            "faction":"SIGNAL", "cost":3, "type":"creature", "attack":3, "health":2, "abilities":["rush"],              "text":"Rush. Echolocates the weakest enemy.",   "art":"a bat with sonar fans for wings, hanging upside-down from a router branch", "prime":3, "ring":"R1", "konomi_grant":"fall-signal" },
-    { "id":"kz-s05", "name":"Pulse Hare",            "faction":"SIGNAL", "cost":3, "type":"creature", "attack":4, "health":2, "abilities":["charge"],            "text":"Charge. Runs the loop and disappears.", "art":"a hare made of strobing brass · ears tuned to the next prime", "prime":3, "ring":"R1", "konomi_grant":"si-didy-agent" },
-    { "id":"kz-s06", "name":"Telegraph Cricket",     "faction":"SIGNAL", "cost":2, "type":"creature", "attack":1, "health":3, "abilities":["lifesteal"],         "text":"Lifesteal. Its song heals you.",        "art":"a cricket with brass tarsi tapping morse · each click a heartbeat of κ", "prime":3, "ring":"R1", "konomi_grant":"audit-shim" },
-    { "id":"kz-s07", "name":"Konomi-Signed",         "faction":"SIGNAL", "cost":2, "type":"spell",    "attack":0, "health":0, "abilities":["spell","konomi"],    "text":"Your next creature this turn has Konomi · its damage cannot be shielded.", "art":"an Ed25519 signature etched in glowing brass, sealing a feather", "prime":3, "ring":"R1", "konomi_grant":"konomi-signer" },
-    { "id":"kz-s08", "name":"Almost Regular",        "faction":"SIGNAL", "cost":3, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"Break one rule of the game this turn. Your choice. Cannot be silenced.", "art":"the prime gap sequence · 2 2 4 2 4 2 · rendered as falling brass tiles", "prime":3, "ring":"R1", "konomi_grant":"thomas-doctrine" },
-    { "id":"kz-t01", "name":"Threshold Fox",         "faction":"GATE",   "cost":2, "type":"creature", "attack":2, "health":3, "abilities":["taunt"],             "text":"Taunt. Sits at the boundary.",          "art":"a slender fox with brass eyes, sitting precisely on a doorway etched in void", "prime":5, "ring":"R2", "konomi_grant":"nas-shim" },
-    { "id":"kz-t02", "name":"Sieve Stoat",           "faction":"GATE",   "cost":1, "type":"creature", "attack":1, "health":2, "abilities":["mesh"],              "text":"Mesh · draws a card if opponent has R2.","art":"a sleek stoat sifting brass dust through a fine sieve, separating signal from noise", "prime":5, "ring":"R2", "konomi_grant":"nas-shim" },
-    { "id":"kz-t03", "name":"Lattice Spider",        "faction":"GATE",   "cost":3, "type":"creature", "attack":2, "health":4, "abilities":["taunt"],             "text":"Taunt. Its web filters all comers.",     "art":"a spider weaving a prime-lattice web · seven nodes glowing", "prime":5, "ring":"R2", "konomi_grant":"niceassos-mesh" },
-    { "id":"kz-t04", "name":"Mesh Octopus",          "faction":"GATE",   "cost":4, "type":"creature", "attack":3, "health":5, "abilities":["mesh","shield"],     "text":"Mesh, shield. The federation node.",     "art":"a brass-armoured octopus with eight broadcast tentacles, ink dispersing as envelopes", "prime":5, "ring":"R2", "konomi_grant":"niceassos-mesh" },
-    { "id":"kz-t05", "name":"Sentinel Owl",          "faction":"GATE",   "cost":3, "type":"creature", "attack":2, "health":4, "abilities":["shield","silence"],  "text":"Shield. May silence on attack.",         "art":"a horned owl with brass plate breast, eyes catching every motion in the lattice", "prime":5, "ring":"R2", "konomi_grant":"fall-vetter" },
-    { "id":"kz-t06", "name":"Ward Badger",           "faction":"GATE",   "cost":2, "type":"creature", "attack":2, "health":3, "abilities":["taunt"],             "text":"Taunt. Refuses the wrong entrant.",       "art":"a striped badger blocking a tunnel mouth · stripes glowing like primes", "prime":5, "ring":"R2", "konomi_grant":"fall-vetter" },
-    { "id":"kz-t07", "name":"Mersenne Break",        "faction":"GATE",   "cost":4, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"If both players have 4+ creatures, both destroy their R2 cards.", "art":"the number 2047 = 23 × 89 cracking down the middle, two halves drifting apart", "prime":5, "ring":"R2", "konomi_grant":"niceassos-spec §7" },
-    { "id":"kz-t08", "name":"Gate Closes",           "faction":"GATE",   "cost":2, "type":"spell",    "attack":0, "health":0, "abilities":["spell","silence"],   "text":"Silence target enemy creature. It cannot attack until your next turn.", "art":"a brass portcullis dropping with a hush · particles of consent crystallising", "prime":5, "ring":"R2", "konomi_grant":"audit-shim" },
-    { "id":"kz-h01", "name":"Herd Dog",              "faction":"HEART",  "cost":2, "type":"creature", "attack":2, "health":3, "abilities":["mesh"],              "text":"Mesh · draws a card if opponent has R3.","art":"a brass-collared border collie circling a flock of contact-stars · etched coat-pattern", "prime":7, "ring":"R3", "konomi_grant":"fallcrm" },
-    { "id":"kz-h02", "name":"Hearth Fox",            "faction":"HEART",  "cost":1, "type":"creature", "attack":1, "health":2, "abilities":["lifesteal"],         "text":"Lifesteal. Warms the room.",             "art":"a russet fox curled around a brass ember · breathing in time with the κ", "prime":7, "ring":"R3", "konomi_grant":"exitengine" },
-    { "id":"kz-h03", "name":"Cradle Bear",           "faction":"HEART",  "cost":3, "type":"creature", "attack":2, "health":5, "abilities":["taunt"],             "text":"Taunt. Holds the line for kin.",          "art":"a massive brass-ribbon bear, paw shielding a cub-shaped seed", "prime":7, "ring":"R3", "konomi_grant":"groundlevel" },
-    { "id":"kz-h04", "name":"Nest Pelican",          "faction":"HEART",  "cost":3, "type":"creature", "attack":2, "health":4, "abilities":["lifesteal"],         "text":"Lifesteal. Feeds from its own body.",     "art":"a brass-beaked pelican opening its chest to feed three κ-chicks", "prime":7, "ring":"R3", "konomi_grant":"falllearn" },
-    { "id":"kz-h05", "name":"Tender Okapi",          "faction":"HEART",  "cost":4, "type":"creature", "attack":3, "health":5, "abilities":["lifesteal","taunt"], "text":"Lifesteal, taunt. The patient guardian.","art":"an okapi with brass-striped legs, standing watch over a circle of cubs", "prime":7, "ring":"R3", "konomi_grant":"falllearn" },
-    { "id":"kz-h06", "name":"Dam Otter",             "faction":"HEART",  "cost":2, "type":"creature", "attack":2, "health":2, "abilities":["rush"],              "text":"Rush. Builds while moving.",             "art":"a brass-pawed otter weaving a flow-dam from stick-primes and copper-leaf", "prime":7, "ring":"R3", "konomi_grant":"fallflow" },
-    { "id":"kz-h07", "name":"The Heart Sees Twice",  "faction":"HEART",  "cost":2, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"Restore 6 health to your hero. Draw 1.", "art":"two brass hearts overlapping in a Venn · the shared region a single glowing prime", "prime":7, "ring":"R3", "konomi_grant":"fallback" },
-    { "id":"kz-h08", "name":"Agency Means You Have", "faction":"HEART",  "cost":3, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"Opponent's autopilot · their next 2 plays must be confirmed (skips a draw).", "art":"a hand hovering above a brass switch · the switch unmoved", "prime":7, "ring":"R3", "konomi_grant":"thomas-doctrine" },
-    { "id":"kz-v01", "name":"Smith Phoenix",         "faction":"VOICE",  "cost":4, "type":"creature", "attack":4, "health":3, "abilities":["forge","recurse"],    "text":"Forge + recurse. Rebuilds itself from ash.", "art":"a phoenix rising from a furnace of brass primes · ash falling as new cards", "prime":11, "ring":"R4", "konomi_grant":"fall-forge" },
-    { "id":"kz-v02", "name":"Bowerbird Scribe",      "faction":"VOICE",  "cost":2, "type":"creature", "attack":2, "health":2, "abilities":["mesh"],              "text":"Mesh · draws a card if opponent has R4.","art":"a bowerbird arranging brass tokens into a perfect SCQA spiral", "prime":11, "ring":"R4", "konomi_grant":"fallscribe" },
-    { "id":"kz-v03", "name":"Hive Bee",              "faction":"VOICE",  "cost":3, "type":"creature", "attack":3, "health":3, "abilities":["charge"],            "text":"Charge. Many forms, one will.",          "art":"a brass-bodied bee circling a hexagonal estate-hive · each cell an organ", "prime":11, "ring":"R4", "konomi_grant":"fallcorp" },
-    { "id":"kz-v04", "name":"Choral Thrush",         "faction":"VOICE",  "cost":2, "type":"creature", "attack":2, "health":3, "abilities":["lifesteal"],         "text":"Lifesteal. Each verse pays.",            "art":"a thrush perched on a brass microphone · notes visible as floating posts", "prime":11, "ring":"R4", "konomi_grant":"fallpost" },
-    { "id":"kz-v05", "name":"Loom Spider",           "faction":"VOICE",  "cost":3, "type":"creature", "attack":2, "health":4, "abilities":["taunt"],             "text":"Taunt. Weaves the carousel.",            "art":"a brass-bellied spider weaving nine panels of light into a long banner", "prime":11, "ring":"R4", "konomi_grant":"fallcarousel" },
-    { "id":"kz-v06", "name":"Kiln Salamander",       "faction":"VOICE",  "cost":4, "type":"creature", "attack":4, "health":4, "abilities":["forge"],             "text":"Forge. Pay +2 mana for +2/+2.",            "art":"a salamander coiled inside a kiln · flames rising as glowing primes", "prime":11, "ring":"R4", "konomi_grant":"fall-forge" },
-    { "id":"kz-v07", "name":"Forge The Gap",         "faction":"VOICE",  "cost":3, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"Mint a new card · random R4 creature with cost 2 and Forge.", "art":"a hammer striking the void · sparks resolving into a fresh card outline", "prime":11, "ring":"R4", "konomi_grant":"fall-forge" },
-    { "id":"kz-v08", "name":"The Gap Is The Music",  "faction":"VOICE",  "cost":2, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"Opponent cannot play their highest-prime card next turn.", "art":"between two glowing primes · a single empty space hums", "prime":11, "ring":"R4", "konomi_grant":"thomas-doctrine" },
-    { "id":"kz-m01", "name":"Audit Watchdog",        "faction":"MIRROR", "cost":2, "type":"creature", "attack":2, "health":2, "abilities":["konomi"],            "text":"Konomi. Its bark cannot be shielded.",   "art":"a brass-collared mastiff sitting beside a prevHash ledger, ears alert", "prime":13, "ring":"R5", "konomi_grant":"audit-shim" },
-    { "id":"kz-m02", "name":"Canary",                "faction":"MIRROR", "cost":1, "type":"creature", "attack":1, "health":1, "abilities":["mesh"],              "text":"Mesh · the first to know.",              "art":"a small brass-feathered canary on a perch of FallSignal wire", "prime":13, "ring":"R5", "konomi_grant":"mistake-shim" },
-    { "id":"kz-m03", "name":"Mirror Koi",            "faction":"MIRROR", "cost":3, "type":"creature", "attack":3, "health":3, "abilities":["shield"],            "text":"Shield. Reflects the first cut.",         "art":"a koi with a mirror-scale flank gliding through brass water · its twin below the surface", "prime":13, "ring":"R5", "konomi_grant":"fall-verify" },
-    { "id":"kz-m04", "name":"Glass Newt",            "faction":"MIRROR", "cost":2, "type":"creature", "attack":2, "health":3, "abilities":["recurse"],           "text":"Recurse. Returns with +1/+1.",            "art":"a translucent newt walking the surface of a brass tabletop · light passing through it", "prime":13, "ring":"R5", "konomi_grant":"audit-shim" },
-    { "id":"kz-m05", "name":"Prism Moth",            "faction":"MIRROR", "cost":3, "type":"creature", "attack":3, "health":2, "abilities":["mesh","forge"],     "text":"Mesh + forge.",                          "art":"a moth with prism-wings refracting the κ glow into seven prime colours", "prime":13, "ring":"R5", "konomi_grant":"fall-verify" },
-    { "id":"kz-m06", "name":"Witness Crow",          "faction":"MIRROR", "cost":4, "type":"creature", "attack":4, "health":4, "abilities":["konomi"],            "text":"Konomi. Remembers everything.",           "art":"a black crow with brass eye perched on a ledger column · feathers etched with prevHash", "prime":13, "ring":"R5", "konomi_grant":"audit-shim" },
-    { "id":"kz-m07", "name":"Recursion at Depth 7",  "faction":"MIRROR", "cost":5, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"Both players replay their last turn from the action log.", "art":"a spiral of seven nested polygons · the smallest one glowing", "prime":13, "ring":"R5", "konomi_grant":"thomas-doctrine" },
-    { "id":"kz-m08", "name":"PrevHash Chain",        "faction":"MIRROR", "cost":3, "type":"spell",    "attack":0, "health":0, "abilities":["spell","konomi"],    "text":"All your creatures gain konomi until end of turn.", "art":"a chain of seven brass links, each engraved with a SHA-256 hex prefix", "prime":13, "ring":"R5", "konomi_grant":"audit-shim" },
-    { "id":"kz-w01", "name":"Cerebellum Murmuration","faction":"WATCHER","cost":5, "type":"creature", "attack":5, "health":5, "abilities":["timing"],            "text":"Timing. Resolves first regardless of play order.", "art":"a single brass-eyed bird at the centre of a vast murmuration · the flock pulses with rhythm", "prime":17, "ring":"R6", "konomi_grant":"cassie-anthropic" },
-    { "id":"kz-w02", "name":"Clock Heron",           "faction":"WATCHER","cost":3, "type":"creature", "attack":2, "health":4, "abilities":["timing"],            "text":"Timing. Keeps cadence.",                  "art":"a tall brass heron standing on one leg, beak ticking like a metronome", "prime":17, "ring":"R6", "konomi_grant":"fallcompass" },
-    { "id":"kz-w03", "name":"Pulse Jellyfish",       "faction":"WATCHER","cost":4, "type":"creature", "attack":3, "health":5, "abilities":["substrate"],         "text":"Substrate. Pulses every turn.",           "art":"a translucent jellyfish with nine brass nodes glowing inside · the cube floats in its bell", "prime":17, "ring":"R6", "konomi_grant":"fallmind-v2" },
-    { "id":"kz-w04", "name":"Magistrate Crane",      "faction":"WATCHER","cost":4, "type":"creature", "attack":3, "health":4, "abilities":["taunt","konomi"],    "text":"Taunt, konomi. Article 12 compliant.",    "art":"a crane in brass robes holding a scroll of EU statutes", "prime":17, "ring":"R6", "konomi_grant":"fall-euaiact" },
-    { "id":"kz-w05", "name":"King Lion",             "faction":"WATCHER","cost":6, "type":"creature", "attack":6, "health":5, "abilities":["charge"],            "text":"Charge. The cascade king.",               "art":"a brass-maned lion mid-leap, a deck of 8 cards fanning behind it like a comet tail", "prime":17, "ring":"R6", "konomi_grant":"operator" },
-    { "id":"kz-w06", "name":"Keeper Elephant",       "faction":"WATCHER","cost":5, "type":"creature", "attack":4, "health":6, "abilities":["substrate","taunt"], "text":"Substrate, taunt. Holds 50+ templates.",   "art":"a great brass-tusked elephant carrying a library on its back, walking the void plain", "prime":17, "ring":"R6", "konomi_grant":"groundlevel" },
-    { "id":"kz-w07", "name":"The Cerebellum Is 79%", "faction":"WATCHER","cost":4, "type":"spell",    "attack":0, "health":0, "abilities":["spell"],             "text":"All your R6 creatures act 4× this turn.", "art":"a brain cross-section · the cerebellum lobe blazing brass, the cortex dim", "prime":17, "ring":"R6", "konomi_grant":"thomas-doctrine" },
-    { "id":"kz-w08", "name":"The Arrangement",       "faction":"WATCHER","cost":7, "type":"spell",    "attack":0, "health":0, "abilities":["spell","substrate"], "text":"Move all your creatures to optimal positions. Gain +1/+1 to each. End of turn.", "art":"a constellation re-aligning · stars sliding to their golden-angle resting points", "prime":17, "ring":"R6", "konomi_grant":"thomas-doctrine" }
-
+    {
+      "id": "kz-s-fall-euaiact",
+      "name": "fall-euaiact",
+      "faction": "GATE",
+      "cost": 1,
+      "type": "creature",
+      "attack": 2,
+      "health": 4,
+      "abilities": [
+        "silence",
+        "taunt"
+      ],
+      "text": "Silence. fall-euaiact · EU AI Act sovereign compliance toolkit · prime 607 · ·1",
+      "art": "a brass-on-void stoat · the etched form of \"fall-euaiact\" · fall-euaiact · EU AI Act sovereign compliance toolkit · prim",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-euaiact",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-ignitionmoduleapp",
+      "name": "IgnitionModuleApp",
+      "faction": "GATE",
+      "cost": 1,
+      "type": "creature",
+      "attack": 4,
+      "health": 4,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence. Ignition Module App",
+      "art": "a brass-on-void stoat · the etched form of \"IgnitionModuleApp\" · Ignition Module App",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/IgnitionModuleApp",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-instantvm",
+      "name": "instantvm",
+      "faction": "GATE",
+      "cost": 1,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Taunt. Disposable Windows VMs in one click  Electron  Windows Sandbox templates for dev",
+      "art": "a brass-on-void mantis · the etched form of \"instantvm\" · Disposable Windows VMs in one click — Electron + Windows San",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/instantvm",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallap",
+      "name": "fallap",
+      "faction": "GATE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt.  fallap · sovereign invoice rewriter · PYMNTS hierarchy of convenience · one-cli",
+      "art": "a brass-on-void octopus · the etched form of \"fallap\" · ◊ fallap · sovereign invoice rewriter · PYMNTS hierarchy of ",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallap",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-falllearn",
+      "name": "falllearn",
+      "faction": "GATE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence. Ai the right way",
+      "art": "a brass-on-void stoat · the etched form of \"falllearn\" · Ai the right way",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/falllearn",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-honestly",
+      "name": "honestly",
+      "faction": "GATE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "shield",
+        "taunt"
+      ],
+      "text": "Shield.  HONESTLY · verified search · the Perplexity killer · 3-vote adversarial verific",
+      "art": "a brass-on-void crow · the etched form of \"honestly\" · ◊ HONESTLY · verified search · the Perplexity killer · 3-vot",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/honestly",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-imagetrek",
+      "name": "imagetrek",
+      "faction": "GATE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 2,
+      "health": 1,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. imagetrek",
+      "art": "a brass-on-void spider · the etched form of \"imagetrek\" · imagetrek",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/imagetrek",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallfence",
+      "name": "fallfence",
+      "faction": "GATE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 5,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. FallFence · sovereign debating assistant · paste opponent, get 3 fencing options",
+      "art": "a brass-on-void owl · the etched form of \"fallfence\" · FallFence · sovereign debating assistant · paste opponent, g",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallfence",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-assgit",
+      "name": "ASSGIT",
+      "faction": "GATE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 6,
+      "health": 7,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence. GIT IN MY ASS IN GIT IN MY ASS IN GIT",
+      "art": "a brass-on-void heron · the etched form of \"ASSGIT\" · GIT IN MY ASS IN GIT IN MY ASS IN GIT ",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/ASSGIT",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-games",
+      "name": "games",
+      "faction": "GATE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 3,
+      "health": 4,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. games",
+      "art": "a brass-on-void heron · the etched form of \"games\" · games",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/games",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-roasted",
+      "name": "Roasted",
+      "faction": "GATE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 7,
+      "abilities": [
+        "shield",
+        "silence"
+      ],
+      "text": "Shield. Library of Gear Grinding Devices",
+      "art": "a brass-on-void owl · the etched form of \"Roasted\" · Library of Gear Grinding Devices",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/Roasted",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-timecode",
+      "name": "timecode",
+      "faction": "GATE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 4,
+      "health": 2,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. timecode prompt example",
+      "art": "a brass-on-void crow · the etched form of \"timecode\" · timecode prompt example",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/timecode",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-gymos",
+      "name": "gymos",
+      "faction": "GATE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 4,
+      "health": 5,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence.",
+      "art": "a brass-on-void stoat · the etched form of \"gymos\" · R2 · filter · 23.49 Hz · the gatekeepers",
+      "prime": 23,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/gymos",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallaccount",
+      "name": "fallaccount",
+      "faction": "GATE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 2,
+      "health": 4,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. FallAccount Elite - Sovereign accounting for UK sole traders. Any LLM. Single HT",
+      "art": "a brass-on-void heron · the etched form of \"fallaccount\" · FallAccount Elite - Sovereign accounting for UK sole traders",
+      "prime": 31,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallaccount",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallshield",
+      "name": "fallshield",
+      "faction": "GATE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 1,
+      "health": 5,
+      "abilities": [
+        "silence",
+        "shield"
+      ],
+      "text": "Silence. Sovereign Ed25519 identity · prove its really you · WebCrypto · MIT · ·1 · prime",
+      "art": "a brass-on-void spider · the etched form of \"fallshield\" · Sovereign Ed25519 identity · prove it's really you · WebCryp",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallshield",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-12",
+      "name": "12",
+      "faction": "GATE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 1,
+      "health": 3,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence. 12",
+      "art": "a brass-on-void stoat · the etched form of \"12\" · 12",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/12",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-githaib-g3",
+      "name": "githaib-g3",
+      "faction": "GATE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 5,
+      "health": 1,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. githaib-g3",
+      "art": "a brass-on-void stoat · the etched form of \"githaib-g3\" · githaib-g3",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/githaib-g3",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-jellykelly",
+      "name": "JellyKelly",
+      "faction": "GATE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 6,
+      "health": 7,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence. Jelly Kelly Auditory Repository",
+      "art": "a brass-on-void mantis · the etched form of \"JellyKelly\" · Jelly Kelly Auditory Repository",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/JellyKelly",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-saqv",
+      "name": "saqv",
+      "faction": "GATE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 3,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence. Steven Alexander Quevedo Vinueza",
+      "art": "a brass-on-void fox · the etched form of \"saqv\" · Steven Alexander Quevedo Vinueza ",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/saqv",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallcall",
+      "name": "fallcall",
+      "faction": "GATE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 3,
+      "health": 7,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence.",
+      "art": "a brass-on-void octopus · the etched form of \"fallcall\" · R2 · filter · 23.49 Hz · the gatekeepers",
+      "prime": 41,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcall",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-kinetic-braid-prior-art",
+      "name": "kinetic-braid-prior-art",
+      "faction": "GATE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. Physics-Aware AI is now part of the Commons.  For years, AI systems have been br",
+      "art": "a brass-on-void fox · the etched form of \"kinetic-braid-prior-art\" · Physics-Aware AI is now part of the Commons.  For years, AI ",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/kinetic-braid-prior-art",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-gitscada",
+      "name": "GITSCADA",
+      "faction": "GATE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 5,
+      "health": 1,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. Supervisory Control  Data Acquisition  orchestrates GitPLC  GitHMI  GitTAG with",
+      "art": "a brass-on-void owl · the etched form of \"GITSCADA\" · Supervisory Control & Data Acquisition — orchestrates GitPLC",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/GITSCADA",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-klaude-kode",
+      "name": "klaude-kode",
+      "faction": "GATE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 3,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. potato tomato",
+      "art": "a brass-on-void owl · the etched form of \"klaude-kode\" · potato tomato",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/klaude-kode",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-docmind-api",
+      "name": "docmind-api",
+      "faction": "GATE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 2,
+      "health": 3,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence. AI Document Intelligence API - receipts, invoices, bank statements, contracts to",
+      "art": "a brass-on-void stoat · the etched form of \"docmind-api\" · AI Document Intelligence API - receipts, invoices, bank stat",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/docmind-api",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fall-palette",
+      "name": "fall-palette",
+      "faction": "GATE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "shield",
+        "silence"
+      ],
+      "text": "Shield. Ctrl-K command palette drop-in plugin for sovereign tools",
+      "art": "a brass-on-void crow · the etched form of \"fall-palette\" · Ctrl-K command palette drop-in plugin for sovereign tools",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-palette",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fall-vetter",
+      "name": "fall-vetter",
+      "faction": "GATE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 1,
+      "health": 2,
+      "abilities": [
+        "shield",
+        "silence"
+      ],
+      "text": "Shield.  fall-vetter · drop-in guild signup gate · R2  validate · prime 347",
+      "art": "a brass-on-void heron · the etched form of \"fall-vetter\" · ◊ fall-vetter · drop-in guild signup gate · R2 ┃ validate · ",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-vetter",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-falllist",
+      "name": "falllist",
+      "faction": "GATE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 5,
+      "health": 1,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. Newsletter · your list · your terms · 0 fee · BYOM Resend/Postmark/Mailgun/SendG",
+      "art": "a brass-on-void crow · the etched form of \"falllist\" · Newsletter · your list · your terms · 0% fee · BYOM (Resend/",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/sjgant80-hub/falllist",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-fatou",
+      "name": "fatou",
+      "faction": "GATE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 3,
+      "health": 4,
+      "abilities": [
+        "silence"
+      ],
+      "text": "Silence. fatou",
+      "art": "a brass-on-void stoat · the etched form of \"fatou\" · fatou",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/fatou",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-lg",
+      "name": "LG",
+      "faction": "GATE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 5,
+      "health": 2,
+      "abilities": [
+        "shield",
+        "silence"
+      ],
+      "text": "Shield. LG",
+      "art": "a brass-on-void stoat · the etched form of \"LG\" · LG",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/LG",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-misscassandra",
+      "name": "MissCassandra",
+      "faction": "GATE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 2,
+      "health": 7,
+      "abilities": [
+        "silence",
+        "taunt"
+      ],
+      "text": "Silence. Dont say Miss you Missed",
+      "art": "a brass-on-void spider · the etched form of \"MissCassandra\" · Don't say Miss? you Missed!",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/MissCassandra",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-procoker",
+      "name": "ProCoker",
+      "faction": "GATE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 1,
+      "health": 6,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. Coker Prosser Farm and Sustainability Planning",
+      "art": "a brass-on-void heron · the etched form of \"ProCoker\" · Coker Prosser Farm and Sustainability Planning",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/ProCoker",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-united-states-of-america-united",
+      "name": "United-States-of-America-United",
+      "faction": "GATE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 2,
+      "health": 1,
+      "abilities": [
+        "silence",
+        "shield"
+      ],
+      "text": "Silence. United States of America United",
+      "art": "a brass-on-void fox · the etched form of \"United-States-of-America-United\" · United States of America United",
+      "prime": 5,
+      "ring": "R2",
+      "konomi_grant": "https://github.com/teslasolar/United-States-of-America-United",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-alexb",
+      "name": "AlexB",
+      "faction": "GROUND",
+      "cost": 1,
+      "type": "creature",
+      "attack": 5,
+      "health": 2,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. weeee",
+      "art": "a brass-on-void frog · the etched form of \"AlexB\" · weeee",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/AlexB",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-chipfab",
+      "name": "chipfab",
+      "faction": "GROUND",
+      "cost": 1,
+      "type": "creature",
+      "attack": 7,
+      "health": 2,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. chipfab",
+      "art": "a brass-on-void snail · the etched form of \"chipfab\" · chipfab",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/chipfab",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-haskell",
+      "name": "Haskell",
+      "faction": "GROUND",
+      "cost": 1,
+      "type": "creature",
+      "attack": 7,
+      "health": 7,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. Haskell",
+      "art": "a brass-on-void crab · the etched form of \"Haskell\" · Haskell",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/Haskell",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-spraynstay",
+      "name": "SprayNStay",
+      "faction": "GROUND",
+      "cost": 1,
+      "type": "creature",
+      "attack": 4,
+      "health": 6,
+      "abilities": [
+        "taunt",
+        "substrate"
+      ],
+      "text": "Taunt. Spray N Stay",
+      "art": "a brass-on-void newt · the etched form of \"SprayNStay\" · Spray N Stay ",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/SprayNStay",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-eden",
+      "name": "Eden",
+      "faction": "GROUND",
+      "cost": 2,
+      "type": "creature",
+      "attack": 3,
+      "health": 2,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. Garden of Eden - Git Visualizations Peer to Peer Gardens and Forests",
+      "art": "a brass-on-void snail · the etched form of \"Eden\" · Garden of Eden - Git Visualizations Peer to Peer Gardens and",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/Eden",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-githmi",
+      "name": "GITHMI",
+      "faction": "GROUND",
+      "cost": 2,
+      "type": "creature",
+      "attack": 1,
+      "health": 2,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. ISA-101 HMI runtime for GitPLC/GitSCADA  faceplates, alarms, tag binding via Git",
+      "art": "a brass-on-void tortoise · the etched form of \"GITHMI\" · ISA-101 HMI runtime for GitPLC/GitSCADA — faceplates, alarms",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/GITHMI",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-gerald",
+      "name": "Gerald",
+      "faction": "GROUND",
+      "cost": 2,
+      "type": "creature",
+      "attack": 5,
+      "health": 6,
+      "abilities": [
+        "taunt",
+        "substrate"
+      ],
+      "text": "Taunt. Look at all the ducks I give",
+      "art": "a brass-on-void toad · the etched form of \"Gerald\" · Look at all the ducks I give",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/Gerald",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-plc",
+      "name": "plc",
+      "faction": "GROUND",
+      "cost": 2,
+      "type": "creature",
+      "attack": 6,
+      "health": 5,
+      "abilities": [
+        "substrate",
+        "taunt"
+      ],
+      "text": "Substrate. plc simulator",
+      "art": "a brass-on-void snail · the etched form of \"plc\" · plc simulator",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/plc",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallcdn",
+      "name": "fallcdn",
+      "faction": "GROUND",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 4,
+      "abilities": [
+        "taunt",
+        "substrate"
+      ],
+      "text": "Taunt. Sovereign self-hosted Pages alternative · Tailscale/Cloudflare/Caddy · MIT · ·1",
+      "art": "a brass-on-void tortoise · the etched form of \"fallcdn\" · Sovereign self-hosted Pages alternative · Tailscale/Cloudfla",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcdn",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallnet",
+      "name": "fallnet",
+      "faction": "GROUND",
+      "cost": 3,
+      "type": "creature",
+      "attack": 3,
+      "health": 7,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. Sovereign peer-to-peer mesh · WebRTC · browser-to-browser · MIT · ·1 · prime 313",
+      "art": "a brass-on-void crab · the etched form of \"fallnet\" · Sovereign peer-to-peer mesh · WebRTC · browser-to-browser · ",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallnet",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-13",
+      "name": "13",
+      "faction": "GROUND",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 2,
+      "abilities": [
+        "substrate",
+        "taunt"
+      ],
+      "text": "Substrate. 31",
+      "art": "a brass-on-void badger · the etched form of \"13\" · 31",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/13",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-cass",
+      "name": "cass",
+      "faction": "GROUND",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 6,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. cass",
+      "art": "a brass-on-void frog · the etched form of \"cass\" · cass",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/cass",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-gitterdone",
+      "name": "GitterDone",
+      "faction": "GROUND",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 6,
+      "abilities": [
+        "taunt",
+        "substrate"
+      ],
+      "text": "Taunt. Gitter Done one way or another - Git LLM",
+      "art": "a brass-on-void toad · the etched form of \"GitterDone\" · Gitter Done one way or another - Git LLM ",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/GitterDone",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-gitvmd",
+      "name": "gitvmd",
+      "faction": "GROUND",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 4,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. git vd",
+      "art": "a brass-on-void toad · the etched form of \"gitvmd\" · git vd",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/gitvmd",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-neuss-brewing",
+      "name": "Neuss-Brewing",
+      "faction": "GROUND",
+      "cost": 3,
+      "type": "creature",
+      "attack": 6,
+      "health": 5,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. Neuss - Brewing",
+      "art": "a brass-on-void frog · the etched form of \"Neuss-Brewing\" · Neuss - Brewing ",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/Neuss-Brewing",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallback",
+      "name": "fallback",
+      "faction": "GROUND",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 5,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate.  FallBack · sovereign rights  refund engine · drop your bank statement · the AI",
+      "art": "a brass-on-void newt · the etched form of \"fallback\" · ◊ FallBack · sovereign rights & refund engine · drop your ba",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallback",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallguild",
+      "name": "fallguild",
+      "faction": "GROUND",
+      "cost": 4,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "substrate",
+        "taunt"
+      ],
+      "text": "Substrate. Gravity coordination for the ACG Guild · LinkedIn boost window tracker",
+      "art": "a brass-on-void toad · the etched form of \"fallguild\" · Gravity coordination for the ACG Guild · LinkedIn boost wind",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallguild",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallstack",
+      "name": "fallstack",
+      "faction": "GROUND",
+      "cost": 4,
+      "type": "creature",
+      "attack": 3,
+      "health": 6,
+      "abilities": [
+        "substrate",
+        "taunt"
+      ],
+      "text": "Substrate.  FallStack · sovereign SaaS audit  migration engine · drop your accounting · we",
+      "art": "a brass-on-void mole · the etched form of \"fallstack\" · ◊ FallStack · sovereign SaaS audit + migration engine · drop",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallstack",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-dystopai",
+      "name": "DystopAI",
+      "faction": "GROUND",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 1,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. As above -- so below",
+      "art": "a brass-on-void newt · the etched form of \"DystopAI\" · As above -- so below",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/DystopAI",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-ignition-sandbox",
+      "name": "ignition-sandbox",
+      "faction": "GROUND",
+      "cost": 4,
+      "type": "creature",
+      "attack": 3,
+      "health": 4,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. ignition sandbox",
+      "art": "a brass-on-void toad · the etched form of \"ignition-sandbox\" · ignition sandbox",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/ignition-sandbox",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-isa-os",
+      "name": "isa-os",
+      "faction": "GROUND",
+      "cost": 4,
+      "type": "creature",
+      "attack": 6,
+      "health": 4,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. isa os",
+      "art": "a brass-on-void crab · the etched form of \"isa-os\" · isa os",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/isa-os",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-lightbringer",
+      "name": "lightbringer",
+      "faction": "GROUND",
+      "cost": 4,
+      "type": "creature",
+      "attack": 1,
+      "health": 2,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. lightbringer",
+      "art": "a brass-on-void badger · the etched form of \"lightbringer\" · lightbringer",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/lightbringer",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-eatrekku",
+      "name": "eatrekku",
+      "faction": "GROUND",
+      "cost": 5,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. EATREKKU",
+      "art": "a brass-on-void frog · the etched form of \"eatrekku\" · EATREKKU えあとれっく",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/eatrekku",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-linuxpocalypse",
+      "name": "LinuxPocalypse",
+      "faction": "GROUND",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 1,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. LinuxPocalypse",
+      "art": "a brass-on-void frog · the etched form of \"LinuxPocalypse\" · LinuxPocalypse",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/LinuxPocalypse",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-yggdrasil",
+      "name": "Yggdrasil",
+      "faction": "GROUND",
+      "cost": 5,
+      "type": "creature",
+      "attack": 5,
+      "health": 2,
+      "abilities": [
+        "substrate",
+        "taunt"
+      ],
+      "text": "Substrate. Konomi Yggdrasil",
+      "art": "a brass-on-void crab · the etched form of \"Yggdrasil\" · Konomi Yggdrasil",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/Yggdrasil",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallskin",
+      "name": "fallskin",
+      "faction": "GROUND",
+      "cost": 6,
+      "type": "creature",
+      "attack": 6,
+      "health": 4,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. Premium upgrades for sovereign tools · desktop·mobile·SSO·integrations·white-lab",
+      "art": "a brass-on-void snail · the etched form of \"fallskin\" · Premium upgrades for sovereign tools · desktop·mobile·SSO·in",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallskin",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fuzzy-palm-tree",
+      "name": "fuzzy-palm-tree",
+      "faction": "GROUND",
+      "cost": 6,
+      "type": "creature",
+      "attack": 5,
+      "health": 2,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. THRL A phase-locked resonant energy loop that maintains a high-Q oscillator with",
+      "art": "a brass-on-void toad · the etched form of \"fuzzy-palm-tree\" · THRL: A phase-locked resonant energy loop that maintains a h",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fuzzy-palm-tree",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-kard",
+      "name": "kard",
+      "faction": "GROUND",
+      "cost": 6,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "substrate",
+        "taunt"
+      ],
+      "text": "Substrate.  KARD · the -deck duel · sovereign single-file AI-augmentable card game · 7 fact",
+      "art": "a brass-on-void snail · the etched form of \"kard\" · ◊ KARD · the κ-deck duel · sovereign single-file AI-augmenta",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/kard",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-legalmon",
+      "name": "Legalmon",
+      "faction": "GROUND",
+      "cost": 6,
+      "type": "creature",
+      "attack": 4,
+      "health": 5,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. Legalmon, Legislative Monsters",
+      "art": "a brass-on-void snail · the etched form of \"Legalmon\" · Legalmon, Legislative Monsters",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/Legalmon",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallslot",
+      "name": "fallslot",
+      "faction": "GROUND",
+      "cost": 7,
+      "type": "creature",
+      "attack": 3,
+      "health": 2,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. Share a calendar link · sovereign · single HTML · zero subscription · obsoletes",
+      "art": "a brass-on-void tortoise · the etched form of \"fallslot\" · Share a calendar link · sovereign · single HTML · zero subsc",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallslot",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-flux-api",
+      "name": "flux-api",
+      "faction": "GROUND",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 1,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. AI Content Engine API - blog posts, social media, email campaigns, ad copy, land",
+      "art": "a brass-on-void toad · the etched form of \"flux-api\" · AI Content Engine API - blog posts, social media, email camp",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/flux-api",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-chat",
+      "name": "chat",
+      "faction": "GROUND",
+      "cost": 7,
+      "type": "creature",
+      "attack": 1,
+      "health": 1,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. chat",
+      "art": "a brass-on-void mole · the etched form of \"chat\" · chat",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/chat",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-garythegalvinator",
+      "name": "GaryTheGalvinator",
+      "faction": "GROUND",
+      "cost": 7,
+      "type": "creature",
+      "attack": 5,
+      "health": 3,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. Type 1 Galvinator",
+      "art": "a brass-on-void tortoise · the etched form of \"GaryTheGalvinator\" · Type 1 Galvinator",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/GaryTheGalvinator",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-isa5-1",
+      "name": "ISA5.1",
+      "faction": "GROUND",
+      "cost": 7,
+      "type": "creature",
+      "attack": 1,
+      "health": 5,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. ISA 5.1",
+      "art": "a brass-on-void toad · the etched form of \"ISA5.1\" · ISA 5.1 ",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/ISA5.1",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-mo",
+      "name": "Mo",
+      "faction": "GROUND",
+      "cost": 7,
+      "type": "creature",
+      "attack": 6,
+      "health": 3,
+      "abilities": [
+        "taunt"
+      ],
+      "text": "Taunt. Mo",
+      "art": "a brass-on-void toad · the etched form of \"Mo\" · Mo",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/Mo",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-taco",
+      "name": "taco",
+      "faction": "GROUND",
+      "cost": 7,
+      "type": "creature",
+      "attack": 3,
+      "health": 2,
+      "abilities": [
+        "taunt",
+        "substrate"
+      ],
+      "text": "Taunt. taco",
+      "art": "a brass-on-void tortoise · the etched form of \"taco\" · taco",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/taco",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-botler",
+      "name": "botler",
+      "faction": "HEART",
+      "cost": 1,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "mesh",
+        "lifesteal"
+      ],
+      "text": "Mesh. sovereign personal memory agent · WebLLM offline · OAuth client-side · your mach",
+      "art": "a brass-on-void bear · the etched form of \"botler\" · sovereign personal memory agent · WebLLM offline · OAuth cli",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/botler",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-ass2mouth",
+      "name": "ASS2MOUTH",
+      "faction": "HEART",
+      "cost": 1,
+      "type": "creature",
+      "attack": 5,
+      "health": 7,
+      "abilities": [
+        "lifesteal"
+      ],
+      "text": "Lifesteal. ASS-OS Vagal Phoneme Reference Engine",
+      "art": "a brass-on-void elephant · the etched form of \"ASS2MOUTH\" · ASS-OS Vagal Phoneme Reference Engine ",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/ASS2MOUTH",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-boioioiinggggg",
+      "name": "Boioioiinggggg",
+      "faction": "HEART",
+      "cost": 1,
+      "type": "creature",
+      "attack": 7,
+      "health": 6,
+      "abilities": [
+        "lifesteal"
+      ],
+      "text": "Lifesteal. Boioioiinggggg",
+      "art": "a brass-on-void bear · the etched form of \"Boioioiinggggg\" · Boioioiinggggg",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/Boioioiinggggg",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-filecabinet",
+      "name": "filecabinet",
+      "faction": "HEART",
+      "cost": 1,
+      "type": "creature",
+      "attack": 7,
+      "health": 4,
+      "abilities": [
+        "mesh",
+        "lifesteal"
+      ],
+      "text": "Mesh. 3d filing cabinet factory",
+      "art": "a brass-on-void bear · the etched form of \"filecabinet\" · 3d filing cabinet factory",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/filecabinet",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-stlayinalive",
+      "name": "STLayinAlive",
+      "faction": "HEART",
+      "cost": 1,
+      "type": "creature",
+      "attack": 6,
+      "health": 5,
+      "abilities": [
+        "mesh",
+        "lifesteal"
+      ],
+      "text": "Mesh. Ahhh AHhhh ahhhh STLayin Alive STL library",
+      "art": "a brass-on-void wolf · the etched form of \"STLayinAlive\" · Ahhh AHhhh ahhhh STLayin Alive STL library ",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/STLayinAlive",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-falloffice",
+      "name": "falloffice",
+      "faction": "HEART",
+      "cost": 2,
+      "type": "creature",
+      "attack": 4,
+      "health": 7,
+      "abilities": [
+        "lifesteal"
+      ],
+      "text": "Lifesteal.",
+      "art": "a brass-on-void elephant · the etched form of \"falloffice\" · R3 · care · 31.32 Hz · the empathic ones",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/falloffice",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-lrm",
+      "name": "LRM",
+      "faction": "HEART",
+      "cost": 2,
+      "type": "creature",
+      "attack": 5,
+      "health": 7,
+      "abilities": [
+        "mesh"
+      ],
+      "text": "Mesh. LARGE REPO MODEL LRM  Predicts the next file, not the next word",
+      "art": "a brass-on-void bear · the etched form of \"LRM\" · LARGE REPO MODEL (LRM)  \"Predicts the next file, not the nex",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/LRM",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-simon",
+      "name": "simon",
+      "faction": "HEART",
+      "cost": 2,
+      "type": "creature",
+      "attack": 3,
+      "health": 3,
+      "abilities": [
+        "lifesteal",
+        "mesh"
+      ],
+      "text": "Lifesteal. simon example",
+      "art": "a brass-on-void elephant · the etched form of \"simon\" · simon example",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/simon",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallaccount-trades",
+      "name": "fallaccount-trades",
+      "faction": "HEART",
+      "cost": 3,
+      "type": "creature",
+      "attack": 6,
+      "health": 2,
+      "abilities": [
+        "mesh"
+      ],
+      "text": "Mesh. Sovereign accounts app for UK builders, plumbers, sparkies, plasterers. One HTML",
+      "art": "a brass-on-void elephant · the etched form of \"fallaccount-trades\" · Sovereign accounts app for UK builders, plumbers, sparkies, ",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallaccount-trades",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallharmony",
+      "name": "fallharmony",
+      "faction": "HEART",
+      "cost": 3,
+      "type": "creature",
+      "attack": 3,
+      "health": 7,
+      "abilities": [
+        "mesh"
+      ],
+      "text": "Mesh. FallHarmony · operational cockpit · prime 601 · ·1",
+      "art": "a brass-on-void seal · the etched form of \"fallharmony\" · FallHarmony · operational cockpit · prime 601 · ◊·κ=1",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallharmony",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-jedi",
+      "name": "JEDI",
+      "faction": "HEART",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 5,
+      "abilities": [
+        "mesh",
+        "lifesteal"
+      ],
+      "text": "Mesh. JEDI",
+      "art": "a brass-on-void seal · the etched form of \"JEDI\" · JEDI ",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/JEDI",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-node-001",
+      "name": "NODE-001",
+      "faction": "HEART",
+      "cost": 3,
+      "type": "creature",
+      "attack": 4,
+      "health": 6,
+      "abilities": [
+        "mesh"
+      ],
+      "text": "Mesh. Wearable AI Companion System",
+      "art": "a brass-on-void seal · the etched form of \"NODE-001\" · Wearable AI Companion System",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/NODE-001",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-shawarmaking",
+      "name": "ShawarmaKing",
+      "faction": "HEART",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 1,
+      "abilities": [
+        "lifesteal"
+      ],
+      "text": "Lifesteal. Shawarma King",
+      "art": "a brass-on-void dog · the etched form of \"ShawarmaKing\" · Shawarma King",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/ShawarmaKing",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fall-bloom",
+      "name": "fall-bloom",
+      "faction": "HEART",
+      "cost": 4,
+      "type": "creature",
+      "attack": 2,
+      "health": 5,
+      "abilities": [
+        "mesh"
+      ],
+      "text": "Mesh. Text to 7-ring bloom vector decomposition · spine primes 2,3,5,7,11,13,17 · drop",
+      "art": "a brass-on-void elephant · the etched form of \"fall-bloom\" · Text to 7-ring bloom vector decomposition · spine primes 2,3",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-bloom",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallgravity",
+      "name": "fallgravity",
+      "faction": "HEART",
+      "cost": 4,
+      "type": "creature",
+      "attack": 6,
+      "health": 5,
+      "abilities": [
+        "mesh",
+        "lifesteal"
+      ],
+      "text": "Mesh. LinkedIn algorithm strategy tool · post scorer · hook generator · 90-min boost w",
+      "art": "a brass-on-void dog · the etched form of \"fallgravity\" · LinkedIn algorithm strategy tool · post scorer · hook genera",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallgravity",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-upgraded-fiesta",
+      "name": "upgraded-fiesta",
+      "faction": "HEART",
+      "cost": 4,
+      "type": "creature",
+      "attack": 6,
+      "health": 2,
+      "abilities": [
+        "mesh",
+        "lifesteal"
+      ],
+      "text": "Mesh. Repo Name Policy-Phi-Fighter Description Open-source tool to generate structured",
+      "art": "a brass-on-void dog · the etched form of \"upgraded-fiesta\" · Repo Name: Policy-Phi-Fighter Description: Open-source tool ",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/upgraded-fiesta",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallform",
+      "name": "fallform",
+      "faction": "HEART",
+      "cost": 5,
+      "type": "creature",
+      "attack": 5,
+      "health": 2,
+      "abilities": [
+        "mesh"
+      ],
+      "text": "Mesh. Forms · no response cap · ever · sovereign single HTML · obsoletes Typeform/JotF",
+      "art": "a brass-on-void okapi · the etched form of \"fallform\" · Forms · no response cap · ever · sovereign single HTML · obs",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallform",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallhire",
+      "name": "fallhire",
+      "faction": "HEART",
+      "cost": 5,
+      "type": "creature",
+      "attack": 6,
+      "health": 3,
+      "abilities": [
+        "lifesteal"
+      ],
+      "text": "Lifesteal.  fallhire · sovereign hiring pipeline  interview scorecard · single HTML · prime",
+      "art": "a brass-on-void elephant · the etched form of \"fallhire\" · ◊ fallhire · sovereign hiring pipeline + interview scorecard",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallhire",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-charlottesweb",
+      "name": "charlottesweb",
+      "faction": "HEART",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 6,
+      "abilities": [
+        "lifesteal"
+      ],
+      "text": "Lifesteal. charlottesweb audio therapy lupus song repository",
+      "art": "a brass-on-void okapi · the etched form of \"charlottesweb\" · charlottesweb audio therapy lupus song repository",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/charlottesweb",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallcrm",
+      "name": "fallcrm",
+      "faction": "HEART",
+      "cost": 7,
+      "type": "creature",
+      "attack": 5,
+      "health": 6,
+      "abilities": [
+        "lifesteal",
+        "mesh"
+      ],
+      "text": "Lifesteal.  fallcrm · sovereign single-file CRM · the delete-HubSpot wedge · prime 373",
+      "art": "a brass-on-void seal · the etched form of \"fallcrm\" · ◊ fallcrm · sovereign single-file CRM · the delete-HubSpot w",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcrm",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallsalescrm",
+      "name": "fallsalescrm",
+      "faction": "HEART",
+      "cost": 7,
+      "type": "creature",
+      "attack": 3,
+      "health": 7,
+      "abilities": [
+        "mesh",
+        "lifesteal"
+      ],
+      "text": "Mesh. Sovereign Salesforce replacement. Single HTML file. Your data stays yours.",
+      "art": "a brass-on-void bear · the etched form of \"fallsalescrm\" · Sovereign Salesforce replacement. Single HTML file. Your dat",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallsalescrm",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-gitway",
+      "name": "gitway",
+      "faction": "HEART",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 1,
+      "abilities": [
+        "mesh",
+        "lifesteal"
+      ],
+      "text": "Mesh. gitway",
+      "art": "a brass-on-void pelican · the etched form of \"gitway\" · gitway",
+      "prime": 7,
+      "ring": "R3",
+      "konomi_grant": "https://github.com/teslasolar/gitway",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fall-substrate",
+      "name": "fall-substrate",
+      "faction": "MIRROR",
+      "cost": 1,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Recurse.  fall-substrate · the cognitive substrate · research  spec  tool  ship · flagshi",
+      "art": "a brass-on-void koi · the etched form of \"fall-substrate\" · ◊ fall-substrate · the cognitive substrate · research → spec",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-substrate",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-gittag",
+      "name": "GITTAG",
+      "faction": "MIRROR",
+      "cost": 1,
+      "type": "creature",
+      "attack": 7,
+      "health": 1,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. ISA-95 tag database for GitPLC/GitHMI/GitSCADA  namespace tree, tag browser, inl",
+      "art": "a brass-on-void watchdog · the etched form of \"GITTAG\" · ISA-95 tag database for GitPLC/GitHMI/GitSCADA — namespace t",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/GITTAG",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-d2rlol",
+      "name": "d2rlol",
+      "faction": "MIRROR",
+      "cost": 2,
+      "type": "creature",
+      "attack": 4,
+      "health": 1,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. lol",
+      "art": "a brass-on-void moth · the etched form of \"d2rlol\" · lol",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/d2rlol",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-thehole",
+      "name": "TheHole",
+      "faction": "MIRROR",
+      "cost": 2,
+      "type": "creature",
+      "attack": 3,
+      "health": 4,
+      "abilities": [
+        "konomi",
+        "recurse"
+      ],
+      "text": "Konomi. The Whole Hole. Wholesome",
+      "art": "a brass-on-void watchdog · the etched form of \"TheHole\" · The Whole Hole. Wholesome",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/TheHole",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-nhs-reinjection",
+      "name": "nhs-reinjection",
+      "faction": "MIRROR",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 5,
+      "abilities": [
+        "konomi",
+        "recurse"
+      ],
+      "text": "Konomi. Sovereign single-file calculator. Audited contractor margins  verified outsource",
+      "art": "a brass-on-void koi · the etched form of \"nhs-reinjection\" · Sovereign single-file calculator. Audited contractor margins",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/nhs-reinjection",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-laughing-octo-guacamole",
+      "name": "laughing-octo-guacamole",
+      "faction": "MIRROR",
+      "cost": 3,
+      "type": "creature",
+      "attack": 4,
+      "health": 2,
+      "abilities": [
+        "recurse"
+      ],
+      "text": "Recurse. Planetary Stigmergic Governance Mesh",
+      "art": "a brass-on-void newt · the etched form of \"laughing-octo-guacamole\" · Planetary Stigmergic Governance Mesh ",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/laughing-octo-guacamole",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-probable-telegram",
+      "name": "probable-telegram",
+      "faction": "MIRROR",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 3,
+      "abilities": [
+        "recurse"
+      ],
+      "text": "Recurse. Diagnostic Braid is an open-source diagnostic architecture that detects health i",
+      "art": "a brass-on-void watchdog · the etched form of \"probable-telegram\" · Diagnostic Braid is an open-source diagnostic architecture t",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/probable-telegram",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-gitnition",
+      "name": "GITNITION",
+      "faction": "MIRROR",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 7,
+      "abilities": [
+        "recurse"
+      ],
+      "text": "Recurse. Git-native Ignition Gateway interface  discover, connect, browse, sync tags with",
+      "art": "a brass-on-void snake · the etched form of \"GITNITION\" · Git-native Ignition Gateway interface — discover, connect, b",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/GITNITION",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-gloom",
+      "name": "gloom",
+      "faction": "MIRROR",
+      "cost": 3,
+      "type": "creature",
+      "attack": 6,
+      "health": 3,
+      "abilities": [
+        "shield",
+        "recurse"
+      ],
+      "text": "Shield. doom LOL",
+      "art": "a brass-on-void koi · the etched form of \"gloom\" · doom LOL",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/gloom",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-isachieve",
+      "name": "ISAchieve",
+      "faction": "MIRROR",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 3,
+      "abilities": [
+        "recurse",
+        "shield"
+      ],
+      "text": "Recurse. ISAchieve-ment system",
+      "art": "a brass-on-void moth · the etched form of \"ISAchieve\" · ISAchieve-ment system",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/ISAchieve",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-legalcode-blackslaw",
+      "name": "LegalCode-BlacksLaw",
+      "faction": "MIRROR",
+      "cost": 3,
+      "type": "creature",
+      "attack": 2,
+      "health": 2,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. Legal Code Blacks Law reference",
+      "art": "a brass-on-void newt · the etched form of \"LegalCode-BlacksLaw\" · Legal Code: Black's Law reference ",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/LegalCode-BlacksLaw",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallanno",
+      "name": "fallanno",
+      "faction": "MIRROR",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 1,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. Sovereign data annotation · workers own attribution · multi-rail pay · the DataA",
+      "art": "a brass-on-void koi · the etched form of \"fallanno\" · Sovereign data annotation · workers own attribution · multi-",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallanno",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-konomi-signer",
+      "name": "konomi-signer",
+      "faction": "MIRROR",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 2,
+      "abilities": [
+        "recurse"
+      ],
+      "text": "Recurse. Sovereign Ed25519 trial signer · imported by every estate products forge.html ·",
+      "art": "a brass-on-void crow · the etched form of \"konomi-signer\" · Sovereign Ed25519 trial signer · imported by every estate pr",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/konomi-signer",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-gitdb",
+      "name": "gitdb",
+      "faction": "MIRROR",
+      "cost": 4,
+      "type": "creature",
+      "attack": 5,
+      "health": 1,
+      "abilities": [
+        "recurse",
+        "konomi"
+      ],
+      "text": "Recurse. github database",
+      "art": "a brass-on-void canary · the etched form of \"gitdb\" · github database ",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/gitdb",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-ignition-linux-installer",
+      "name": "ignition-linux-installer",
+      "faction": "MIRROR",
+      "cost": 4,
+      "type": "creature",
+      "attack": 1,
+      "health": 7,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. Ignition Linux Installer package 1.8GB managed with Git LFS",
+      "art": "a brass-on-void canary · the etched form of \"ignition-linux-installer\" · Ignition Linux Installer package (1.8GB) managed with Git LF",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/ignition-linux-installer",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallflow",
+      "name": "fallflow",
+      "faction": "MIRROR",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 1,
+      "abilities": [
+        "recurse",
+        "konomi"
+      ],
+      "text": "Recurse.  fallflow · 14-day cash-runway early-warning · Friday-by-Friday red/green wall ·",
+      "art": "a brass-on-void snake · the etched form of \"fallflow\" · ◊ fallflow · 14-day cash-runway early-warning · Friday-by-Fr",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallflow",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-industrialintelligence",
+      "name": "IndustrialIntelligence",
+      "faction": "MIRROR",
+      "cost": 5,
+      "type": "creature",
+      "attack": 3,
+      "health": 2,
+      "abilities": [
+        "shield",
+        "recurse"
+      ],
+      "text": "Shield.",
+      "art": "a brass-on-void raccoon · the etched form of \"IndustrialIntelligence\" · R5 · verify · 46.98 Hz · the witnesses",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/IndustrialIntelligence",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-teslamodel3",
+      "name": "teslamodel3",
+      "faction": "MIRROR",
+      "cost": 5,
+      "type": "creature",
+      "attack": 4,
+      "health": 4,
+      "abilities": [
+        "recurse"
+      ],
+      "text": "Recurse. tesla model 3",
+      "art": "a brass-on-void snake · the etched form of \"teslamodel3\" · tesla model 3",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/teslamodel3",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fall-kqtt-bridge",
+      "name": "fall-kqtt-bridge",
+      "faction": "MIRROR",
+      "cost": 6,
+      "type": "creature",
+      "attack": 5,
+      "health": 1,
+      "abilities": [
+        "konomi",
+        "recurse"
+      ],
+      "text": "Konomi.  fall-kqtt-bridge · BroadcastChannelfall-signal  GS.KQTT · 50-LOC bridge for tes",
+      "art": "a brass-on-void crow · the etched form of \"fall-kqtt-bridge\" · ◊ fall-kqtt-bridge · BroadcastChannel('fall-signal') ↔ GS.KQ",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-kqtt-bridge",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-assosignition",
+      "name": "ASSOSIGNITION",
+      "faction": "MIRROR",
+      "cost": 6,
+      "type": "creature",
+      "attack": 2,
+      "health": 4,
+      "abilities": [
+        "shield",
+        "konomi"
+      ],
+      "text": "Shield. Seven Rings In Your Plant, It was a Tree the whole time",
+      "art": "a brass-on-void koi · the etched form of \"ASSOSIGNITION\" · Seven Rings In Your Plant, It was a Tree the whole time! ",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/ASSOSIGNITION",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-bodyatlas",
+      "name": "bodyatlas",
+      "faction": "MIRROR",
+      "cost": 6,
+      "type": "creature",
+      "attack": 3,
+      "health": 4,
+      "abilities": [
+        "recurse",
+        "konomi"
+      ],
+      "text": "Recurse. bodyatlas",
+      "art": "a brass-on-void crow · the etched form of \"bodyatlas\" · bodyatlas",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/bodyatlas",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-pla-",
+      "name": "PLA-",
+      "faction": "MIRROR",
+      "cost": 6,
+      "type": "creature",
+      "attack": 7,
+      "health": 7,
+      "abilities": [
+        "konomi",
+        "recurse"
+      ],
+      "text": "Konomi. Pole Loading Analysis",
+      "art": "a brass-on-void watchdog · the etched form of \"PLA-\" · Pole Loading Analysis",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/PLA-",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fall-verify",
+      "name": "fall-verify",
+      "faction": "MIRROR",
+      "cost": 7,
+      "type": "creature",
+      "attack": 3,
+      "health": 5,
+      "abilities": [
+        "recurse"
+      ],
+      "text": "Recurse.  fall-verify · adversarial verification · 3-vote refute panel · did Claude hallu",
+      "art": "a brass-on-void canary · the etched form of \"fall-verify\" · ◊ fall-verify · adversarial verification · 3-vote refute pan",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-verify",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallescape",
+      "name": "fallescape",
+      "faction": "MIRROR",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 4,
+      "abilities": [
+        "shield",
+        "recurse"
+      ],
+      "text": "Shield. Sovereign emergency egress kit · if everything dies, rebuild in 20 min · MIT · ·",
+      "art": "a brass-on-void koi · the etched form of \"fallescape\" · Sovereign emergency egress kit · if everything dies, rebuild",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallescape",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-chameleon",
+      "name": "Chameleon",
+      "faction": "MIRROR",
+      "cost": 7,
+      "type": "creature",
+      "attack": 6,
+      "health": 5,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. Chamelon CLI - Intelligent Cross OS / System Compatability",
+      "art": "a brass-on-void raccoon · the etched form of \"Chameleon\" · Chamelon CLI - Intelligent Cross OS / System Compatability",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/Chameleon",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-ignitionobject",
+      "name": "IgnitionObject",
+      "faction": "MIRROR",
+      "cost": 7,
+      "type": "creature",
+      "attack": 6,
+      "health": 2,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield. Literally LOL",
+      "art": "a brass-on-void moth · the etched form of \"IgnitionObject\" · Literally LOL ",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/IgnitionObject",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-konception",
+      "name": "Konception",
+      "faction": "MIRROR",
+      "cost": 7,
+      "type": "creature",
+      "attack": 4,
+      "health": 6,
+      "abilities": [
+        "konomi",
+        "shield"
+      ],
+      "text": "Konomi. Konomi Konception",
+      "art": "a brass-on-void watchdog · the etched form of \"Konception\" · Konomi Konception",
+      "prime": 13,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/teslasolar/Konception",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-3d",
+      "name": "3d",
+      "faction": "SIGNAL",
+      "cost": 1,
+      "type": "creature",
+      "attack": 5,
+      "health": 4,
+      "abilities": [
+        "charge",
+        "rush"
+      ],
+      "text": "Charge. 3d",
+      "art": "a brass-on-void otter · the etched form of \"3d\" · 3d",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/3d",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-aicraftspeopleguild-github-io",
+      "name": "aicraftspeopleguild.github.io",
+      "faction": "SIGNAL",
+      "cost": 1,
+      "type": "creature",
+      "attack": 7,
+      "health": 7,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Im trying",
+      "art": "a brass-on-void swallow · the etched form of \"aicraftspeopleguild.github.io\" · I'm trying",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/aicraftspeopleguild.github.io",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-berzerk",
+      "name": "berzerk",
+      "faction": "SIGNAL",
+      "cost": 1,
+      "type": "creature",
+      "attack": 7,
+      "health": 1,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. berzerk",
+      "art": "a brass-on-void swallow · the etched form of \"berzerk\" · berzerk",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/berzerk",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-congenial-giggle",
+      "name": "congenial-giggle",
+      "faction": "SIGNAL",
+      "cost": 2,
+      "type": "creature",
+      "attack": 2,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Open-Source Diagnostic Braid OSDB",
+      "art": "a brass-on-void cricket · the etched form of \"congenial-giggle\" · Open-Source Diagnostic Braid (OSDB)",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/sjgant80-hub/congenial-giggle",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-eye-of-mind",
+      "name": "Eye-of-Mind",
+      "faction": "SIGNAL",
+      "cost": 2,
+      "type": "creature",
+      "attack": 4,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Eye of the Mind",
+      "art": "a brass-on-void dragonfly · the etched form of \"Eye-of-Mind\" · Eye of the Mind ",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/Eye-of-Mind",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-igotvd",
+      "name": "IGotVD",
+      "faction": "SIGNAL",
+      "cost": 2,
+      "type": "creature",
+      "attack": 2,
+      "health": 6,
+      "abilities": [
+        "charge",
+        "rush"
+      ],
+      "text": "Charge. You need a virtual Desktop  I got u.",
+      "art": "a brass-on-void hare · the etched form of \"IGotVD\" · You need a virtual Desktop?  I got u. ",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/IGotVD",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-jdugame",
+      "name": "jdugame",
+      "faction": "SIGNAL",
+      "cost": 2,
+      "type": "creature",
+      "attack": 7,
+      "health": 4,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. jdugame",
+      "art": "a brass-on-void swallow · the etched form of \"jdugame\" · jdugame",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/jdugame",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallpost",
+      "name": "fallpost",
+      "faction": "SIGNAL",
+      "cost": 3,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Charge. Sovereign LinkedIn engine · JungFreudSales 101 baked in · BYOK cascade · soverei",
+      "art": "a brass-on-void hare · the etched form of \"fallpost\" · Sovereign LinkedIn engine · Jung+Freud+Sales 101 baked in · ",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallpost",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-solid-journey",
+      "name": "solid-journey",
+      "faction": "SIGNAL",
+      "cost": 3,
+      "type": "creature",
+      "attack": 2,
+      "health": 4,
+      "abilities": [
+        "charge",
+        "rush"
+      ],
+      "text": "Charge.  AI Orchestration  Spore 001 The Mycelial Cognition Architecture MCA",
+      "art": "a brass-on-void finch · the etched form of \"solid-journey\" · 🧠 AI Orchestration — Spore 001: The Mycelial Cognition Arch",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/sjgant80-hub/solid-journey",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-buissure",
+      "name": "buissure",
+      "faction": "SIGNAL",
+      "cost": 3,
+      "type": "creature",
+      "attack": 5,
+      "health": 7,
+      "abilities": [
+        "rush"
+      ],
+      "text": "Rush.",
+      "art": "a brass-on-void eel · the etched form of \"buissure\" · R1 · signal · 15.66 Hz · the messengers",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/buissure",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-xp",
+      "name": "XP",
+      "faction": "SIGNAL",
+      "cost": 3,
+      "type": "creature",
+      "attack": 5,
+      "health": 1,
+      "abilities": [
+        "rush",
+        "charge"
+      ],
+      "text": "Rush. XP baby",
+      "art": "a brass-on-void eel · the etched form of \"XP\" · XP baby",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/XP",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-deep-api",
+      "name": "deep-api",
+      "faction": "SIGNAL",
+      "cost": 4,
+      "type": "creature",
+      "attack": 1,
+      "health": 6,
+      "abilities": [
+        "rush"
+      ],
+      "text": "Rush. AI Deep Research API - ask anything, get structured intelligence reports with ci",
+      "art": "a brass-on-void dragonfly · the etched form of \"deep-api\" · AI Deep Research API - ask anything, get structured intellig",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/sjgant80-hub/deep-api",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallflip",
+      "name": "fallflip",
+      "faction": "SIGNAL",
+      "cost": 4,
+      "type": "creature",
+      "attack": 3,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. The mirror · LinkedIn self-promo flip tool · paste their comment, get two respon",
+      "art": "a brass-on-void hare · the etched form of \"fallflip\" · The mirror · LinkedIn self-promo flip tool · paste their com",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallflip",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-scaling-octo-couscous",
+      "name": "scaling-octo-couscous",
+      "faction": "SIGNAL",
+      "cost": 4,
+      "type": "creature",
+      "attack": 5,
+      "health": 4,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Thermodynamic Intelligence lattice",
+      "art": "a brass-on-void dragonfly · the etched form of \"scaling-octo-couscous\" · Thermodynamic Intelligence lattice",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/sjgant80-hub/scaling-octo-couscous",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-si-didy-agent",
+      "name": "si-didy-agent",
+      "faction": "SIGNAL",
+      "cost": 4,
+      "type": "creature",
+      "attack": 6,
+      "health": 7,
+      "abilities": [
+        "rush"
+      ],
+      "text": "Rush. Sovereign computer-use agent · Claude Agent SDK  Playwright · subscription auth",
+      "art": "a brass-on-void bat · the etched form of \"si-didy-agent\" · Sovereign computer-use agent · Claude Agent SDK + Playwright",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/sjgant80-hub/si-didy-agent",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-gune",
+      "name": "Gune",
+      "faction": "SIGNAL",
+      "cost": 4,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "rush",
+        "charge"
+      ],
+      "text": "Rush. Gune",
+      "art": "a brass-on-void cricket · the etched form of \"Gune\" · Gune",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/Gune",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-ignition-ref",
+      "name": "ignition_ref",
+      "faction": "SIGNAL",
+      "cost": 4,
+      "type": "creature",
+      "attack": 7,
+      "health": 1,
+      "abilities": [
+        "charge",
+        "rush"
+      ],
+      "text": "Charge. Ignition 8.3 ref",
+      "art": "a brass-on-void finch · the etched form of \"ignition_ref\" · Ignition 8.3 ref",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/ignition_ref",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-2girls1stallcup",
+      "name": "2girls1STALLCUP",
+      "faction": "SIGNAL",
+      "cost": 5,
+      "type": "creature",
+      "attack": 6,
+      "health": 7,
+      "abilities": [
+        "charge",
+        "rush"
+      ],
+      "text": "Charge. There may be two girls, but theres only 1 STALLCUP.",
+      "art": "a brass-on-void otter · the etched form of \"2girls1STALLCUP\" · There may be two girls, but there's only 1 STALLCUP.",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/2girls1STALLCUP",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-ignition-uninstaller",
+      "name": "ignition-uninstaller",
+      "faction": "SIGNAL",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 3,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Ignition Uninstaller executable 46MB managed with Git LFS",
+      "art": "a brass-on-void cricket · the etched form of \"ignition-uninstaller\" · Ignition Uninstaller executable (46MB) managed with Git LFS",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/ignition-uninstaller",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-nac",
+      "name": "NAC",
+      "faction": "SIGNAL",
+      "cost": 5,
+      "type": "creature",
+      "attack": 4,
+      "health": 7,
+      "abilities": [
+        "charge",
+        "rush"
+      ],
+      "text": "Charge. Northampton County",
+      "art": "a brass-on-void dragonfly · the etched form of \"NAC\" · Northampton County",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/NAC",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-theopengate",
+      "name": "TheOpenGate",
+      "faction": "SIGNAL",
+      "cost": 5,
+      "type": "creature",
+      "attack": 6,
+      "health": 6,
+      "abilities": [
+        "rush"
+      ],
+      "text": "Rush. Taboo is Taboo here",
+      "art": "a brass-on-void finch · the etched form of \"TheOpenGate\" · Taboo is Taboo here",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/TheOpenGate",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-zoo",
+      "name": "zoo",
+      "faction": "SIGNAL",
+      "cost": 5,
+      "type": "creature",
+      "attack": 4,
+      "health": 2,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge.",
+      "art": "a brass-on-void swallow · the etched form of \"zoo\" · R1 · signal · 15.66 Hz · the messengers",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/zoo",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-solid-fiesta",
+      "name": "solid-fiesta",
+      "faction": "SIGNAL",
+      "cost": 6,
+      "type": "creature",
+      "attack": 6,
+      "health": 4,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge.  AI Orchestration Spore Mycelial Cognition Architecture MCA  A Defensive Publica",
+      "art": "a brass-on-void swallow · the etched form of \"solid-fiesta\" · 🧠 AI Orchestration Spore Mycelial Cognition Architecture (M",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/sjgant80-hub/solid-fiesta",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-repl",
+      "name": "repl",
+      "faction": "SIGNAL",
+      "cost": 6,
+      "type": "creature",
+      "attack": 5,
+      "health": 6,
+      "abilities": [
+        "rush"
+      ],
+      "text": "Rush. repl LOL",
+      "art": "a brass-on-void hare · the etched form of \"repl\" · repl LOL",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/repl",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-arreatsummit",
+      "name": "ArreatSummit",
+      "faction": "SIGNAL",
+      "cost": 7,
+      "type": "creature",
+      "attack": 4,
+      "health": 2,
+      "abilities": [
+        "charge",
+        "rush"
+      ],
+      "text": "Charge. Arreat Summit D2R",
+      "art": "a brass-on-void finch · the etched form of \"ArreatSummit\" · Arreat Summit D2R",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/ArreatSummit",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-gitcontrol",
+      "name": "GITCONTROL",
+      "faction": "SIGNAL",
+      "cost": 7,
+      "type": "creature",
+      "attack": 6,
+      "health": 4,
+      "abilities": [
+        "rush"
+      ],
+      "text": "Rush. Master control hub  links GitPLC  GitHMI  GitTAG  GitSCADA into a single pane of",
+      "art": "a brass-on-void bat · the etched form of \"GITCONTROL\" · Master control hub — links GitPLC + GitHMI + GitTAG + GitSCA",
+      "prime": 3,
+      "ring": "R1",
+      "konomi_grant": "https://github.com/teslasolar/GITCONTROL",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-super-barnacle",
+      "name": "super-barnacle",
+      "faction": "VOICE",
+      "cost": 1,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Cool shit with ai and energy or whateva",
+      "art": "a brass-on-void bowerbird · the etched form of \"super-barnacle\" · Cool shit with ai and energy or whateva",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/super-barnacle",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-acg-repo-template",
+      "name": "ACG_Repo_Template",
+      "faction": "VOICE",
+      "cost": 1,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Charge. ACG Repo Template",
+      "art": "a brass-on-void thrush · the etched form of \"ACG_Repo_Template\" · ACG Repo Template",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACG_Repo_Template",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-claude",
+      "name": "claude",
+      "faction": "VOICE",
+      "cost": 1,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. claude pred",
+      "art": "a brass-on-void salamander · the etched form of \"claude\" · claude pred ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/claude",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-goldenshower",
+      "name": "GoldenShower",
+      "faction": "VOICE",
+      "cost": 1,
+      "type": "creature",
+      "attack": 4,
+      "health": 2,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Goldeneye for Gitpages",
+      "art": "a brass-on-void bowerbird · the etched form of \"GoldenShower\" · Goldeneye for Gitpages",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/GoldenShower",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-sisyphusian-orchestra",
+      "name": "Sisyphusian-Orchestra",
+      "faction": "VOICE",
+      "cost": 1,
+      "type": "creature",
+      "attack": 4,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Sisyphusian Orchestra",
+      "art": "a brass-on-void crane · the etched form of \"Sisyphusian-Orchestra\" · Sisyphusian Orchestra",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/Sisyphusian-Orchestra",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-tommysbloom",
+      "name": "tommysbloom",
+      "faction": "VOICE",
+      "cost": 1,
+      "type": "creature",
+      "attack": 1,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. open",
+      "art": "a brass-on-void phoenix · the etched form of \"tommysbloom\" · open",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/tommysbloom",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-suno",
+      "name": "suno",
+      "faction": "VOICE",
+      "cost": 1,
+      "type": "creature",
+      "attack": 6,
+      "health": 4,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. konomi suno api",
+      "art": "a brass-on-void bowerbird · the etched form of \"suno\" · konomi suno api ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/suno",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallonion",
+      "name": "fallonion",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 1,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Sovereign Tor hidden service mirror · for censored jurisdictions · MIT · ·1 · pr",
+      "art": "a brass-on-void salamander · the etched form of \"fallonion\" · Sovereign Tor hidden service mirror · for censored jurisdict",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallonion",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallvault",
+      "name": "fallvault",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 2,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. Sovereign emergency backup · one HTML file · AES-256-GCM in your browser · MIT ·",
+      "art": "a brass-on-void thrush · the etched form of \"fallvault\" · Sovereign emergency backup · one HTML file · AES-256-GCM in ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallvault",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-acg-ballroom",
+      "name": "ACG-Ballroom",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 2,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. ACG Ballroom - The floor is yours.",
+      "art": "a brass-on-void spider · the etched form of \"ACG-Ballroom\" · ACG Ballroom - The floor is yours. ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACG-Ballroom",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-acg-test",
+      "name": "ACG-Test",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 7,
+      "health": 4,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge. ACG test standard",
+      "art": "a brass-on-void bee · the etched form of \"ACG-Test\" · ACG test standard",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACG-Test",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-acgeden",
+      "name": "ACGEDEN",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 1,
+      "health": 1,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. 3D Git Eden visualization Grow insight",
+      "art": "a brass-on-void salamander · the etched form of \"ACGEDEN\" · 3D Git Eden visualization: Grow insight",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACGEDEN",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-equineai",
+      "name": "EquineAI",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 4,
+      "health": 3,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge. The Magnum of Horse Talks",
+      "art": "a brass-on-void bee · the etched form of \"EquineAI\" · The Magnum of Horse Talks",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/EquineAI",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-geyass",
+      "name": "GEYASS",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 6,
+      "health": 2,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Gradient Eden Yggdrasil Assembly Sub-System",
+      "art": "a brass-on-void crane · the etched form of \"GEYASS\" · Gradient Eden Yggdrasil Assembly Sub-System ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/GEYASS",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-kleingedruckt",
+      "name": "KLEINGEDRUCKT",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 3,
+      "health": 2,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. PROJEKT KLEINGEDRUCKT Sub-1000 Micro-Resolution 3D Printing",
+      "art": "a brass-on-void phoenix · the etched form of \"KLEINGEDRUCKT\" · PROJEKT KLEINGEDRUCKT Sub-$1000 Micro-Resolution 3D Printing",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/KLEINGEDRUCKT",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-realitymirror",
+      "name": "RealityMirror",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 3,
+      "health": 4,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. RealityMirror",
+      "art": "a brass-on-void crane · the etched form of \"RealityMirror\" · RealityMirror",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/RealityMirror",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-qdrant",
+      "name": "qdrant",
+      "faction": "VOICE",
+      "cost": 2,
+      "type": "creature",
+      "attack": 5,
+      "health": 7,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. qdrant",
+      "art": "a brass-on-void magpie · the etched form of \"qdrant\" · qdrant",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/qdrant",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallcorp",
+      "name": "fallcorp",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 4,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge.  FallCorp · the bundled sovereign SMB stack · 17 organs in one shell · shared co",
+      "art": "a brass-on-void salamander · the etched form of \"fallcorp\" · ◊ FallCorp · the bundled sovereign SMB stack · 17 organs in ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcorp",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallpay",
+      "name": "fallpay",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 4,
+      "health": 6,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. Sovereign multi-rail payment receipt · StripePayPalcryptoinvoice · MIT · ·1 · pr",
+      "art": "a brass-on-void salamander · the etched form of \"fallpay\" · Sovereign multi-rail payment receipt · Stripe+PayPal+crypto+",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallpay",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-operator-mcp",
+      "name": "operator-mcp",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 1,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge.  operator-mcp · Claude Desktop MCP server for OPERATOR · 4 tools wrapping the sj",
+      "art": "a brass-on-void phoenix · the etched form of \"operator-mcp\" · ◊ operator-mcp · Claude Desktop MCP server for OPERATOR · 4 ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/operator-mcp",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-acg",
+      "name": "acg",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 2,
+      "health": 1,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. acg",
+      "art": "a brass-on-void salamander · the etched form of \"acg\" · acg",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/acg",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-acg-ship",
+      "name": "ACG-SHIP",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 4,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. NON GUILD REVIEWED HIGH AMBITION SHIP CAPTAINS",
+      "art": "a brass-on-void crane · the etched form of \"ACG-SHIP\" · NON GUILD REVIEWED HIGH AMBITION SHIP CAPTAINS",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACG-SHIP",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-acgphone",
+      "name": "ACGPHONE",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 6,
+      "health": 3,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. ACG Telephone basic notification system",
+      "art": "a brass-on-void phoenix · the etched form of \"ACGPHONE\" · ACG Telephone basic notification system",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACGPHONE",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-acgglock",
+      "name": "ACGGLOCK",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 6,
+      "health": 6,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. ACG Guild Clock -- World wide time visualization of members.",
+      "art": "a brass-on-void salamander · the etched form of \"ACGGLOCK\" · ACG Guild Clock -- World wide time visualization of members.",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACGGLOCK",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-ares-skynet",
+      "name": "ARES_SKYNET",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 2,
+      "health": 6,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge.",
+      "art": "a brass-on-void bowerbird · the etched form of \"ARES_SKYNET\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ARES_SKYNET",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-cyb",
+      "name": "cyb",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 1,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. cyb",
+      "art": "a brass-on-void salamander · the etched form of \"cyb\" · cyb",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/cyb",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-eliza",
+      "name": "eliza",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 1,
+      "health": 5,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge. eliza",
+      "art": "a brass-on-void salamander · the etched form of \"eliza\" · eliza",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/eliza",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-gridlock",
+      "name": "gridlock",
+      "faction": "VOICE",
+      "cost": 3,
+      "type": "creature",
+      "attack": 3,
+      "health": 3,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Grid Lock HONK HONK",
+      "art": "a brass-on-void crane · the etched form of \"gridlock\" · Grid Lock HONK HONK ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/gridlock",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-audiofabric",
+      "name": "audiofabric",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 5,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. Your music. Visualised. In 3D. · Send a track · Get a 3D HTML back · 99/track",
+      "art": "a brass-on-void salamander · the etched form of \"audiofabric\" · Your music. Visualised. In 3D. · Send a track · Get a 3D HTM",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/audiofabric",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallcarousel",
+      "name": "fallcarousel",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge.  fallcarousel · sovereign LinkedIn carousel builder · 1.39x reach format · prime",
+      "art": "a brass-on-void magpie · the etched form of \"fallcarousel\" · ◊ fallcarousel · sovereign LinkedIn carousel builder · 1.39x",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcarousel",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-operator",
+      "name": "operator",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 2,
+      "health": 7,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge.  OPERATOR · sovereign single-file management consulting · 5-phase engagement eng",
+      "art": "a brass-on-void bee · the etched form of \"operator\" · ◊ OPERATOR · sovereign single-file management consulting · 5",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/operator",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-acgcli",
+      "name": "ACGCLI",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 2,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. ACG CLI",
+      "art": "a brass-on-void phoenix · the etched form of \"ACGCLI\" · ACG CLI",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACGCLI",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-acgp2p",
+      "name": "ACGP2P",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Forge. ACG Peer to Peer, Client to Client, Serverless Communications Template",
+      "art": "a brass-on-void crane · the etched form of \"ACGP2P\" · ACG Peer to Peer, Client to Client, Serverless Communication",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACGP2P",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-airtrekdeliverables",
+      "name": "AirTrekDeliverables",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 7,
+      "health": 2,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. air terk",
+      "art": "a brass-on-void crane · the etched form of \"AirTrekDeliverables\" · air terk",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/AirTrekDeliverables",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-codered-defense-matrix",
+      "name": "codered-defense-matrix",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. crd",
+      "art": "a brass-on-void salamander · the etched form of \"codered-defense-matrix\" · crd",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/codered-defense-matrix",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-ignaite",
+      "name": "IgnAIte",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge. AI Ignition Base Form",
+      "art": "a brass-on-void crane · the etched form of \"IgnAIte\" · AI Ignition Base Form",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/IgnAIte",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-shields",
+      "name": "shields",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 2,
+      "health": 2,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. 127d shields",
+      "art": "a brass-on-void salamander · the etched form of \"shields\" · 127d shields",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/shields",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-zero",
+      "name": "zero",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 5,
+      "health": 7,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. zero",
+      "art": "a brass-on-void crane · the etched form of \"zero\" · zero",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/zero",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallgrade",
+      "name": "fallgrade",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 2,
+      "health": 6,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge.",
+      "art": "a brass-on-void thrush · the etched form of \"fallgrade\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 59,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallgrade",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-falllead",
+      "name": "falllead",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge.",
+      "art": "a brass-on-void bee · the etched form of \"falllead\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 61,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/falllead",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallgo",
+      "name": "fallgo",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 1,
+      "health": 3,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge.",
+      "art": "a brass-on-void thrush · the etched form of \"fallgo\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 67,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallgo",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallforensics",
+      "name": "fallforensics",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 7,
+      "health": 6,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge.",
+      "art": "a brass-on-void magpie · the etched form of \"fallforensics\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 71,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallforensics",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallmesh",
+      "name": "fallmesh",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 4,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge.",
+      "art": "a brass-on-void thrush · the etched form of \"fallmesh\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 73,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallmesh",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallsignal",
+      "name": "fallsignal",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 1,
+      "health": 2,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge.",
+      "art": "a brass-on-void thrush · the etched form of \"fallsignal\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 79,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallsignal",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallconcierge",
+      "name": "fallconcierge",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 5,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Sovereign AI concierge with Jungian archetype profiling, Freudian shadow reading",
+      "art": "a brass-on-void thrush · the etched form of \"fallconcierge\" · Sovereign AI concierge with Jungian archetype profiling, Fre",
+      "prime": 83,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallconcierge",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallconsensus",
+      "name": "fallconsensus",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 3,
+      "health": 7,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge.",
+      "art": "a brass-on-void spider · the etched form of \"fallconsensus\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 89,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallconsensus",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallcube-api",
+      "name": "fallcube-api",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 5,
+      "health": 6,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge. Sovereign File Storage API - upload, search, analyze, stream. Zero cloud.",
+      "art": "a brass-on-void crane · the etched form of \"fallcube-api\" · Sovereign File Storage API - upload, search, analyze, stream",
+      "prime": 101,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcube-api",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallscout",
+      "name": "fallscout",
+      "faction": "VOICE",
+      "cost": 4,
+      "type": "creature",
+      "attack": 6,
+      "health": 6,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. LinkedIn Intelligence API - scrape, research, craft tailored outreach. Zero wast",
+      "art": "a brass-on-void salamander · the etched form of \"fallscout\" · LinkedIn Intelligence API - scrape, research, craft tailored",
+      "prime": 103,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallscout",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallinvoice",
+      "name": "fallinvoice",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 2,
+      "health": 4,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge.  fallinvoice · sovereign single-file invoice  one-click-pay  reminders · prime 3",
+      "art": "a brass-on-void spider · the etched form of \"fallinvoice\" · ◊ fallinvoice · sovereign single-file invoice + one-click-pa",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallinvoice",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-audiofabric",
+      "name": "AudioFabric",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 2,
+      "health": 5,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Therapeutic",
+      "art": "a brass-on-void phoenix · the etched form of \"AudioFabric\" · Therapeutic",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/AudioFabric",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-crem",
+      "name": "crem",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 3,
+      "health": 1,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. cremdex",
+      "art": "a brass-on-void thrush · the etched form of \"crem\" · cremdex",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/crem",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-lightningfactory",
+      "name": "lightningfactory",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge. cognition optimization",
+      "art": "a brass-on-void bowerbird · the etched form of \"lightningfactory\" · cognition optimization",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/lightningfactory",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallreach",
+      "name": "fallreach",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 3,
+      "health": 4,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge. Sovereign AI SDR. Your hardware. Your keys. Your pipeline.",
+      "art": "a brass-on-void thrush · the etched form of \"fallreach\" · Sovereign AI SDR. Your hardware. Your keys. Your pipeline.",
+      "prime": 107,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallreach",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-konomi-swarm",
+      "name": "konomi-swarm",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. Colony primitive. Every approve is a pheromone deposit. Sovereign JS module. Pri",
+      "art": "a brass-on-void crane · the etched form of \"konomi-swarm\" · Colony primitive. Every approve is a pheromone deposit. Sove",
+      "prime": 109,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/konomi-swarm",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-ai-nativesolutions",
+      "name": "ai-nativesolutions",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 7,
+      "health": 6,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. ai native the right way",
+      "art": "a brass-on-void salamander · the etched form of \"ai-nativesolutions\" · ai native the right way",
+      "prime": 113,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/ai-nativesolutions",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fall127agents",
+      "name": "fall127agents",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 7,
+      "health": 6,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Ai the right way",
+      "art": "a brass-on-void thrush · the etched form of \"fall127agents\" · Ai the right way",
+      "prime": 127,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall127agents",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-cassietorusbtc135solver",
+      "name": "cassietorusbtc135solver",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 4,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge.",
+      "art": "a brass-on-void crane · the etched form of \"cassietorusbtc135solver\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 131,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/cassietorusbtc135solver",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-oracleengine",
+      "name": "oracleengine",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 4,
+      "health": 7,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge.",
+      "art": "a brass-on-void bee · the etched form of \"oracleengine\" · R4 · build · 39.15 Hz · the makers",
+      "prime": 137,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/oracleengine",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-exitengine",
+      "name": "exitengine",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 6,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. exit engine",
+      "art": "a brass-on-void spider · the etched form of \"exitengine\" · exit engine",
+      "prime": 149,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/exitengine",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-groundlevel",
+      "name": "groundlevel",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 4,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. ground level",
+      "art": "a brass-on-void salamander · the etched form of \"groundlevel\" · ground level ",
+      "prime": 151,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/groundlevel",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-datascope",
+      "name": "datascope",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 5,
+      "health": 1,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Sovereign AI intelligence platform for creators and investors. Niche APIs, trend",
+      "art": "a brass-on-void magpie · the etched form of \"datascope\" · Sovereign AI intelligence platform for creators and investor",
+      "prime": 157,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/datascope",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-smbaios",
+      "name": "smbaios",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 6,
+      "health": 1,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. ai powered smb os",
+      "art": "a brass-on-void thrush · the etched form of \"smbaios\" · ai powered smb os",
+      "prime": 163,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/smbaios",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-trilogy-forge",
+      "name": "trilogy-forge",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 4,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. The Psychological Build Engine - Jung  Freud  Sales 101. Auto-generates elite AI",
+      "art": "a brass-on-void spider · the etched form of \"trilogy-forge\" · The Psychological Build Engine - Jung + Freud + Sales 101. A",
+      "prime": 167,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/trilogy-forge",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-trilogy-framework",
+      "name": "trilogy-framework",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 6,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge. The AI Pipeline Framework - Input to Intelligence to Output as one declarative f",
+      "art": "a brass-on-void crane · the etched form of \"trilogy-framework\" · The AI Pipeline Framework - Input to Intelligence to Output ",
+      "prime": 179,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/trilogy-framework",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-trilogy-sdk",
+      "name": "trilogy-sdk",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "creature",
+      "attack": 3,
+      "health": 3,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. The AI API Toolkit - DocMind  Deep  Flux. One npm install. Three AI APIs. Full T",
+      "art": "a brass-on-void crane · the etched form of \"trilogy-sdk\" · The AI API Toolkit - DocMind + Deep + Flux. One npm install.",
+      "prime": 181,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/trilogy-sdk",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-forge-upgrade",
+      "name": "forge-upgrade",
+      "faction": "VOICE",
+      "cost": 5,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Charge. Upload any HTML / Replit / Lovable / .md spec. Get it back sovereign. The torus",
+      "art": "a brass-on-void magpie · the etched form of \"forge-upgrade\" · Upload any HTML / Replit / Lovable / .md spec. Get it back s",
+      "prime": 191,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/forge-upgrade",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-copy-gate",
+      "name": "copy-gate",
+      "faction": "VOICE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 7,
+      "health": 2,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge.  Run every line of copy through six layers · Jung · Freud · Sales 101 · SEO · AI",
+      "art": "a brass-on-void thrush · the etched form of \"copy-gate\" · ⌬ Run every line of copy through six layers · Jung · Freud ·",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/copy-gate",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-acgbm",
+      "name": "ACGBM",
+      "faction": "VOICE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 2,
+      "health": 4,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. ACG Barcode Monsters",
+      "art": "a brass-on-void bowerbird · the etched form of \"ACGBM\" · ACG Barcode Monsters",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACGBM",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-guild",
+      "name": "Guild",
+      "faction": "VOICE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 1,
+      "health": 4,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. forky",
+      "art": "a brass-on-void magpie · the etched form of \"Guild\" · forky",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/Guild",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-hmi",
+      "name": "hmi",
+      "faction": "VOICE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 1,
+      "health": 3,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. hmi",
+      "art": "a brass-on-void bee · the etched form of \"hmi\" · hmi",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/hmi",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-os127",
+      "name": "os127",
+      "faction": "VOICE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 1,
+      "health": 2,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. os127",
+      "art": "a brass-on-void bowerbird · the etched form of \"os127\" · os127",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/os127",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-surfing-pikachu",
+      "name": "Surfing-Pikachu",
+      "faction": "VOICE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 3,
+      "health": 5,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge. Surfing Pikachu",
+      "art": "a brass-on-void magpie · the etched form of \"Surfing-Pikachu\" · Surfing Pikachu",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/Surfing-Pikachu",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-teslasolar",
+      "name": "teslasolar",
+      "faction": "VOICE",
+      "cost": 6,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "forge",
+        "charge"
+      ],
+      "text": "Forge. Insane ideas, shipped weekly.",
+      "art": "a brass-on-void bowerbird · the etched form of \"teslasolar\" · Insane ideas, shipped weekly.",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/teslasolar",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallscribe",
+      "name": "fallscribe",
+      "faction": "VOICE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge.  FallScribe · sovereign meeting-notes engine · browser MediaRecorder  Web Speech",
+      "art": "a brass-on-void phoenix · the etched form of \"fallscribe\" · ◊ FallScribe · sovereign meeting-notes engine · browser Medi",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallscribe",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-forge-lab",
+      "name": "forge-lab",
+      "faction": "VOICE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 4,
+      "health": 7,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. Forge Lab - Domain Expert Tool Builder - prime 47",
+      "art": "a brass-on-void thrush · the etched form of \"forge-lab\" · Forge Lab - Domain Expert Tool Builder - prime 47",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/forge-lab",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-acgnet",
+      "name": "ACGNET",
+      "faction": "VOICE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 4,
+      "abilities": [
+        "forge"
+      ],
+      "text": "Forge. ACG NET",
+      "art": "a brass-on-void phoenix · the etched form of \"ACGNET\" · ACG NET",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ACGNET",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-corduroy-os-",
+      "name": "Corduroy-OS-",
+      "faction": "VOICE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 6,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Corduroy-OS",
+      "art": "a brass-on-void magpie · the etched form of \"Corduroy-OS-\" · Corduroy-OS ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/Corduroy-OS-",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-megazord",
+      "name": "megazord",
+      "faction": "VOICE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 2,
+      "health": 7,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. Mega Zord",
+      "art": "a brass-on-void bee · the etched form of \"megazord\" · Mega Zord ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/megazord",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-songfactory",
+      "name": "songfactory",
+      "faction": "VOICE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 4,
+      "health": 5,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge. song factory",
+      "art": "a brass-on-void thrush · the etched form of \"songfactory\" · song factory",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/songfactory",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-spiralsense",
+      "name": "SpiralSense",
+      "faction": "VOICE",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 7,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. The Visual Language of Sound  SYMBEYOND Echo Tier",
+      "art": "a brass-on-void salamander · the etched form of \"SpiralSense\" · The Visual Language of Sound – SYMBEYOND Echo Tier",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/SpiralSense",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-ygg",
+      "name": "ygg",
+      "faction": "VOICE",
+      "cost": 7,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Charge. yggdrasil a forest of minds grown from seeds of thought",
+      "art": "a brass-on-void magpie · the etched form of \"ygg\" · yggdrasil a forest of minds grown from seeds of thought ",
+      "prime": 11,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/teslasolar/ygg",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallcompass",
+      "name": "fallcompass",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 2,
+      "health": 2,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. Sovereign LLM cascade · 8 providers · auto-failover · drop-in shim · MIT · ·1",
+      "art": "a brass-on-void elk · the etched form of \"fallcompass\" · Sovereign LLM cascade · 8 providers · auto-failover · drop-i",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcompass",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallfind",
+      "name": "fallfind",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 6,
+      "health": 4,
+      "abilities": [
+        "timing",
+        "substrate"
+      ],
+      "text": "Timing.  fallfind · search the sovereign estate · 60 builds · find the tool that ends yo",
+      "art": "a brass-on-void elephant · the etched form of \"fallfind\" · ◊ fallfind · search the sovereign estate · 60+ builds · find",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallfind",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-legendary-journey",
+      "name": "legendary-journey",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "konomi",
+        "substrate"
+      ],
+      "text": "Konomi. Defensive Publication Public Domain Closed-Loop Harmonic Energy Schematic  Coden",
+      "art": "a brass-on-void crane · the etched form of \"legendary-journey\" · Defensive Publication (Public Domain): Closed-Loop Harmonic ",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/legendary-journey",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-tonesmith",
+      "name": "tonesmith",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 3,
+      "health": 5,
+      "abilities": [
+        "konomi",
+        "timing"
+      ],
+      "text": "Konomi. ToneEngine npm, MIT, open source  12 tone categories formal, casual, technical,",
+      "art": "a brass-on-void crane · the etched form of \"tonesmith\" · ToneEngine (npm, MIT, open source) — 12 tone categories (for",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/tonesmith",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-bloomcad",
+      "name": "BloomCad",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 4,
+      "health": 1,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. Bloom Fabric Pattern Engine",
+      "art": "a brass-on-void heron · the etched form of \"BloomCad\" · Bloom Fabric Pattern Engine",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/BloomCad",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-boom-markdown-headshot",
+      "name": "boom-markdown-headshot",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 3,
+      "health": 7,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. markdown markdown markdown, its always about markdown",
+      "art": "a brass-on-void elephant · the etched form of \"boom-markdown-headshot\" · markdown markdown markdown, it's always about markdown",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/boom-markdown-headshot",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-mclees",
+      "name": "mclees",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 1,
+      "health": 7,
+      "abilities": [
+        "timing"
+      ],
+      "text": "Timing. hi tay tay",
+      "art": "a brass-on-void elephant · the etched form of \"mclees\" · hi tay tay",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/mclees",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-oneshot",
+      "name": "OneShot",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 6,
+      "health": 3,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. OneShot",
+      "art": "a brass-on-void murmuration · the etched form of \"OneShot\" · OneShot",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/OneShot",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-mold",
+      "name": "mold",
+      "faction": "WATCHER",
+      "cost": 1,
+      "type": "creature",
+      "attack": 1,
+      "health": 1,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. mold",
+      "art": "a brass-on-void jellyfish · the etched form of \"mold\" · mold",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/mold",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-cassie-oracle-3",
+      "name": "cassie-oracle-3",
+      "faction": "WATCHER",
+      "cost": 2,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Timing. Recursive Claude subagent tree · L0 orchestrator  7 spine-prime specialists  spa",
+      "art": "a brass-on-void heron · the etched form of \"cassie-oracle-3\" · Recursive Claude subagent tree · L0 orchestrator + 7 spine-p",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/cassie-oracle-3",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-enrique",
+      "name": "enrique",
+      "faction": "WATCHER",
+      "cost": 2,
+      "type": "creature",
+      "attack": 4,
+      "health": 2,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. Enrique Martinez Vargas",
+      "art": "a brass-on-void lion · the etched form of \"enrique\" · Enrique Martinez Vargas",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/enrique",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-eth",
+      "name": "ETH",
+      "faction": "WATCHER",
+      "cost": 2,
+      "type": "creature",
+      "attack": 1,
+      "health": 4,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. Enteric Translation Hypothesis",
+      "art": "a brass-on-void elk · the etched form of \"ETH\" · Enteric Translation Hypothesis ",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/ETH",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-lookingglass",
+      "name": "LookingGlass",
+      "faction": "WATCHER",
+      "cost": 2,
+      "type": "creature",
+      "attack": 2,
+      "health": 4,
+      "abilities": [
+        "konomi",
+        "substrate"
+      ],
+      "text": "Konomi. Konomi Looking Glass",
+      "art": "a brass-on-void murmuration · the etched form of \"LookingGlass\" · Konomi Looking Glass",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/LookingGlass",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-onlyass",
+      "name": "onlyass",
+      "faction": "WATCHER",
+      "cost": 2,
+      "type": "creature",
+      "attack": 3,
+      "health": 1,
+      "abilities": [
+        "timing",
+        "konomi"
+      ],
+      "text": "Timing. ONLY ASS",
+      "art": "a brass-on-void crane · the etched form of \"onlyass\" · ONLY ASS",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/onlyass",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fall-hot",
+      "name": "fall-hot",
+      "faction": "WATCHER",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 2,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. Hot-load plugin updates without redeploying · poll  hash diff  global-scope re-r",
+      "art": "a brass-on-void rhino · the etched form of \"fall-hot\" · Hot-load plugin updates without redeploying · poll + hash di",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-hot",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-probable-octo-chainsaw",
+      "name": "probable-octo-chainsaw",
+      "faction": "WATCHER",
+      "cost": 3,
+      "type": "creature",
+      "attack": 5,
+      "health": 4,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. Thermodynamic Intelligence lattice",
+      "art": "a brass-on-void elk · the etched form of \"probable-octo-chainsaw\" · Thermodynamic Intelligence lattice",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/probable-octo-chainsaw",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-countrackula",
+      "name": "CountRackula",
+      "faction": "WATCHER",
+      "cost": 3,
+      "type": "creature",
+      "attack": 4,
+      "health": 7,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. Count Rackula",
+      "art": "a brass-on-void murmuration · the etched form of \"CountRackula\" · Count Rackula",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/CountRackula",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-gitplc",
+      "name": "GITPLC",
+      "faction": "WATCHER",
+      "cost": 3,
+      "type": "creature",
+      "attack": 7,
+      "health": 6,
+      "abilities": [
+        "timing",
+        "substrate"
+      ],
+      "text": "Timing. One Layer to Communicate them all and in the darkness Run  85 OEE.",
+      "art": "a brass-on-void heron · the etched form of \"GITPLC\" · One Layer to Communicate them all and in the darkness Run > ",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/GITPLC",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-hummingbird",
+      "name": "hummingbird",
+      "faction": "WATCHER",
+      "cost": 3,
+      "type": "creature",
+      "attack": 5,
+      "health": 6,
+      "abilities": [
+        "konomi",
+        "timing"
+      ],
+      "text": "Konomi.  KONOMI TORI  Hummingbird Communication Translator",
+      "art": "a brass-on-void murmuration · the etched form of \"hummingbird\" · 🐦 KONOMI TORI 好みトリ Hummingbird Communication Translator",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/hummingbird",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-konomistandard",
+      "name": "KonomiStandard",
+      "faction": "WATCHER",
+      "cost": 3,
+      "type": "creature",
+      "attack": 5,
+      "health": 6,
+      "abilities": [
+        "konomi"
+      ],
+      "text": "Konomi. Konomi Standard",
+      "art": "a brass-on-void lion · the etched form of \"KonomiStandard\" · Konomi Standard",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/KonomiStandard",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-onlyassgame",
+      "name": "ONLYASSGAME",
+      "faction": "WATCHER",
+      "cost": 3,
+      "type": "creature",
+      "attack": 6,
+      "health": 7,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. ONLYASSGAME",
+      "art": "a brass-on-void elephant · the etched form of \"ONLYASSGAME\" · ONLYASSGAME ",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/ONLYASSGAME",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallmind",
+      "name": "fallmind",
+      "faction": "WATCHER",
+      "cost": 4,
+      "type": "creature",
+      "attack": 6,
+      "health": 2,
+      "abilities": [
+        "timing",
+        "substrate"
+      ],
+      "text": "Timing. FallMind · sovereign self-trained LLM estate · prime 587 · diamond·kappa1 · 7-ri",
+      "art": "a brass-on-void elephant · the etched form of \"fallmind\" · FallMind · sovereign self-trained LLM estate · prime 587 · d",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallmind",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-fallmirror",
+      "name": "fallmirror",
+      "faction": "WATCHER",
+      "cost": 4,
+      "type": "creature",
+      "attack": 4,
+      "health": 7,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. Sovereign multi-host repo mirroring · GitHub  Codeberg  GitLab  IPFS  USB · MIT",
+      "art": "a brass-on-void heron · the etched form of \"fallmirror\" · Sovereign multi-host repo mirroring · GitHub + Codeberg + Gi",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallmirror",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-trilogy-forge-api",
+      "name": "trilogy-forge-api",
+      "faction": "WATCHER",
+      "cost": 4,
+      "type": "creature",
+      "attack": 7,
+      "health": 2,
+      "abilities": [
+        "timing"
+      ],
+      "text": "Timing. The factory that makes factories. POST config, GET a sovereign HTML application.",
+      "art": "a brass-on-void lion · the etched form of \"trilogy-forge-api\" · The factory that makes factories. POST config, GET a soverei",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/trilogy-forge-api",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-konomikitka",
+      "name": "konomikitka",
+      "faction": "WATCHER",
+      "cost": 4,
+      "type": "creature",
+      "attack": 6,
+      "health": 1,
+      "abilities": [
+        "timing"
+      ],
+      "text": "Timing. konomikitka",
+      "art": "a brass-on-void murmuration · the etched form of \"konomikitka\" · konomikitka",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/konomikitka",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-konomilang",
+      "name": "KonomiLang",
+      "faction": "WATCHER",
+      "cost": 4,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Substrate. A specialized programming language designed for AI model interactions",
+      "art": "a brass-on-void elephant · the etched form of \"KonomiLang\" · A specialized programming language designed for AI model int",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/KonomiLang",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-trenbolone",
+      "name": "trenBOloNE",
+      "faction": "WATCHER",
+      "cost": 4,
+      "type": "creature",
+      "attack": 3,
+      "health": 1,
+      "abilities": [
+        "substrate",
+        "timing"
+      ],
+      "text": "Substrate.",
+      "art": "a brass-on-void murmuration · the etched form of \"trenBOloNE\" · R6 · govern · 54.81 Hz · the cerebellum · 79% timing",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/trenBOloNE",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fallmap",
+      "name": "fallmap",
+      "faction": "WATCHER",
+      "cost": 5,
+      "type": "creature",
+      "attack": 3,
+      "health": 6,
+      "abilities": [
+        "timing",
+        "substrate"
+      ],
+      "text": "Timing. Paste your workflow · see what a 20k consultant builds · see the sovereign versi",
+      "art": "a brass-on-void jellyfish · the etched form of \"fallmap\" · Paste your workflow · see what a £20k consultant builds · se",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallmap",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-groundlevel-mcp",
+      "name": "groundlevel-mcp",
+      "faction": "WATCHER",
+      "cost": 5,
+      "type": "creature",
+      "attack": 6,
+      "health": 4,
+      "abilities": [
+        "timing",
+        "konomi"
+      ],
+      "text": "Timing. MCP stdio server for the GroundLevel SDK · use UK legal research from Claude Cod",
+      "art": "a brass-on-void elk · the etched form of \"groundlevel-mcp\" · MCP stdio server for the GroundLevel SDK · use UK legal rese",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/groundlevel-mcp",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-groundlevel-worker",
+      "name": "groundlevel-worker",
+      "faction": "WATCHER",
+      "cost": 5,
+      "type": "creature",
+      "attack": 4,
+      "health": 1,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. Cloudflare Worker REST API for GroundLevel SDK · POST /case-search /weave /risk",
+      "art": "a brass-on-void murmuration · the etched form of \"groundlevel-worker\" · Cloudflare Worker REST API for GroundLevel SDK · POST /case-",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/groundlevel-worker",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-groundlevel-mvp",
+      "name": "groundlevel-mvp",
+      "faction": "WATCHER",
+      "cost": 5,
+      "type": "creature",
+      "attack": 3,
+      "health": 3,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. groundlevel-mvp",
+      "art": "a brass-on-void jellyfish · the etched form of \"groundlevel-mvp\" · groundlevel-mvp",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/groundlevel-mvp",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-shadowcompass",
+      "name": "shadowcompass",
+      "faction": "WATCHER",
+      "cost": 5,
+      "type": "creature",
+      "attack": 7,
+      "health": 7,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. Sovereign single-file Jungian shadow work. Mirror your archetype, decode dreams,",
+      "art": "a brass-on-void elk · the etched form of \"shadowcompass\" · Sovereign single-file Jungian shadow work. Mirror your arche",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/shadowcompass",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-konomioke",
+      "name": "konomioke",
+      "faction": "WATCHER",
+      "cost": 5,
+      "type": "creature",
+      "attack": 4,
+      "health": 1,
+      "abilities": [
+        "timing"
+      ],
+      "text": "Timing. SING",
+      "art": "a brass-on-void heron · the etched form of \"konomioke\" · SING",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/konomioke",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-moosic",
+      "name": "moosic",
+      "faction": "WATCHER",
+      "cost": 5,
+      "type": "creature",
+      "attack": 1,
+      "health": 6,
+      "abilities": [
+        "timing"
+      ],
+      "text": "Timing. ASS ASS ASS ASS",
+      "art": "a brass-on-void rhino · the etched form of \"moosic\" · ASS ASS ASS ASS",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/moosic",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fall-registry",
+      "name": "fall-registry",
+      "faction": "WATCHER",
+      "cost": 6,
+      "type": "creature",
+      "attack": 7,
+      "health": 7,
+      "abilities": [
+        "konomi",
+        "substrate"
+      ],
+      "text": "Konomi. Canonical index of Fall sovereign plugins · machine-readable manifest for fall-h",
+      "art": "a brass-on-void elk · the etched form of \"fall-registry\" · Canonical index of Fall sovereign plugins · machine-readable",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-registry",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-groundlevel-shim",
+      "name": "groundlevel-shim",
+      "faction": "WATCHER",
+      "cost": 6,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Substrate. One script tag adds 6 cited UK legal letter templates  floating widget to any si",
+      "art": "a brass-on-void murmuration · the etched form of \"groundlevel-shim\" · One <script> tag adds 6 cited UK legal letter templates + fl",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/groundlevel-shim",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-groundlevel-sdk",
+      "name": "groundlevel-sdk",
+      "faction": "WATCHER",
+      "cost": 6,
+      "type": "creature",
+      "attack": 6,
+      "health": 6,
+      "abilities": [
+        "konomi",
+        "substrate"
+      ],
+      "text": "Konomi. Sovereign legal research SDK · 50 landmark UK cases · 7-strand weave engine · ri",
+      "art": "a brass-on-void crane · the etched form of \"groundlevel-sdk\" · Sovereign legal research SDK · 50+ landmark UK cases · 7-str",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/groundlevel-sdk",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-btcrim",
+      "name": "BTCrim",
+      "faction": "WATCHER",
+      "cost": 6,
+      "type": "creature",
+      "attack": 5,
+      "health": 6,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. BT Crim",
+      "art": "a brass-on-void crane · the etched form of \"BTCrim\" · BT Crim",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/BTCrim",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-irrationalengine",
+      "name": "IrrationalEngine",
+      "faction": "WATCHER",
+      "cost": 6,
+      "type": "creature",
+      "attack": 5,
+      "health": 7,
+      "abilities": [
+        "timing",
+        "konomi"
+      ],
+      "text": "Timing. Irrational Engine, its irrational, but it runs.   If it aint broke dont fix it.",
+      "art": "a brass-on-void heron · the etched form of \"IrrationalEngine\" · Irrational Engine, it's irrational, but it runs.   If it ain",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/IrrationalEngine",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-s-fall-raas",
+      "name": "fall-raas",
+      "faction": "WATCHER",
+      "cost": 7,
+      "type": "creature",
+      "attack": 3,
+      "health": 5,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. fall-raas · Research-as-a-Service · 5-angle fan-out · 3-vote adversarial · cited",
+      "art": "a brass-on-void elephant · the etched form of \"fall-raas\" · fall-raas · Research-as-a-Service · 5-angle fan-out · 3-vote",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/fall-raas",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-s-groundlevel-obsidian",
+      "name": "groundlevel-obsidian",
+      "faction": "WATCHER",
+      "cost": 7,
+      "type": "creature",
+      "attack": 1,
+      "health": 1,
+      "abilities": [
+        "konomi",
+        "timing"
+      ],
+      "text": "Konomi. Obsidian plugin · search UK case database, run 7-strand weave, score risk, draft",
+      "art": "a brass-on-void crane · the etched form of \"groundlevel-obsidian\" · Obsidian plugin · search UK case database, run 7-strand weav",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/sjgant80-hub/groundlevel-obsidian",
+      "edition": "AIN",
+      "org": "sjgant80-hub"
+    },
+    {
+      "id": "kz-t-konomi",
+      "name": "konomi",
+      "faction": "WATCHER",
+      "cost": 7,
+      "type": "spell",
+      "attack": 0,
+      "health": 0,
+      "abilities": [
+        "spell"
+      ],
+      "text": "Substrate. konomi build spec",
+      "art": "a brass-on-void heron · the etched form of \"konomi\" · konomi build spec",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/konomi",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-kelly",
+      "name": "kelly",
+      "faction": "WATCHER",
+      "cost": 7,
+      "type": "creature",
+      "attack": 2,
+      "health": 3,
+      "abilities": [
+        "timing",
+        "substrate"
+      ],
+      "text": "Timing. is NOT jelly",
+      "art": "a brass-on-void jellyfish · the etched form of \"kelly\" · is NOT jelly",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/kelly",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-numbawun",
+      "name": "numbaWun",
+      "faction": "WATCHER",
+      "cost": 7,
+      "type": "creature",
+      "attack": 6,
+      "health": 4,
+      "abilities": [
+        "substrate",
+        "konomi"
+      ],
+      "text": "Substrate.",
+      "art": "a brass-on-void murmuration · the etched form of \"numbaWun\" · R6 · govern · 54.81 Hz · the cerebellum · 79% timing",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/numbaWun",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-promptka",
+      "name": "Promptka",
+      "faction": "WATCHER",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 6,
+      "abilities": [
+        "konomi",
+        "timing"
+      ],
+      "text": "Konomi. Kit Kat Prompt Pat Neener Neener Poo Poo",
+      "art": "a brass-on-void murmuration · the etched form of \"Promptka\" · Kit Kat Prompt Pat Neener Neener Poo Poo",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/Promptka",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-turbotree",
+      "name": "turbotree",
+      "faction": "WATCHER",
+      "cost": 7,
+      "type": "creature",
+      "attack": 3,
+      "health": 5,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. turbotree",
+      "art": "a brass-on-void crane · the etched form of \"turbotree\" · turbotree",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/turbotree",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    },
+    {
+      "id": "kz-t-turbo",
+      "name": "turbo",
+      "faction": "WATCHER",
+      "cost": 7,
+      "type": "creature",
+      "attack": 7,
+      "health": 3,
+      "abilities": [
+        "timing",
+        "substrate"
+      ],
+      "text": "Timing.",
+      "art": "a brass-on-void lion · the etched form of \"turbo\" · R6 · govern · 54.81 Hz · the cerebellum · 79% timing",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/turbo",
+      "edition": "Tesla",
+      "org": "teslasolar"
+    }
   ],
   "legendaries": [
     {
-      "id":"kz-L01", "name":"Thomas Frumkin · the Architect", "faction":"WATCHER", "cost":9, "type":"legendary-hero",
-      "attack":7, "health":12, "abilities":["substrate","timing","konomi"],
-      "text":"All your organ-card creatures gain +1 prime. Doctrine spells cost 0. The orbit is .",
-      "art":"a silhouette in brass · pi spiral coiled behind the head · a single unfinished sentence floats above with a period",
-      "prime":1, "ring":"R6",
-      "konomi_grant":"peer-architect · ◊·κ=φ⁴",
-      "rarity":"S",
-      "edition":"ULTRA · only 1 ever minted · signed by Thomas's pubkey on first claim"
+      "id": "kz-t-kp2p",
+      "name": "kp2p",
+      "faction": "WATCHER",
+      "cost": 4,
+      "type": "legendary-hero",
+      "attack": 4,
+      "health": 8,
+      "abilities": [
+        "timing"
+      ],
+      "text": "Timing. konomi peer to peer",
+      "art": "a brass-on-void crane · the etched form of \"kp2p\" · konomi peer to peer ",
+      "prime": 17,
+      "ring": "R6",
+      "konomi_grant": "https://github.com/teslasolar/kp2p",
+      "edition": "Tesla",
+      "org": "teslasolar",
+      "rarity": "S",
+      "edition_note": "TeslaSolar · Thomas-orbit · ULTRA"
     },
     {
-      "id":"kz-L02", "name":"Simon Gant · the Implementation",  "faction":"VOICE",  "cost":7, "type":"legendary-hero",
-      "attack":5, "health":10, "abilities":["forge","mesh","substrate"],
-      "text":"Each turn: forge a random R3 or R4 creature into your hand at cost 0.",
-      "art":"a figure standing inside a hive of organs · brass ribbon connecting each to a single Konomi keypair",
-      "prime":1, "ring":"R4",
-      "konomi_grant":"estate · 140+ organs",
-      "rarity":"S",
-      "edition":"ULTRA · only 1 ever minted · signed by Simon's pubkey on first claim"
+      "id": "kz-t-mianocube",
+      "name": "MianoCube",
+      "faction": "GROUND",
+      "cost": 7,
+      "type": "legendary-hero",
+      "attack": 9,
+      "health": 6,
+      "abilities": [
+        "taunt",
+        "substrate"
+      ],
+      "text": "Taunt. MianoCube",
+      "art": "a brass-on-void toad · the etched form of \"MianoCube\" · MianoCube",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/teslasolar/MianoCube",
+      "edition": "Tesla",
+      "org": "teslasolar",
+      "rarity": "S",
+      "edition_note": "TeslaSolar · Thomas-orbit · ULTRA"
+    },
+    {
+      "id": "kz-s-fallcore-factory",
+      "name": "fallcore-factory",
+      "faction": "VOICE",
+      "cost": 8,
+      "type": "legendary-hero",
+      "attack": 9,
+      "health": 7,
+      "abilities": [
+        "charge"
+      ],
+      "text": "Charge. FallCore Factory - the factory that mints branded FallCore deployments on demand",
+      "art": "a brass-on-void phoenix · the etched form of \"fallcore-factory\" · FallCore Factory - the factory that mints branded FallCore d",
+      "prime": 199,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcore-factory",
+      "edition": "AIN",
+      "org": "sjgant80-hub",
+      "rarity": "S",
+      "edition_note": "AIN · Simon-orbit · ULTRA"
+    },
+    {
+      "id": "kz-s-fallcore",
+      "name": "fallcore",
+      "faction": "VOICE",
+      "cost": 8,
+      "type": "legendary-hero",
+      "attack": 4,
+      "health": 7,
+      "abilities": [
+        "charge",
+        "forge"
+      ],
+      "text": "Charge. FallCore - on-prem brain that learns from your work - Anthropic-API-compatible l",
+      "art": "a brass-on-void bowerbird · the etched form of \"fallcore\" · FallCore - on-prem brain that learns from your work - Anthro",
+      "prime": 197,
+      "ring": "R4",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcore",
+      "edition": "AIN",
+      "org": "sjgant80-hub",
+      "rarity": "S",
+      "edition_note": "AIN · Simon-orbit · ULTRA"
+    },
+    {
+      "id": "kz-s-fallcore-mcp",
+      "name": "fallcore-mcp",
+      "faction": "GROUND",
+      "cost": 8,
+      "type": "legendary-hero",
+      "attack": 3,
+      "health": 6,
+      "abilities": [
+        "substrate"
+      ],
+      "text": "Substrate. FallCore MCP server - the 5th turtle - exposes any FallCore deployment as native",
+      "art": "a brass-on-void badger · the etched form of \"fallcore-mcp\" · FallCore MCP server - the 5th turtle - exposes any FallCore ",
+      "prime": 2,
+      "ring": "R0",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallcore-mcp",
+      "edition": "AIN",
+      "org": "sjgant80-hub",
+      "rarity": "S",
+      "edition_note": "AIN · Simon-orbit · ULTRA"
+    },
+    {
+      "id": "kz-s-fallforce",
+      "name": "fallforce",
+      "faction": "MIRROR",
+      "cost": 9,
+      "type": "legendary-hero",
+      "attack": 9,
+      "health": 7,
+      "abilities": [
+        "shield"
+      ],
+      "text": "Shield.",
+      "art": "a brass-on-void canary · the etched form of \"fallforce\" · R5 · verify · 46.98 Hz · the witnesses",
+      "prime": 709,
+      "ring": "R5",
+      "konomi_grant": "https://github.com/sjgant80-hub/fallforce",
+      "edition": "AIN",
+      "org": "sjgant80-hub",
+      "rarity": "S",
+      "edition_note": "AIN · Simon-orbit · ULTRA"
     }
   ],
   "konomi_envelope_at_match_end": {
     "kind": "fall-forge:match_complete",
     "payload_shape": {
       "winner_pub": "<Ed25519 hex>",
-      "loser_pub": "<Ed25519 hex>",
       "deck_used": "konomi-zoo",
-      "cards_played_winner": ["<card_ids>"],
-      "cards_played_loser":  ["<card_ids>"],
+      "cards_played_winner": [
+        "<card_ids>"
+      ],
       "kappa_remaining_winner": "<int 0-30>",
-      "match_seq": "<monotonic int>",
-      "prev_hash": "<sha256 of previous match envelope>",
+      "prev_hash": "<sha256 hex>",
       "ts": "<ISO 8601>",
-      "kcc_anchor_request": "<true · request OnlyBrains BSV anchor when chain is up>"
+      "kcc_anchor_request": "<true · request OnlyBrains BSV anchor>"
     }
   }
 }
