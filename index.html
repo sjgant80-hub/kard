@@ -553,7 +553,7 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 // ============================================================
 const TOOLNAME='kard-v5';
 const PRIME=787;
-const VERSION='5.0.0';
+const VERSION='5.0.1';
 const REGISTRY_URL_PRIMARY='https://raw.githubusercontent.com/sjgant80-hub/kard-v5/main/index.json';
 const REGISTRY_URL_FALLBACK='https://raw.githubusercontent.com/sjgant80-hub/fall-registry/main/index.json';
 
@@ -1456,6 +1456,25 @@ const Game={
     };
     for(let i=0;i<3;i++)this.draw('me');
     for(let i=0;i<4;i++)this.draw('foe');
+    // v5.0.1 mulligan guarantee Â· opening hand must contain a card playable on turn 1
+    if(state.mode==='fun'){
+      for(const side of ['me','foe']){
+        const hand=state.match.hand[side];
+        const startMana=state.match.maxMana[side]||1;
+        if(!hand.some(c=>c.cost<=startMana)){
+          const deckIdx=state.match.deck[side].findIndex(c=>c.cost<=startMana);
+          if(deckIdx>=0){
+            const handIdx=hand.reduce((mi,c,i,arr)=>c.cost>arr[mi].cost?i:mi,0);
+            const cheap={...state.match.deck[side][deckIdx],uid:Math.random().toString(36).slice(2)};
+            const swapOut={...hand[handIdx]};
+            state.match.deck[side].splice(deckIdx,1);
+            state.match.deck[side].push(swapOut);
+            state.match.deck[side]=shuffle(state.match.deck[side]);
+            hand[handIdx]=cheap;
+          }
+        }
+      }
+    }
     document.body.classList.add('in-match');
     $('#btnEndTurn').style.display='';
     $('#btnConcede').style.display='';
@@ -1739,7 +1758,13 @@ const Game={
       paintCard(card,cv);
       el.addEventListener('click',(e)=>{
         if(e.shiftKey){showCardDetail(card);return}
-        if(playable){Game.playCard('me',i,null)}else{showCardDetail(card)}
+        if(playable){Game.playCard('me',i,null);return}
+        // unplayable Â· tell the user why instead of silently opening detail
+        if(state.match.over){log(`match over Â· hit "new match" to play again`,'evt')}
+        else if(state.match.active!=='me'){log(`wait for foe Â· it's their turn`,'evt')}
+        else if(state.match.board.me.length>=7){log(`board is full Â· attack or wait`,'evt')}
+        else if(state.match.mana.me<card.cost){log(`need ${card.cost} mana for ${card.name} Â· you have ${state.match.mana.me} Â· end turn to draw +1`,'evt')}
+        else{showCardDetail(card)}
       });
       h.appendChild(el);
     });
