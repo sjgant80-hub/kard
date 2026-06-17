@@ -1,188 +1,130 @@
-# KARD v4 · the registry duel goes online
+# KARD v5 · the registry duel · fun + elite
 
-A sovereign 3D collectible card game where every card is a GitHub repo. v4 extends v3 (3D Hearthstone-style table · registry-driven cards · IDB persistence · KONOMI NFT hook) with four new feature jumps:
+Sovereign single-HTML 3D collectible card game. Every card is a GitHub repo (or a starter card if you have none). Two front doors: **Fun Mode** for one-click play, **Elite Mode** for the full v4 power-user surface.
 
-1. **Import any GitHub repo** — paste a URL, fetch metadata via the GitHub API, mint a card into your collection.
-2. **Konomi compliance scorer** — a 7-point check against v20.4 doctrine. Score ≥5 = elite (visual + stat buff). 7/7 = KONOMI MASTER (rainbow frame, all abilities).
-3. **Multiplayer over PeerJS** — peer-to-peer real-time duels through the free public PeerJS broker (WebRTC). Async fallback via challenge files.
-4. **LinkedIn share** — generates a 1200×627 battle-result PNG and opens the LinkedIn composer pre-filled.
-
-Single HTML file · vanilla JS + Three.js + PeerJS · runs from `file://` · ◊·κ=1.
+> prime **787** · ◊·κ=1 · MIT · single HTML · runs from `file://`
 
 ---
 
-## For users · how to play
+## For the curious — Fun Mode (default)
 
-1. Open `index.html` in any modern browser.
-2. **Build a deck** in the left panel. 30 cards · max 2 copies (1 for legendaries). Use `auto deck` if you don't care to curate.
-3. **Click "new match"** to start vs the AI, or **"⚔ play online"** to duel a human via PeerJS.
-4. Click a card in your hand to play it. Click your own minion, then a target, to attack.
-5. After the match, the share modal opens with a downloadable PNG you can attach to LinkedIn.
+Click **▶ PLAY** on the landing screen. That's it.
 
-### Shortcuts
+- The game auto-builds a 30-card deck from any GitHub repos you've imported plus the deterministic 30-card **starter pool**.
+- You face the AI immediately. No deck-builder. No login. No Konomi vocabulary.
+- Card detail in Fun Mode shows only what matters: cost, attack, health, faction, ability text.
+- After the match: a clean **WIN/LOSS** overlay with a **▶ play again** button.
 
-- **Ctrl/Cmd + K** — Ω autopilot palette (router for every feature; supports `import owner/repo`, `play online`, `share`, `elite`, `legendaries`, faction names)
-- **Shift + click** any card — open its detail modal (with full konomi compliance report)
-- **Right-click** any card in the pool — same as shift-click
-- **Esc** — close any modal
+Auto-deck logic:
 
-### Import any repo
-
-Click **"+ import repo"** in the top bar. Paste any of:
-
-- `owner/repo`
-- `github.com/owner/repo`
-- `https://github.com/owner/repo`
-
-The game fetches the repo's metadata via the public GitHub API, runs the 7-check konomi compliance scorer against its raw `index.html` / `README.md` / `LICENSE`, derives the card's prime + faction + stats, and adds it to your collection. Persisted in IndexedDB so it's there next time.
-
-### Play online (multiplayer over PeerJS)
-
-Click **"⚔ play online"**. Your peer ID appears at the top of the modal — share it with your opponent. Or paste theirs and click `connect`. Both players exchange decks over the WebRTC data channel, then play live. Each action (play, attack, end turn) is broadcast as a small JSON message.
-
-If the live connection fails or you'd rather play turn-by-turn, switch to the **async** tab: export your turn as a `.kard.json` challenge file, send it to your opponent (Signal / Slack / email), they import it, take their turn, export back. PGN-style.
-
-### Share to LinkedIn
-
-After any match ends, a share modal pops up automatically with a 1200×627 result card. Click `download PNG`, then `open LinkedIn composer` — LinkedIn's URL deep-link is pre-filled with your post text. Attach the PNG manually in the composer (LinkedIn's API does not allow direct image attach via deep-link).
-
----
-
-## For developers · architecture
-
-Single HTML file. Vanilla JS modules via importmap (Three.js + PeerJS as the two declared CDN exceptions).
-
-### Files
-
-- `index.html` — the tool · ~140KB · single sovereign artifact
-- `archive/v2.html`, `archive/v3.html` — predecessors, untouched
-- `LICENSE` — MIT
-- `.nojekyll` — Pages legacy deploy
-
-### Key extension points (search the source)
-
-| Symbol | What it does |
-|---|---|
-| `repoToCard(app)` | Pure function: app metadata → game card. Honours `app.konomi` for stat bonus. |
-| `importAnyRepo(url, onProgress)` | Full pipeline: parse URL → GitHub API → konomi scorer → `repoToCard` → IDB persist → re-render pool. |
-| `checkKonomiCompliance(owner, repo, repoMeta)` | The 7-check scanner. Fetches `main` or `master` branch, runs every check in `KONOMI_CHECKS`. |
-| `KONOMI_CHECKS` | The 7-check array. Each item: `{id, label, test(html, repoMeta, licence, readme) → bool}`. |
-| `parseRepoUrl(s)` | Accepts `owner/repo`, `github.com/owner/repo`, or full HTTPS URL. |
-| `MP` | PeerJS multiplayer manager: `init`, `connect`, `attach`, `send`, `onData`, `disconnect`. |
-| `asyncExport()` / `asyncImport(file)` | Challenge-file flow. JSON includes deck, board, hand, hp, mana — perspective-flipped on import. |
-| `paintShareCanvas()` / `downloadSharePNG()` / `openLinkedInShare()` | Battle-result PNG generator + LinkedIn deep-link. |
-| `window.KARD` | Console hook exposing `state`, `Game`, `Scene`, `MP`, `importAnyRepo`, `checkKonomiCompliance`, `KONOMI_CHECKS`, etc. |
-
-### Konomi compliance scoring · the elite multiplier
-
-The 7 checks, applied against any imported repo:
-
-1. **KONOMI sovereign shim** — `window.KONOMI =` present in `index.html`
-2. **fall-signal mesh hook** — `new BroadcastChannel('fall-signal')` present
-3. **prime meta tag** — `<meta name="prime" content="...">` present
-4. **single-file sovereign** — repo size < 500 KB AND has `<script>` AND no `node_modules`
-5. **<400KB build gate** — `index.html` length < 409600 bytes
-6. **MIT licence** — `LICENSE` contains "MIT"
-7. **two-audience README** — `README.md` contains both a dev-facing section AND a user-facing section
-
-Stat bonuses derived from score:
-
-| Score | Tier | Bonus | Frame |
-|---|---|---|---|
-| 0–2 | standard | none | brass |
-| 3–4 | well-formed | +1/+1 | brass+shoulder |
-| 5–6 | **ELITE** | +2/+2 | amber glow |
-| 7 | **KONOMI MASTER** | +3/+3 + all 7 abilities | rainbow, animated |
-
-### Multiplayer protocol
-
-Wire messages over the PeerJS data channel (all small JSON):
-
-```js
-{type:'hello',   name:string, deck:Card[]}
-{type:'play',    handIdx:int, target:Target|null, uid:string}
-{type:'attack',  attackerIdx:int, target:Target}
-{type:'endturn'}
-{type:'over',    winner:'me'|'foe'|'draw'}
-{type:'chat',    text:string}
+```
+0 repos imported  → 30 starter cards
+7 repos imported  → 7 of yours + 23 starter
+30+ repos        → 30 of yours (deterministic top-30 by prime ascending)
 ```
 
-Authoritative state lives on whichever player's turn it is. Simple but works for friendly play — no anti-cheat.
-
-### Forked-instance detection
-
-When KARD is loaded from a fork (`location.hostname` matches `<owner>.github.io` and `owner !== 'sjgant80-hub'`), it best-effort seeds the pool with up to 5 of the owner's repos via the GitHub API. Documented in `loadRegistry()`.
-
-### Estate plumbing (preserved from v3)
-
-- `window.KONOMI` shim (sovereign tier · prime 787 · `check()` returns ok)
-- `window.KONOMI.nft.{mint,verify,transfer,list}` · `_impl: 'localStorage-stub'` · swap for chain when ready
-- `BroadcastChannel('fall-signal')` hello/ping handshake
-- `window.addEventListener('message')` action router (`ping`, `cards`, `mint`, **`import`** new in v4)
+The brand mark (top-left) or **← back to landing** in-match returns to the door.
 
 ---
 
-## v3 → v4 changelog
+## For the architects — Elite Mode (the full v4 experience)
 
-### Added
+Click **⚔ ELITE MODE** on the landing screen.
 
-- **§1 importAnyRepo + parseRepoUrl** — full repo-agnostic import path.
-- **§2 KONOMI_CHECKS + checkKonomiCompliance** — 7-point scorer, score-based stat multiplier (+0/+1/+2/+3), elite/master visual tiers, all-abilities buff at 7/7.
-- **§3 MP module + PeerJS CDN script** — live peer-to-peer matches with deck exchange, action broadcast, disconnect handling.
-- **§3b async challenge-file mode** — export/import `.kard.json` for turn-by-turn async play.
-- **§4 paintShareCanvas + LinkedIn deep-link** — 1200×627 result PNG + composer pre-fill.
-- IDB store: `imported` (persists fetched-from-github cards across reloads).
-- Settings: `displayName` (used as MP handle + on share card).
-- Forked-instance owner-repo seeding.
-- Top bar buttons: `+ import repo`, `⚔ play online`, multiplayer status badge.
-- Palette entries: `import a GitHub repo`, `play online`, `find KONOMI master cards`, `find elite cards`, `share last match`.
-- `postMessage` action: `import` (mesh-driven repo imports).
-- Card detail modal: full 7-check pass/fail report when card has konomi data.
-- `Game.computeMVP()` + per-side damage tracking for the share PNG.
-- `dominantFaction()` helper for the share card.
+Everything KARD v4 shipped, unchanged:
 
-### Changed
+- 30-card **deck builder** with mana-curve histogram, ≤2 copies + 1 legendary cap
+- **+ import repo** — any public GitHub repo, scored against the 7-check Konomi compliance gate
+- **Konomi compliance scoring** — score ≥5 = ELITE (amber frame, +2 stats), 7/7 = KONOMI MASTER (rainbow frame, +3 stats, all abilities)
+- **⚔ play online** — live PeerJS multiplayer or async `.kard.json` challenge files
+- **LinkedIn share** — generates a 1200×627 PNG of the match result
+- **NFT mint** via `window.KONOMI.nft` (sovereign IDB stub · `KONOMI_NFT_HOOK` marker)
+- **Ω autopilot** palette (Ctrl+K) · T0 keyword → T3 LLM fallback (Anthropic / OpenAI / Gemini / OpenRouter)
+- Card detail modal with full 7-check Konomi report + prime breakdown + spine factorisation
 
-- `repoToCard()` now honours `app.konomi` for kBonus stat multiplier and propagates `elite`/`konomiMaster` flags.
-- `abilityFor()` grants all 7 abilities when `app.konomi.konomiMaster === true`.
-- `Game.newMatch(opponent?)` accepts an opponent object `{deck, name}` for multiplayer; falls back to AI deck builder when absent.
-- `Game.playCard` / `Game.attack` / `Game.endTurn` broadcast to peer when `state.match.multiplayer`.
-- `Game.endMatch` records `multiplayer`, `opponentName`, `myFaction`, `foeFaction`, `mvp` in the IDB match row; auto-opens share modal.
-- `loadRegistry()` merges any previously-imported repos from IDB and detects forked instances.
-- Card pool rendering: elite/master classes, k-badge, kBonus label in sub.
-- Hand cards: elite/master classes with extra glow + animation.
-- `<meta name="prime" content="787">` added (so v4 itself passes its own scorer).
-- IDB version bumped: `kard-v3` → `kard-v4` (fresh DB; v3 data preserved separately).
-
-### Preserved (every v3 feature still works)
-
-- Registry fetch + ~50-card fallback pool
-- Deck builder (30 cards · ≤2 copies · 1 legendary cap · curve · auto-build · slots)
-- 3D hex table · heroes · mana crystals · deck stacks
-- Procedural card art (2D canvas + 3D texture)
-- Hover/drag/summon/attack/death animations
-- Turn-based loop (now AI **or** human)
-- IDB match history + deck slots
-- Card detail modal (extended, not replaced)
-- `window.KONOMI.nft.{mint,verify,transfer,list}` interface
-- Ω autopilot Ctrl+K palette (extended router)
-- Three.js + OrbitControls imports
-- fall-signal mesh hello/pong
-- postMessage ping/cards/mint actions
+A toggle in the deck builder lets you **show starter cards in pool** if you want to draft with them on purpose.
 
 ---
 
-## CDN exceptions (declared)
+## Starter Deck reference (30 balanced cards)
 
-- `three@0.160.0` — 3D table + cards (inherited from v3)
-- `peerjs@1.5.4` — WebRTC multiplayer (new in v4, documented in brief)
+Hand-tuned curve **4×1 / 6×2 / 6×3 / 5×4 / 4×5 / 3×6 / 2×7 = 30**.
 
-Both load from `unpkg`. No npm, no build step, no server.
+Public-domain-safe names, generic factionless naming, abilities limited to **Battlecry** (sparingly), stats approximately `cost N → N+1 total` body. All starter cards are flagged `isStarter:true` and are:
+
+- Visually distinct (parchment / grey frame, "STARTER" badge)
+- Excluded from Konomi compliance bonuses
+- Excluded from NFT minting (`window.KONOMI.nft.mint()` throws on a starter)
+- Filtered out of the Elite-Mode pool by default (toggle to include)
+
+| Cost | Cards |
+| ---: | ---   |
+| 1 | Novice Pixel · Stray Byte · Copper Coin · Quill Scratch |
+| 2 | Iron Rune · Watcher Eye · Foundry Rat · Tin Acolyte · Broker Clerk · Town Crier |
+| 3 | Ledger Keeper · Grid Warden · Glass Augur · Cobalt Scribe · Bramble Mage · Banner Herald |
+| 4 | Merchant Knight · Arc Priest · Loom Witch · Mint Warden · Field Cartographer |
+| 5 | Marble Justicar · Bonded Mason · Velvet Baron · Ember Herald |
+| 6 | Bronze Archon · Sigil Master · Storm Baron |
+| 7 | Iron Titan · Amber Archon |
 
 ---
 
-## License
+## v4 → v5 changelog
+
+Additions only — v4 logic is preserved verbatim behind Elite Mode.
+
+- **Landing screen mode router** — two equal-weight choices (`▶ PLAY` / `⚔ ELITE MODE`) replaces the cold-start v4 deck-builder dump
+- **`state.mode`** — `'landing' | 'fun' | 'elite'` · persisted in IDB so returning users see their last door first (still routed through the landing on cold-start unless `#fun` / `#elite` URL hint is used)
+- **`STARTER_DECK`** — the 30-card deterministic balanced pool, baked into the file
+- **`buildAutoDeck()`** — combines imported repo cards (up to 30, sorted by prime ascending) with starter cards to pad to exactly 30
+- **Split match-history buckets** — `history` panel filters by current mode so Fun stats don't muddle Elite
+- **Card detail simplified in Fun Mode** — only name/cost/attack/health/ability text; no prime, no spine, no 7-check report, no NFT button
+- **Fun Mode after-match** — clean WIN/LOSS overlay with rematch; no LinkedIn modal (Elite only)
+- **Topbar adapts** — Fun Mode hides import-repo / multiplayer / settings / Ω autopilot / tier badge; Elite Mode shows them all
+- **Starter pool toggle** in Elite Mode deck builder (show/hide starter cards)
+- **PWA / mesh / KONOMI** identifiers updated from `kard-v4` → `kard-v5` (prime 787 unchanged)
+
+---
+
+## Architecture (developers)
+
+Single sovereign HTML file. ~140KB target. Vanilla JS + `<script type="module">`. Two declared CDN exceptions: **Three.js** (3D scene) and **PeerJS** (multiplayer).
+
+```
+index.html              # the whole app
+  ├── manifest          # PWA via data: URL
+  ├── styles            # estate dark palette (--brass --amber --void --cream)
+  ├── DOM               # topbar · 3-col layout · landing · 5 modals · palette
+  └── script (module)
+        ├── IDB         # 'kard-v5' DB · 6 stores (decks · matches · wallet · settings · pool · imported)
+        ├── state       # { mode, settings, pool, deck, factions, match, wallet, mp }
+        ├── STARTER_DECK  # 30 deterministic balanced cards (isStarter:true)
+        ├── buildAutoDeck # personal imports + starter pad
+        ├── repoToCard / importAnyRepo / checkKonomiCompliance  # 7-check Konomi gate
+        ├── Scene       # Three.js 3D table · OrbitControls · particles
+        ├── Game        # turn-based loop · greedy AI · mode-aware end screens
+        ├── MP          # PeerJS live + async .kard.json export/import
+        ├── Cascade     # T0 / T2 (Ollama probe) / T3 (Anthropic, OpenAI, Gemini, OpenRouter)
+        ├── Palette     # Ω autopilot · Ctrl+K · keyword + LLM fallback
+        ├── KONOMI shim # sovereign tier · BroadcastChannel('fall-signal') · postMessage API
+        └── boot        # mode router · landing · enterMode('fun' | 'elite')
+```
+
+`window.KARD` exposes `{ state, Game, Scene, Cascade, MP, repoToCard, importAnyRepo, checkKonomiCompliance, parseRepoUrl, FACTIONS, ABILITY_DESC, PRIME, VERSION, TOOLNAME, STARTER_DECK, buildAutoDeck, enterMode, showLanding }` for mesh debugging.
+
+`window.KONOMI.nft` interface (the `KONOMI_NFT_HOOK` marker): `mint(card, ownerKey)` · `verify(tokenId)` · `transfer(tokenId, to)` · `list(ownerKey)` · `_impl = 'localStorage-stub'`. Starter cards throw on mint.
+
+---
+
+## Versions
+
+- v5 — fun + elite modes (this file)
+- v4 — see `archive/v4.html` — repo-agnostic + Konomi-elite + multiplayer + LinkedIn
+- v3 — see `archive/v3.html` — registry-driven 3D
+- v2 — see `archive/v2.html` — earlier sovereign build
+
+VERSION = `'5.0.0'` · PRIME = `787` · TOOLNAME = `'kard-v5'`
+
+---
 
 MIT · Copyright (c) 2026 Simon Gant · sjgant80-hub
-
-prime 787 · 787 mod 127 = 25 = 5² · double-hot mark · ◊·κ=1

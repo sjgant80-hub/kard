@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="prime" content="787">
-<title>KARD v5 · the registry duel · fun + elite</title>
-<meta name="description" content="KARD v5 · sovereign 3D collectible card game · Fun Mode (one-click vs AI) + Elite Mode (full v4 deck-builder · konomi · multiplayer · LinkedIn) · prime 787.">
-<link rel="manifest" href='data:application/manifest+json,{"name":"KARD v5","short_name":"KARD","start_url":"./","display":"standalone","background_color":"%230b0a0f","theme_color":"%23ff8c00","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27><rect width=%27192%27 height=%27192%27 fill=%27%230b0a0f%27 rx=%2828%27/><text x=%2796%27 y=%27130%27 font-family=%27Georgia, serif%27 font-size=%27108%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%23ff8c00%27>◊</text></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
+<title>KARD v4 · the registry duel goes online</title>
+<meta name="description" content="KARD v4 · sovereign 3D collectible card game · every card is any GitHub repo · konomi compliance scoring · PeerJS multiplayer · LinkedIn share · prime 787.">
+<link rel="manifest" href='data:application/manifest+json,{"name":"KARD v4","short_name":"KARD","start_url":"./","display":"standalone","background_color":"%230b0a0f","theme_color":"%23ff8c00","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27><rect width=%27192%27 height=%27192%27 fill=%27%230b0a0f%27 rx=%2828%27/><text x=%2796%27 y=%27130%27 font-family=%27Georgia, serif%27 font-size=%27108%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%23ff8c00%27>◊</text></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@ textarea{resize:vertical;min-height:60px;width:100%}
 
 #app{display:grid;grid-template-rows:48px 1fr;height:100vh}
 #topbar{display:flex;align-items:center;gap:10px;padding:0 14px;background:linear-gradient(180deg,var(--void-2),var(--void));border-bottom:1px solid var(--line);flex-wrap:nowrap;overflow-x:auto}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;letter-spacing:.5px;flex-shrink:0;cursor:pointer}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;letter-spacing:.5px;flex-shrink:0}
 .brand .glyph{font-size:22px;background:linear-gradient(135deg,var(--brass),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
 .brand .name{color:var(--cream);font-size:14px}
 .brand .ver{color:var(--cream-muted);font-size:10px;font-family:var(--mono);margin-left:4px}
@@ -51,7 +51,6 @@ textarea{resize:vertical;min-height:60px;width:100%}
 .badge{font-family:var(--mono);font-size:10px;padding:3px 7px;border:1px solid var(--line);border-radius:3px;color:var(--cream-muted);flex-shrink:0}
 .badge.t3{color:var(--green);border-color:var(--green)}
 .badge.mp{color:var(--green);border-color:var(--green)}
-.badge.mode{color:var(--amber);border-color:var(--brass)}
 .turn-ind{font-family:var(--mono);font-size:11px;color:var(--brass);padding:4px 8px;border:1px solid var(--line);border-radius:3px;flex-shrink:0}
 
 #main{display:grid;grid-template-columns:280px 1fr 260px;height:calc(100vh - 48px);overflow:hidden}
@@ -68,10 +67,6 @@ textarea{resize:vertical;min-height:60px;width:100%}
 #hud .mp{color:var(--blue)}
 #hud .me-hp{color:var(--green)}
 
-#btnHome{position:absolute;top:8px;left:8px;z-index:20;padding:6px 10px;border:1px solid var(--brass);border-radius:4px;background:rgba(11,10,15,.85);color:var(--amber);font-family:var(--mono);font-size:11px;cursor:pointer;backdrop-filter:blur(6px);display:none}
-#btnHome:hover{color:var(--cream);border-color:var(--amber)}
-body.in-match #btnHome{display:block}
-
 /* card pool entries */
 .card-row{display:flex;gap:6px;padding:6px;border:1px solid var(--line-soft);border-radius:4px;margin-bottom:4px;cursor:pointer;align-items:center;background:var(--ink);transition:all .12s;position:relative}
 .card-row:hover{border-color:var(--brass);background:var(--ink-2)}
@@ -86,19 +81,14 @@ body.in-match #btnHome{display:block}
 .card-row.rare{box-shadow:inset 3px 0 0 var(--blue)}
 .card-row.elite{border-color:var(--amber);box-shadow:inset 3px 0 0 var(--amber),0 0 8px rgba(255,140,0,.3)}
 .card-row.konomi-master{border-color:var(--green);box-shadow:inset 3px 0 0 var(--green),0 0 12px rgba(74,222,128,.5);animation:k-glow 3s ease-in-out infinite}
-.card-row.starter{opacity:.85;background:#1c1b22;border-color:#3a3845;box-shadow:inset 3px 0 0 #6e6a5e}
-.card-row.starter .nm{color:var(--cream-dim);font-style:italic}
 @keyframes k-glow{0%,100%{box-shadow:inset 3px 0 0 var(--green),0 0 8px rgba(74,222,128,.4)}50%{box-shadow:inset 3px 0 0 var(--amber),0 0 16px rgba(255,140,0,.6)}}
 .k-badge{position:absolute;top:2px;right:2px;font-family:var(--mono);font-size:8px;padding:1px 4px;border-radius:2px;background:var(--amber);color:#000;font-weight:700}
 .k-badge.km{background:linear-gradient(90deg,var(--green),var(--amber),var(--blue));color:#000}
-.k-badge.st{background:#6e6a5e;color:#000}
 
 /* deck builder controls */
 .dk-tools{padding:8px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
 .dk-tools .row{display:flex;gap:4px;flex-wrap:wrap}
 .dk-tools select,.dk-tools input{flex:1;min-width:60px;font-size:11px;padding:4px 6px}
-.dk-tools label.tog{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--cream-muted);font-family:var(--mono);cursor:pointer}
-.dk-tools label.tog input{flex:initial;min-width:0;width:auto}
 .dk-curve{display:flex;align-items:flex-end;gap:2px;height:30px;padding:4px}
 .dk-curve .bar{flex:1;background:var(--brass);min-height:1px;position:relative}
 .dk-curve .bar span{position:absolute;bottom:-12px;left:0;right:0;text-align:center;font-size:8px;color:var(--cream-muted);font-family:var(--mono)}
@@ -128,7 +118,6 @@ body.in-match #btnHome{display:block}
 .hand-card.dragging{opacity:.3}
 .hand-card.elite{box-shadow:0 4px 12px rgba(255,140,0,.5),0 0 6px var(--amber)}
 .hand-card.konomi-master{box-shadow:0 4px 12px rgba(74,222,128,.7),0 0 14px var(--green);animation:k-glow 3s ease-in-out infinite}
-.hand-card.starter{border-color:#6e6a5e;background:#1c1b22;box-shadow:0 4px 12px rgba(0,0,0,.6)}
 
 /* log */
 .log{font-family:var(--mono);font-size:10px;color:var(--cream-dim);padding:4px 6px;border-bottom:1px solid var(--line-soft)}
@@ -221,40 +210,6 @@ body.in-match #btnHome{display:block}
 .share-prev canvas{width:100%;display:block}
 .share-note{font-size:11px;color:var(--cream-muted);font-family:var(--mono);margin-top:10px;padding:8px;background:var(--ink);border-left:2px solid var(--brass);border-radius:3px}
 
-/* ============ landing / mode router ============ */
-#landing{position:fixed;inset:48px 0 0 0;background:radial-gradient(ellipse at center,#15131c 0%,#0b0a0f 70%);z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow:auto}
-#landing.hide{display:none}
-.land-title{font-family:var(--serif);font-size:32px;color:var(--cream);text-align:center;margin-bottom:6px;letter-spacing:1px}
-.land-title b{background:linear-gradient(135deg,var(--brass),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
-.land-sub{font-family:var(--mono);font-size:12px;color:var(--cream-muted);text-align:center;margin-bottom:36px}
-.land-choices{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:760px;width:100%}
-.land-card{background:var(--void-2);border:2px solid var(--line);border-radius:10px;padding:28px 22px;cursor:pointer;transition:all .18s;text-align:left;display:flex;flex-direction:column;gap:10px;min-height:240px}
-.land-card:hover{border-color:var(--brass);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.6)}
-.land-card.play{border-color:var(--amber)}
-.land-card.play:hover{box-shadow:0 12px 36px rgba(255,140,0,.35)}
-.land-card.elite{border-color:var(--brass)}
-.land-card.elite:hover{box-shadow:0 12px 36px rgba(184,151,74,.3)}
-.lc-hd{font-family:var(--serif);font-size:24px;letter-spacing:1px}
-.land-card.play .lc-hd{color:var(--amber)}
-.land-card.elite .lc-hd{color:var(--brass)}
-.lc-sub{font-family:var(--mono);font-size:11px;color:var(--cream-muted);text-transform:uppercase;letter-spacing:1px;margin-top:-4px}
-.lc-bullets{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--cream-dim);line-height:1.7}
-.lc-bullets b{color:var(--cream);font-weight:600}
-.land-foot{margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:6px}
-.land-deck-preview{font-family:var(--mono);font-size:11px;color:var(--cream-dim);text-align:center;padding:8px 14px;background:var(--ink);border:1px solid var(--line);border-radius:4px;max-width:600px}
-.land-deck-preview b{color:var(--amber)}
-.land-hist-strip{font-family:var(--mono);font-size:11px;color:var(--cream-muted);margin-top:4px}
-.land-hist-strip .w{color:var(--green)}
-.land-hist-strip .l{color:var(--red)}
-.land-hist-strip .d{color:var(--cream-dim)}
-.land-seal{margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--cream-muted);letter-spacing:1px}
-.land-seal b{color:var(--green)}
-@media(max-width:680px){
-  .land-choices{grid-template-columns:1fr}
-  .land-title{font-size:24px}
-  #landing{padding:16px}
-}
-
 /* mobile */
 @media(max-width:880px){
   #main{grid-template-columns:1fr}
@@ -271,52 +226,28 @@ body.in-match #btnHome{display:block}
 .in-match #left .match-only{display:block}
 #left .match-only{display:none}
 
-/* fun mode hides power-user surfaces */
-body.mode-fun #left,
-body.mode-fun #right{display:none}
-body.mode-fun #main{grid-template-columns:1fr}
-body.mode-fun #btnImportRepo,
-body.mode-fun #btnMultiplayer,
-body.mode-fun #btnSettings,
-body.mode-fun #btnPalette,
-body.mode-fun .elite-only{display:none !important}
-body.mode-fun #poolBadge{display:none}
-body.mode-fun.in-match #hand{pointer-events:auto}
-
 .h-abil-icons{position:absolute;bottom:18px;left:2px;display:flex;gap:1px}
 .h-abil-icons .ai{width:10px;height:10px;border-radius:50%;font-size:7px;display:grid;place-items:center;font-weight:700;font-family:var(--mono)}
 .empty-state{padding:30px 16px;text-align:center;color:var(--cream-muted);font-size:11px}
 .empty-state .glyph{font-family:var(--serif);font-size:32px;color:var(--brass);display:block;margin-bottom:8px}
-
-/* after-match overlay (fun mode) */
-.fun-result{position:absolute;inset:0;background:rgba(11,10,15,.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:18px;z-index:60;backdrop-filter:blur(8px)}
-.fun-result.show{display:flex}
-.fun-result .fr-title{font-family:var(--serif);font-size:64px;letter-spacing:3px}
-.fun-result .fr-title.win{color:var(--green)}
-.fun-result .fr-title.loss{color:var(--red)}
-.fun-result .fr-title.draw{color:var(--cream-muted)}
-.fun-result .fr-sub{font-family:var(--mono);font-size:13px;color:var(--cream-dim)}
-.fun-result .fr-acts{display:flex;gap:12px;margin-top:8px}
-.fun-result .fr-acts .tbtn{padding:10px 18px;font-size:12px}
 </style>
 </head>
 <body>
 <div id="app">
   <div id="topbar">
-    <div class="brand" id="brandHome" title="back to landing"><span class="glyph">◊</span><span class="name">KARD <span style="color:var(--amber)">v5</span></span><span class="ver">· fun + elite · prime 787</span></div>
-    <span class="turn-ind" id="turnInd">— · landing</span>
+    <div class="brand"><span class="glyph">◊</span><span class="name">KARD <span style="color:var(--amber)">v4</span></span><span class="ver">· goes online · prime 787</span></div>
+    <span class="turn-ind" id="turnInd">— · loading registry</span>
     <span class="spacer"></span>
-    <span class="badge mode" id="modeBadge">—</span>
     <span class="badge" id="poolBadge">0 cards</span>
     <span class="badge" id="mpBadge" style="display:none">offline</span>
-    <button class="tbtn elite-only" id="btnImportRepo">+ import repo</button>
-    <button class="tbtn elite-only" id="btnMultiplayer">⚔ play online</button>
-    <button class="tbtn" id="btnNewMatch" style="display:none">new match</button>
+    <button class="tbtn" id="btnImportRepo">+ import repo</button>
+    <button class="tbtn" id="btnMultiplayer">⚔ play online</button>
+    <button class="tbtn" id="btnNewMatch">new match</button>
     <button class="tbtn" id="btnEndTurn" style="display:none">end turn</button>
     <button class="tbtn" id="btnConcede" style="display:none">concede</button>
-    <button class="tbtn elite-only" id="btnSettings">settings</button>
-    <button class="tbtn primary elite-only" id="btnPalette">Ω autopilot</button>
-    <span class="badge elite-only" id="tierBadge">offline</span>
+    <button class="tbtn" id="btnSettings">settings</button>
+    <button class="tbtn primary" id="btnPalette">Ω autopilot</button>
+    <span class="badge" id="tierBadge">offline</span>
   </div>
   <div id="main">
     <aside id="left">
@@ -344,9 +275,6 @@ body.mode-fun.in-match #hand{pointer-events:auto}
             <button class="tbtn" id="btnSaveDeck" style="flex:1">save</button>
             <select id="deckSlot" style="flex:1"><option value="default">default</option><option value="slot1">slot 1</option><option value="slot2">slot 2</option></select>
           </div>
-          <div class="row">
-            <label class="tog"><input type="checkbox" id="togStarters"> show starter cards in pool</label>
-          </div>
           <div class="dk-curve" id="dkCurve"></div>
         </div>
         <div class="dk-status" id="dkStatus">— need 30 cards</div>
@@ -360,7 +288,6 @@ body.mode-fun.in-match #hand{pointer-events:auto}
     </aside>
 
     <main id="centre">
-      <button id="btnHome" title="back to landing">← back to landing</button>
       <div id="scene"></div>
       <div id="hud">
         <span>turn <b id="hudTurn">—</b></span>
@@ -373,14 +300,6 @@ body.mode-fun.in-match #hand{pointer-events:auto}
         <span id="hudPhase">setup</span>
       </div>
       <div id="hand"></div>
-      <div class="fun-result" id="funResult">
-        <div class="fr-title" id="frTitle">WIN</div>
-        <div class="fr-sub" id="frSub">— turns · vs AI</div>
-        <div class="fr-acts">
-          <button class="tbtn primary" id="frRematch">▶ play again</button>
-          <button class="tbtn" id="frLanding">← back to landing</button>
-        </div>
-      </div>
     </main>
 
     <aside id="right">
@@ -393,39 +312,6 @@ body.mode-fun.in-match #hand{pointer-events:auto}
       <div class="tab-panel" data-panel="hist" id="histPanel" style="flex:1;overflow:auto;padding:6px"></div>
       <div class="tab-panel" data-panel="wallet" id="walletPanel" style="flex:1;overflow:auto;padding:6px"></div>
     </aside>
-  </div>
-</div>
-
-<!-- mode-router landing -->
-<div id="landing">
-  <div class="land-title">KARD <b>v5</b> · the registry duel</div>
-  <div class="land-sub">fun mode for the curious · elite mode for the architects</div>
-  <div class="land-choices">
-    <div class="land-card play" id="landPlay">
-      <div class="lc-hd">▶ PLAY</div>
-      <div class="lc-sub">fun mode</div>
-      <div class="lc-bullets">
-        <div><b>one click</b> to start</div>
-        <div><b>auto deck</b> from your repos + starters</div>
-        <div><b>vs AI</b> · 30 cards · offline</div>
-        <div><b>no setup</b> required</div>
-      </div>
-    </div>
-    <div class="land-card elite" id="landElite">
-      <div class="lc-hd">⚔ ELITE MODE</div>
-      <div class="lc-sub">the full deck</div>
-      <div class="lc-bullets">
-        <div><b>build</b> a 30-card deck by hand</div>
-        <div><b>import</b> any GitHub repo</div>
-        <div><b>konomi</b> compliance · multiplayer</div>
-        <div><b>LinkedIn</b> share · NFT mint</div>
-      </div>
-    </div>
-  </div>
-  <div class="land-foot">
-    <div class="land-deck-preview" id="landDeckPrev">your deck: <b>—</b></div>
-    <div class="land-hist-strip" id="landHist">last 3 matches: —</div>
-    <div class="land-seal">prime <b>787</b> · ◊·κ=1 · MIT · sovereign single HTML</div>
   </div>
 </div>
 
@@ -449,7 +335,7 @@ body.mode-fun.in-match #hand{pointer-events:auto}
       <div class="set-row"><label>gemini key</label><input id="setGem" type="password"></div>
       <div class="set-row"><label>openrouter key</label><input id="setOR" type="password"></div>
       <div class="cd-actions"><button class="tbtn primary" id="setSave">save</button><button class="tbtn" id="setReset">reset all</button></div>
-      <div style="margin-top:14px;font-size:11px;color:var(--cream-muted);font-family:var(--mono)">prime 787 · 787 mod 127 = 25 = 5² · double-hot mark<br>KONOMI sovereign · ◊·κ=1 · MIT · v5</div>
+      <div style="margin-top:14px;font-size:11px;color:var(--cream-muted);font-family:var(--mono)">prime 787 · 787 mod 127 = 25 = 5² · double-hot mark<br>KONOMI sovereign · ◊·κ=1 · MIT · v4</div>
     </div>
   </div>
 </div>
@@ -544,24 +430,20 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
 // ============================================================
-// KARD v5 Â· sovereign Â· prime 787 Â· fun + elite
-// extends v4 (all features preserved behind Elite Mode) with:
-// Â· landing screen mode router (Fun / Elite)
-// Â· STARTER_DECK (30 deterministic balanced cards)
-// Â· buildAutoDeck() Â· personal + starter pad
-// Â· state.mode persisted Â· split history buckets
+// KARD v4 · sovereign · prime 787 · registry-driven · 3D
+// extends v3 with: importAnyRepo · konomi compliance scorer ·
+// PeerJS multiplayer · LinkedIn share
 // ============================================================
-const TOOLNAME='kard-v5';
+const TOOLNAME='kard-v4';
 const PRIME=787;
-const VERSION='5.0.0';
-const REGISTRY_URL_PRIMARY='https://raw.githubusercontent.com/sjgant80-hub/kard-v5/main/index.json';
-const REGISTRY_URL_FALLBACK='https://raw.githubusercontent.com/sjgant80-hub/fall-registry/main/index.json';
+const VERSION='4.0.0';
+const REGISTRY_URL_PRIMARY='https://raw.githubusercontent.com/sjgant80-hub/fall-registry/main/index.json';
 
 // ---------- IDB ----------
 const IDB={
   _db:null,
   async open(){if(this._db)return this._db;return new Promise((res,rej)=>{
-    const r=indexedDB.open('kard-v5',1);
+    const r=indexedDB.open('kard-v4',1);
     r.onupgradeneeded=e=>{const db=e.target.result;
       if(!db.objectStoreNames.contains('decks'))db.createObjectStore('decks',{keyPath:'slot'});
       if(!db.objectStoreNames.contains('matches'))db.createObjectStore('matches',{keyPath:'id',autoIncrement:true});
@@ -582,8 +464,7 @@ const IDB={
 
 // ---------- state ----------
 const state={
-  mode:'landing',
-  settings:{ownerKey:'',displayName:'',anthropicKey:'',openaiKey:'',geminiKey:'',openrouterKey:'',lastMode:'fun',showStartersInPool:false},
+  settings:{ownerKey:'',displayName:'',anthropicKey:'',openaiKey:'',geminiKey:'',openrouterKey:''},
   pool:[],
   deck:[],
   factions:[],
@@ -622,6 +503,7 @@ function categoryToFaction(cat){
   if(/biz|enterprise|firm/.test(c))return'BARON';
   return'SCRIBE';
 }
+// hash-derived prime fallback for non-konomi repos
 const SMALL_PRIMES=[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113];
 function derivePrimeFromName(name){
   let h=0;for(let i=0;i<name.length;i++)h=((h<<5)-h)+name.charCodeAt(i)|0;
@@ -651,12 +533,14 @@ function abilityFor(r,app){
     const s=app.prime; const m={2:'BATTLECRY',3:'PIERCE',5:'SPELLPOWER',7:'LIFESTEAL',11:'CHARGE',13:'DIVINESHIELD',17:'DEATHRATTLE'};
     if(!out.includes(m[s]))out.push(m[s]);
   }
+  // KONOMI MASTER: grant all abilities regardless of mod-127
   if(app.konomi&&app.konomi.konomiMaster){
     for(const a of Object.keys(ABILITY_DESC))if(!out.includes(a))out.push(a);
   }
   return out;
 }
 
+// ---------- repoToCard (extended) ----------
 function repoToCard(app){
   const prime=app.prime||2;
   const cost=Math.max(1,Math.min(10,Math.floor(Math.log10(prime))+1));
@@ -666,6 +550,7 @@ function repoToCard(app){
   const r=prime%127;
   const spineWeight=countSpineFactors(r);
   let health=Math.max(1,Math.min(12,baseAttack+spineWeight));
+  // konomi compliance multiplier
   const k=app.konomi;
   let kBonus=0;
   if(k){
@@ -685,122 +570,12 @@ function repoToCard(app){
     elite:!!(k&&k.elite),
     konomiMaster:!!(k&&k.konomiMaster),
     kBonus,
-    importedFromGh:!!app.source,
-    isStarter:false
+    importedFromGh:!!app.source
   };
 }
 
-
 // ============================================================
-// STARTER_DECK Â· 30 deterministic balanced cards Â· curated curve
-// curve: 4x1 / 6x2 / 6x3 / 5x4 / 4x5 / 3x6 / 2x7 = 30
-// abilities: only Battlecry, sparingly Â· public-domain-safe names
-// stats: cost N -> roughly N+1 total (att+hp-1) balanced
-// ============================================================
-const STARTER_DECK_RAW=[
-  // ---- 1-cost (4) ----
-  {id:'starter-novice-pixel',name:'Novice Pixel',cost:1,attack:1,health:2,faction:'SCRIBE',text:'A blank canvas waiting to render.'},
-  {id:'starter-stray-byte',name:'Stray Byte',cost:1,attack:2,health:1,faction:'ARCHITECT',text:'Eight bits of pure determination.'},
-  {id:'starter-copper-coin',name:'Copper Coin',cost:1,attack:1,health:1,faction:'BANKER',ability:['BATTLECRY'],text:'Battlecry: chips away a single edge.'},
-  {id:'starter-quill-scratch',name:'Quill Scratch',cost:1,attack:2,health:1,faction:'MAGE',text:'The first stroke of every story.'},
-
-  // ---- 2-cost (6) ----
-  {id:'starter-iron-rune',name:'Iron Rune',cost:2,attack:2,health:3,faction:'SCRIBE',text:'Etched into the cold side of the table.'},
-  {id:'starter-watcher-eye',name:'Watcher Eye',cost:2,attack:3,health:2,faction:'SEER',text:'Sees three moves ahead. Usually wrong about two.'},
-  {id:'starter-foundry-rat',name:'Foundry Rat',cost:2,attack:3,health:2,faction:'ARCHITECT',text:'Lives in the warmth of the bus.'},
-  {id:'starter-tin-acolyte',name:'Tin Acolyte',cost:2,attack:2,health:3,faction:'MAGE',ability:['BATTLECRY'],text:'Battlecry: scuffs an enemy with rusted prayer.'},
-  {id:'starter-broker-clerk',name:'Broker Clerk',cost:2,attack:2,health:3,faction:'BANKER',text:'Keeps the ledgers honest. Mostly.'},
-  {id:'starter-town-crier',name:'Town Crier',cost:2,attack:3,health:2,faction:'HERALD',text:'Bellows the patch notes at dawn.'},
-
-  // ---- 3-cost (6) ----
-  {id:'starter-ledger-keeper',name:'Ledger Keeper',cost:3,attack:3,health:4,faction:'BANKER',text:'Counts every receipt twice. Then once more.'},
-  {id:'starter-grid-warden',name:'Grid Warden',cost:3,attack:3,health:4,faction:'ARCHITECT',text:'Patrols the lattice between racks.'},
-  {id:'starter-glass-augur',name:'Glass Augur',cost:3,attack:4,health:3,faction:'SEER',text:'Reads the dashboards like tea leaves.'},
-  {id:'starter-cobalt-scribe',name:'Cobalt Scribe',cost:3,attack:3,health:4,faction:'SCRIBE',ability:['BATTLECRY'],text:'Battlecry: scribbles a snide footnote.'},
-  {id:'starter-bramble-mage',name:'Bramble Mage',cost:3,attack:4,health:3,faction:'MAGE',text:'Tangles the air with half-finished spells.'},
-  {id:'starter-banner-herald',name:'Banner Herald',cost:3,attack:4,health:3,faction:'HERALD',text:'Marches with the colours unfurled.'},
-
-  // ---- 4-cost (5) ----
-  {id:'starter-merchant-knight',name:'Merchant Knight',cost:4,attack:4,health:5,faction:'BARON',text:'Trades blows and quarterly forecasts.'},
-  {id:'starter-arc-priest',name:'Arc Priest',cost:4,attack:4,health:5,faction:'JUSTICAR',text:'Holds the line of the covenant.'},
-  {id:'starter-loom-witch',name:'Loom Witch',cost:4,attack:5,health:4,faction:'MAGE',text:'Weaves outcomes from spare threads.'},
-  {id:'starter-mint-warden',name:'Mint Warden',cost:4,attack:4,health:5,faction:'BANKER',ability:['BATTLECRY'],text:'Battlecry: presses a coin into an open wound.'},
-  {id:'starter-cartographer',name:'Field Cartographer',cost:4,attack:5,health:4,faction:'SEER',text:'Sketches the board from above.'},
-
-  // ---- 5-cost (4) ----
-  {id:'starter-marble-justicar',name:'Marble Justicar',cost:5,attack:5,health:6,faction:'JUSTICAR',text:'Weighs every claim on the table.'},
-  {id:'starter-bonded-mason',name:'Bonded Mason',cost:5,attack:5,health:6,faction:'ARCHITECT',text:'Lays the keystone every match.'},
-  {id:'starter-velvet-baron',name:'Velvet Baron',cost:5,attack:6,health:5,faction:'BARON',text:'Owns the deed to the room you stand in.'},
-  {id:'starter-ember-herald',name:'Ember Herald',cost:5,attack:6,health:5,faction:'HERALD',text:'Carries the campaign letter through smoke.'},
-
-  // ---- 6-cost (3) ----
-  {id:'starter-bronze-archon',name:'Bronze Archon',cost:6,attack:6,health:7,faction:'JUSTICAR',text:'Stands where the previous one fell.'},
-  {id:'starter-sigil-master',name:'Sigil Master',cost:6,attack:7,health:6,faction:'SCRIBE',ability:['BATTLECRY'],text:'Battlecry: stamps a glyph that smarts.'},
-  {id:'starter-storm-baron',name:'Storm Baron',cost:6,attack:7,health:6,faction:'BARON',text:'Calls in favours from the upper atmosphere.'},
-
-  // ---- 7-cost (2) ----
-  {id:'starter-iron-titan',name:'Iron Titan',cost:7,attack:7,health:8,faction:'ARCHITECT',text:'The keystone, finally walking.'},
-  {id:'starter-amber-archon',name:'Amber Archon',cost:7,attack:8,health:7,faction:'MAGE',text:'Settles old debts in molten gold.'},
-];
-
-const STARTER_DECK=STARTER_DECK_RAW.map(c=>({
-  id:c.id,
-  name:c.name,
-  prime:0,
-  cost:c.cost,
-  attack:c.attack,
-  health:c.health,
-  rarity:'common',
-  faction:c.faction,
-  ability:c.ability||[],
-  app:{name:c.name,prime:0,tier:'C',category:'starter',purpose:c.text,starter:true},
-  modResidue:0,
-  spineFactors:[],
-  konomi:null,
-  elite:false,
-  konomiMaster:false,
-  kBonus:0,
-  importedFromGh:false,
-  isStarter:true,
-  text:c.text
-}));
-
-if(STARTER_DECK.length!==30){console.error('STARTER_DECK count mismatch',STARTER_DECK.length)}
-
-// ---------- v5 Â· buildAutoDeck ----------
-async function loadImportedRepoCards(){
-  try{
-    const imp=await IDB.all('imported');
-    const cards=[];
-    for(const row of imp||[]){
-      if(!row.card)continue;
-      const c=row.card.app?repoToCard(row.card.app):row.card;
-      c.isStarter=false;
-      cards.push(c);
-    }
-    cards.sort((a,b)=>(a.prime||0)-(b.prime||0));
-    return cards;
-  }catch(e){return []}
-}
-
-async function buildAutoDeck(){
-  const myRepos=await loadImportedRepoCards();
-  const personalCards=myRepos.slice(0,30);
-  const need=Math.max(0,30-personalCards.length);
-  const fillCards=STARTER_DECK.slice(0,need);
-  return shuffle([...personalCards,...fillCards]);
-}
-
-async function describeAutoDeckComposition(){
-  const myRepos=await loadImportedRepoCards();
-  const personal=Math.min(30,myRepos.length);
-  const starter=30-personal;
-  return{personal,starter,total:30};
-}
-
-
-// ============================================================
-// Â§1+Â§2 Â· importAnyRepo Â· konomi compliance scorer (v4 verbatim)
+// §1+§2 · importAnyRepo · konomi compliance scorer
 // ============================================================
 function parseRepoUrl(s){
   s=String(s||'').trim().replace(/^https?:\/\//,'').replace(/^github\.com\//,'').replace(/\.git$/,'').replace(/\/$/,'');
@@ -825,6 +600,7 @@ async function tryFetchText(url){
 }
 
 async function checkKonomiCompliance(owner,repo,repoMeta){
+  // try main, then master
   const branches=['main','master'];
   let html='',readme='',licence='';
   for(const b of branches){
@@ -859,14 +635,14 @@ async function checkKonomiCompliance(owner,repo,repoMeta){
 async function importAnyRepo(repoUrl,onProgress){
   const log=onProgress||(()=>{});
   const {owner,repo}=parseRepoUrl(repoUrl);
-  log('step','fetching repo metadataâ€¦');
+  log('step','fetching repo metadata…');
   const metaRes=await fetch(`https://api.github.com/repos/${owner}/${repo}`);
   const meta=await metaRes.json();
   if(meta.message==='Not Found'||!meta.full_name)throw new Error('repo not found or private');
-  log('ok',`found ${meta.full_name} Â· â˜…${meta.stargazers_count||0}`);
-  log('step','running 7-check konomi complianceâ€¦');
+  log('ok',`found ${meta.full_name} · ★${meta.stargazers_count||0}`);
+  log('step','running 7-check konomi compliance…');
   const konomi=await checkKonomiCompliance(owner,repo,meta);
-  log('ok',`konomi score: ${konomi.score}/7${konomi.konomiMaster?' Â· KONOMI MASTER â—ŠÂ·Îº=1':konomi.elite?' Â· ELITE':''}`);
+  log('ok',`konomi score: ${konomi.score}/7${konomi.konomiMaster?' · KONOMI MASTER ◊·κ=1':konomi.elite?' · ELITE':''}`);
   const app={
     name: meta.full_name,
     prime: konomi.detectedPrime || derivePrimeFromName(meta.name||'unknown'),
@@ -881,22 +657,23 @@ async function importAnyRepo(repoUrl,onProgress){
     konomi
   };
   const card=repoToCard(app);
+  // de-dup by id
   const existing=state.pool.findIndex(c=>c.id===card.id);
   if(existing>=0)state.pool[existing]=card; else state.pool.push(card);
   try{await IDB.put('imported',{id:card.id,card,importedAt:Date.now()})}catch(e){}
-  const fset=new Set(state.pool.filter(c=>!c.isStarter).map(c=>c.faction));
+  // refresh faction list
+  const fset=new Set(state.pool.map(c=>c.faction));
   state.factions=[...fset];
   const ff=$('#factionFilter');
-  if(ff){while(ff.options.length>1)ff.remove(1);
-    for(const f of state.factions){const o=document.createElement('option');o.value=f;o.textContent=f;ff.appendChild(o)}}
-  const pb=$('#poolBadge');if(pb)pb.textContent=`${state.pool.filter(c=>!c.isStarter).length} cards`;
+  while(ff.options.length>1)ff.remove(1);
+  for(const f of state.factions){const o=document.createElement('option');o.value=f;o.textContent=f;ff.appendChild(o)}
+  $('#poolBadge').textContent=`${state.pool.length} cards`;
   renderPool();
-  refreshLandingDeckPrev();
-  log('ok',`card minted into your collection Â· ${card.attack}/${card.health} Â· cost ${card.cost}`);
+  log('ok',`card minted into your collection · ${card.attack}/${card.health} · cost ${card.cost}`);
   return card;
 }
 
-// ---------- fallback registry (v4 verbatim) ----------
+// ---------- fallback registry ----------
 const FALLBACK_REGISTRY=[
   {name:'fallstudio',prime:1409,tier:'A',category:'infrastructure'},
   {name:'fallmage',prime:1423,tier:'A',category:'creative'},
@@ -920,7 +697,36 @@ const FALLBACK_REGISTRY=[
   {name:'fall-mcp-bridge',prime:223,tier:'A',category:'infrastructure'},
   {name:'kard-v3',prime:787,tier:'A',category:'creative'},
   {name:'kard-v4',prime:787,tier:'A',category:'creative'},
-  {name:'kard-v5',prime:787,tier:'A',category:'creative'},
+  {name:'omen-of-two',prime:2,tier:'A',category:'creative'},
+  {name:'voice-of-three',prime:3,tier:'A',category:'sales'},
+  {name:'phi-prime',prime:5,tier:'A',category:'finance'},
+  {name:'bridge-of-seven',prime:7,tier:'A',category:'infrastructure'},
+  {name:'eleven-tritone',prime:11,tier:'B',category:'creative'},
+  {name:'thirteen-shield',prime:13,tier:'B',category:'guild'},
+  {name:'seventeen-rattle',prime:17,tier:'B',category:'visualization'},
+  {name:'common-19',prime:19,tier:'C',category:'productivity'},
+  {name:'common-23',prime:23,tier:'C',category:'productivity'},
+  {name:'common-29',prime:29,tier:'C',category:'enterprise'},
+  {name:'common-31',prime:31,tier:'C',category:'sales'},
+  {name:'common-37',prime:37,tier:'C',category:'guild'},
+  {name:'common-41',prime:41,tier:'C',category:'finance'},
+  {name:'common-43',prime:43,tier:'C',category:'creative'},
+  {name:'common-47',prime:47,tier:'C',category:'visualization'},
+  {name:'common-53',prime:53,tier:'C',category:'infrastructure'},
+  {name:'common-59',prime:59,tier:'C',category:'productivity'},
+  {name:'common-61',prime:61,tier:'C',category:'enterprise'},
+  {name:'common-67',prime:67,tier:'C',category:'sales'},
+  {name:'common-71',prime:71,tier:'C',category:'guild'},
+  {name:'common-73',prime:73,tier:'C',category:'finance'},
+  {name:'common-79',prime:79,tier:'C',category:'creative'},
+  {name:'common-83',prime:83,tier:'C',category:'visualization'},
+  {name:'common-89',prime:89,tier:'C',category:'infrastructure'},
+  {name:'common-97',prime:97,tier:'C',category:'productivity'},
+  {name:'common-101',prime:101,tier:'C',category:'enterprise'},
+  {name:'common-103',prime:103,tier:'C',category:'sales'},
+  {name:'common-107',prime:107,tier:'C',category:'guild'},
+  {name:'common-109',prime:109,tier:'C',category:'finance'},
+  {name:'common-113',prime:113,tier:'C',category:'creative'},
 ];
 
 async function loadRegistry(){
@@ -932,45 +738,35 @@ async function loadRegistry(){
       entries=Array.isArray(d)?d:(d.apps||d.entries||d.tools||d.estate||null);
     }
   }catch(e){}
-  if(!entries||entries.length<10){
-    try{
-      const r=await fetch(REGISTRY_URL_FALLBACK,{cache:'no-store'});
-      if(r.ok){
-        const d=await r.json();
-        entries=Array.isArray(d)?d:(d.apps||d.entries||d.tools||d.estate||null);
-      }
-    }catch(e){}
-  }
-  if(!entries||entries.length<10){
-    log('registry offline Â· using cached fallback','evt');
+  if(!entries||entries.length<20){
+    log('registry offline · using cached fallback','evt');
     entries=FALLBACK_REGISTRY;
   }else{
-    log(`registry loaded Â· ${entries.length} entries`,'evt');
+    log(`registry loaded · ${entries.length} entries`,'evt');
     const names=new Set(entries.map(e=>e.name));
     for(const e of FALLBACK_REGISTRY)if(!names.has(e.name))entries.push(e);
   }
   state.pool=entries.filter(e=>e&&e.name&&e.prime).map(repoToCard);
+  // merge imported repos from IDB
   try{
     const imp=await IDB.all('imported');
     for(const row of imp){
       const c=row.card;
       if(!c)continue;
+      // re-derive card to honour current scoring algo
       const card=c.app?repoToCard(c.app):c;
-      card.isStarter=false;
       const idx=state.pool.findIndex(x=>x.id===card.id);
       if(idx>=0)state.pool[idx]=card; else state.pool.push(card);
     }
     if(imp.length)log(`merged ${imp.length} imported repos from IDB`,'evt');
   }catch(e){}
-  // append starter cards into pool (filtered out unless toggled)
-  for(const s of STARTER_DECK){
-    if(!state.pool.find(c=>c.id===s.id))state.pool.push(s);
-  }
+  // forked-instance: if running on a non-sjgant80-hub Pages subdomain, prefer owner's repos
   try{
     const host=location.hostname;
     const m=host.match(/^([^.]+)\.github\.io$/);
     if(m&&m[1]&&m[1]!=='sjgant80-hub'){
-      log(`forked instance detected Â· owner: ${m[1]} Â· attempting seed import`,'evt');
+      log(`forked instance detected · owner: ${m[1]} · attempting seed import`,'evt');
+      // best-effort, non-blocking
       fetch(`https://api.github.com/users/${m[1]}/repos?per_page=10`).then(r=>r.ok?r.json():[]).then(async(repos)=>{
         if(!Array.isArray(repos))return;
         for(const r of repos.slice(0,5)){
@@ -979,53 +775,43 @@ async function loadRegistry(){
       }).catch(()=>{});
     }
   }catch(e){}
-  try{await IDB.clear('pool');for(const c of state.pool)if(!c.isStarter)await IDB.put('pool',c)}catch(e){}
-  const fset=new Set(state.pool.filter(c=>!c.isStarter).map(c=>c.faction));
+  try{await IDB.clear('pool');for(const c of state.pool)await IDB.put('pool',c)}catch(e){}
+  const fset=new Set(state.pool.map(c=>c.faction));
   state.factions=[...fset];
   const ff=$('#factionFilter');
-  if(ff)for(const f of state.factions){const o=document.createElement('option');o.value=f;o.textContent=f;ff.appendChild(o)}
-  $('#poolBadge').textContent=`${state.pool.filter(c=>!c.isStarter).length} cards`;
+  for(const f of state.factions){const o=document.createElement('option');o.value=f;o.textContent=f;ff.appendChild(o)}
+  $('#poolBadge').textContent=`${state.pool.length} cards`;
   renderPool();
-  refreshLandingDeckPrev();
 }
 
-
-// ---------- procedural card art (v4 verbatim, starter variant added) ----------
+// ---------- procedural card art ----------
 function paintCard(card,canvas){
   const ctx=canvas.getContext('2d');
   const W=canvas.width,H=canvas.height;
   const col=FACTIONS[card.faction]?.col||'#888';
   const g=ctx.createLinearGradient(0,0,0,H);
-  if(card.isStarter){g.addColorStop(0,'#22212c');g.addColorStop(1,'#13121a')}
-  else{g.addColorStop(0,'#13121a');g.addColorStop(1,'#0b0a0f')}
+  g.addColorStop(0,'#13121a');g.addColorStop(1,'#0b0a0f');
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   const cx=W/2,cy=H/2;
-  if(card.isStarter){
-    // parchment hatching for starters
-    ctx.strokeStyle='rgba(230,225,214,.08)';ctx.lineWidth=1;
-    for(let i=-H;i<W;i+=6){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+H,H);ctx.stroke()}
-    ctx.fillStyle='#6e6a5e';ctx.font='bold 14px Georgia,serif';ctx.textAlign='center';
-    ctx.fillText('â—†',cx,cy);
-  }else{
-    const factors=card.spineFactors||[];
-    ctx.strokeStyle=col;ctx.globalAlpha=.5;
-    for(let i=0;i<Math.max(1,factors.length);i++){
-      ctx.beginPath();ctx.arc(cx,cy,8+i*10,0,Math.PI*2);ctx.lineWidth=1;ctx.stroke();
-    }
-    const f=factors[0]||2;
-    ctx.globalAlpha=.8;ctx.lineWidth=1.2;
-    ctx.beginPath();
-    for(let i=0;i<f*2;i++){
-      const a=(i/(f*2))*Math.PI*2;
-      const r=i%2===0?28:14;
-      const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
-      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-    }
-    ctx.closePath();ctx.stroke();
+  const factors=card.spineFactors||[];
+  ctx.strokeStyle=col;ctx.globalAlpha=.5;
+  for(let i=0;i<Math.max(1,factors.length);i++){
+    ctx.beginPath();ctx.arc(cx,cy,8+i*10,0,Math.PI*2);ctx.lineWidth=1;ctx.stroke();
   }
+  const f=factors[0]||2;
+  ctx.globalAlpha=.8;ctx.lineWidth=1.2;
+  ctx.beginPath();
+  for(let i=0;i<f*2;i++){
+    const a=(i/(f*2))*Math.PI*2;
+    const r=i%2===0?28:14;
+    const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.closePath();ctx.stroke();
   ctx.globalAlpha=1;
   ctx.fillStyle=col;ctx.font='bold 9px monospace';ctx.textAlign='center';
-  ctx.fillText(card.isStarter?'starter':'Ï€ '+card.prime,cx,H-4);
+  ctx.fillText('π '+card.prime,cx,H-4);
+  // frame: brass standard, amber if elite, rainbow if konomiMaster
   ctx.globalAlpha=1;
   if(card.konomiMaster){
     const grad=ctx.createLinearGradient(0,0,W,H);
@@ -1033,23 +819,19 @@ function paintCard(card,canvas){
     ctx.strokeStyle=grad;ctx.lineWidth=3;
   }else if(card.elite){
     ctx.strokeStyle='#ff8c00';ctx.lineWidth=3;
-  }else if(card.isStarter){
-    ctx.strokeStyle='#6e6a5e';ctx.lineWidth=2;
   }else{
     ctx.strokeStyle='#b8974a';ctx.lineWidth=2;
   }
   ctx.strokeRect(1,1,W-2,H-2);
   ctx.strokeStyle=col;ctx.lineWidth=1;
   ctx.strokeRect(4,4,W-8,H-8);
+  // elite badge corner
   if(card.konomiMaster){
     ctx.fillStyle='#4ade80';ctx.font='bold 8px monospace';ctx.textAlign='left';
-    ctx.fillText('â—ŠÂ·Îº=1',4,H-14);
+    ctx.fillText('◊·κ=1',4,H-14);
   }else if(card.elite){
     ctx.fillStyle='#ff8c00';ctx.font='bold 8px monospace';ctx.textAlign='left';
     ctx.fillText('ELITE',4,H-14);
-  }else if(card.isStarter){
-    ctx.fillStyle='#6e6a5e';ctx.font='bold 8px monospace';ctx.textAlign='left';
-    ctx.fillText('STARTER',4,H-14);
   }
 }
 
@@ -1059,17 +841,15 @@ function makeCardTexture(card){
   const ctx=c.getContext('2d');
   const col=FACTIONS[card.faction]?.col||'#888';
   const g=ctx.createLinearGradient(0,0,0,360);
-  if(card.isStarter){g.addColorStop(0,'#22212c');g.addColorStop(.5,'#1a1922');g.addColorStop(1,'#13121a')}
-  else{g.addColorStop(0,'#1a1922');g.addColorStop(.5,'#13121a');g.addColorStop(1,'#0b0a0f')}
+  g.addColorStop(0,'#1a1922');g.addColorStop(.5,'#13121a');g.addColorStop(1,'#0b0a0f');
   ctx.fillStyle=g;ctx.fillRect(0,0,256,360);
+  // frame style based on compliance
   if(card.konomiMaster){
     const grad=ctx.createLinearGradient(0,0,256,360);
     grad.addColorStop(0,'#4ade80');grad.addColorStop(.5,'#ff8c00');grad.addColorStop(1,'#60a5fa');
     ctx.strokeStyle=grad;ctx.lineWidth=8;
   }else if(card.elite){
     ctx.strokeStyle='#ff8c00';ctx.lineWidth=7;
-  }else if(card.isStarter){
-    ctx.strokeStyle='#6e6a5e';ctx.lineWidth=5;
   }else{
     ctx.strokeStyle='#b8974a';ctx.lineWidth=6;
   }
@@ -1077,29 +857,21 @@ function makeCardTexture(card){
   ctx.strokeStyle=col;ctx.lineWidth=2;ctx.strokeRect(10,10,236,340);
   ctx.fillStyle='#0b0a0f';ctx.fillRect(18,40,220,180);
   const cx=128,cy=130;
-  if(card.isStarter){
-    ctx.strokeStyle='rgba(230,225,214,.08)';ctx.lineWidth=1;
-    for(let i=-360;i<256;i+=10){ctx.beginPath();ctx.moveTo(i+18,40);ctx.lineTo(i+218,220);ctx.stroke()}
-    ctx.fillStyle='#6e6a5e';ctx.font='bold 56px Georgia,serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('â—†',cx,cy);
-  }else{
-    const factors=card.spineFactors||[];
-    ctx.strokeStyle=col;ctx.globalAlpha=.6;
-    for(let i=0;i<Math.max(1,factors.length);i++){
-      ctx.beginPath();ctx.arc(cx,cy,18+i*15,0,Math.PI*2);ctx.lineWidth=1.5;ctx.stroke();
-    }
-    const f=factors[0]||2;
-    ctx.globalAlpha=1;ctx.lineWidth=2;
-    ctx.beginPath();
-    for(let i=0;i<f*2;i++){
-      const a=(i/(f*2))*Math.PI*2-Math.PI/2;
-      const r=i%2===0?60:30;
-      const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
-      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-    }
-    ctx.closePath();ctx.stroke();
+  const factors=card.spineFactors||[];
+  ctx.strokeStyle=col;ctx.globalAlpha=.6;
+  for(let i=0;i<Math.max(1,factors.length);i++){
+    ctx.beginPath();ctx.arc(cx,cy,18+i*15,0,Math.PI*2);ctx.lineWidth=1.5;ctx.stroke();
   }
-  ctx.globalAlpha=1;
+  const f=factors[0]||2;
+  ctx.globalAlpha=1;ctx.lineWidth=2;
+  ctx.beginPath();
+  for(let i=0;i<f*2;i++){
+    const a=(i/(f*2))*Math.PI*2-Math.PI/2;
+    const r=i%2===0?60:30;
+    const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.closePath();ctx.stroke();
   ctx.beginPath();ctx.arc(28,28,20,0,Math.PI*2);
   ctx.fillStyle='#60a5fa';ctx.fill();
   ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
@@ -1107,7 +879,7 @@ function makeCardTexture(card){
   ctx.fillText(card.cost,28,28);
   ctx.fillStyle='rgba(184,151,74,.85)';ctx.fillRect(18,232,220,28);
   ctx.fillStyle='#0b0a0f';ctx.font='bold 13px serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  let nm=card.name;if(nm.length>22)nm=nm.slice(0,20)+'â€¦';
+  let nm=card.name;if(nm.length>22)nm=nm.slice(0,20)+'…';
   ctx.fillText(nm,128,246);
   const rcol={legendary:'#ff8c00',epic:'#8b5cf6',rare:'#60a5fa',common:'#999'}[card.rarity];
   ctx.beginPath();ctx.moveTo(128,272);ctx.lineTo(136,282);ctx.lineTo(128,292);ctx.lineTo(120,282);ctx.closePath();
@@ -1129,18 +901,16 @@ function makeCardTexture(card){
   ctx.fillStyle='#ef4444';ctx.fill();ctx.strokeStyle='#000';ctx.stroke();
   ctx.fillStyle='#fff';ctx.fillText(card.health,232,350);
   ctx.fillStyle=col;ctx.font='9px monospace';ctx.textAlign='right';ctx.textBaseline='top';
-  ctx.fillText(card.isStarter?'starter':'Ï€ '+card.prime,238,18);
+  ctx.fillText('π '+card.prime,238,18);
   ctx.fillStyle='#a8a395';ctx.font='8px monospace';ctx.textAlign='left';
   ctx.fillText(card.faction,18,18);
+  // konomi badge
   if(card.konomiMaster){
     ctx.fillStyle='#4ade80';ctx.font='bold 10px monospace';ctx.textAlign='right';
-    ctx.fillText('â—ŠÂ·Îº=1',238,30);
+    ctx.fillText('◊·κ=1',238,30);
   }else if(card.elite){
     ctx.fillStyle='#ff8c00';ctx.font='bold 9px monospace';ctx.textAlign='right';
     ctx.fillText('ELITE',238,30);
-  }else if(card.isStarter){
-    ctx.fillStyle='#6e6a5e';ctx.font='bold 9px monospace';ctx.textAlign='right';
-    ctx.fillText('STARTER',238,30);
   }
   const tex=new THREE.CanvasTexture(c);
   tex.colorSpace=THREE.SRGBColorSpace;
@@ -1148,18 +918,16 @@ function makeCardTexture(card){
   return tex;
 }
 
-
 // ============================================================
-// 3D scene (v4 verbatim) + Game loop (v4 with fun-mode hooks)
+// 3D scene (unchanged from v3)
 // ============================================================
 const Scene={
   scene:null,camera:null,renderer:null,controls:null,raycaster:null,mouse:null,
   table:null,minionMeshes:{me:[],foe:[]},heroes:{},decks:{},manaCrystals:{},
-  particles:[],_initialized:false,
+  particles:[],
   init(){
-    if(this._initialized)return;
     const container=document.getElementById('scene');
-    const w=container.clientWidth||800,h=container.clientHeight||600;
+    const w=container.clientWidth,h=container.clientHeight;
     this.scene=new THREE.Scene();
     this.scene.background=new THREE.Color(0x0b0a0f);
     this.scene.fog=new THREE.Fog(0x0b0a0f,15,40);
@@ -1205,7 +973,6 @@ const Scene={
     this.decks.foe=this.makeDeckStack(true);this.decks.foe.position.set(-5.8,.4,-4);this.scene.add(this.decks.foe);
     window.addEventListener('resize',()=>this.onResize());
     this.renderer.domElement.addEventListener('click',(e)=>this.onClick(e));
-    this._initialized=true;
     this.animate();
   },
   makeHero(foe){
@@ -1261,8 +1028,8 @@ const Scene={
       ctx.fillStyle='#1a1922';ctx.fillRect(0,0,128,180);
       ctx.strokeStyle='#b8974a';ctx.lineWidth=4;ctx.strokeRect(3,3,122,174);
       ctx.fillStyle='#ff8c00';ctx.font='bold 42px serif';ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText('â—Š',64,90);
-      ctx.fillStyle='#b8974a';ctx.font='8px monospace';ctx.fillText('KARD v5',64,170);
+      ctx.fillText('◊',64,90);
+      ctx.fillStyle='#b8974a';ctx.font='8px monospace';ctx.fillText('KARD v4',64,170);
       const tex=new THREE.CanvasTexture(c);tex.colorSpace=THREE.SRGBColorSpace;
       mat=[new THREE.MeshStandardMaterial({color:0x1a1922}),new THREE.MeshStandardMaterial({color:0x1a1922}),
            new THREE.MeshStandardMaterial({map:tex,roughness:.5}),new THREE.MeshStandardMaterial({map:tex,roughness:.5}),
@@ -1277,7 +1044,6 @@ const Scene={
     return g;
   },
   renderBoard(){
-    if(!state.match)return;
     ['me','foe'].forEach(side=>{
       this.minionMeshes[side].forEach(mm=>this.scene.remove(mm.group));
       this.minionMeshes[side]=[];
@@ -1332,7 +1098,7 @@ const Scene={
     tctx.fillStyle='rgba(11,10,15,.85)';tctx.fillRect(0,0,128,64);
     tctx.strokeStyle='#b8974a';tctx.lineWidth=3;tctx.strokeRect(0,0,128,64);
     tctx.fillStyle=side==='me'?'#4ade80':'#ef4444';tctx.font='bold 36px serif';tctx.textAlign='center';tctx.textBaseline='middle';
-    tctx.fillText('â™¥ '+hp,64,32);
+    tctx.fillText('♥ '+hp,64,32);
     const tex=new THREE.CanvasTexture(txtCanvas);tex.colorSpace=THREE.SRGBColorSpace;
     const plane=new THREE.Mesh(new THREE.PlaneGeometry(1.2,.6),new THREE.MeshBasicMaterial({map:tex,transparent:true}));
     plane.position.set(0,-1.1,0);plane.rotation.x=-Math.PI/4;plane.userData.isLabel=true;
@@ -1356,7 +1122,6 @@ const Scene={
   onResize(){
     const c=document.getElementById('scene');
     const w=c.clientWidth,h=c.clientHeight;
-    if(!this.camera||!w||!h)return;
     this.camera.aspect=w/h;this.camera.updateProjectionMatrix();
     this.renderer.setSize(w,h);
   },
@@ -1395,46 +1160,31 @@ const Scene={
     });
     if(this.manaCrystals.me)this.manaCrystals.me.children.forEach((m,i)=>{m.rotation.y+=.01+i*.001});
     if(this.manaCrystals.foe)this.manaCrystals.foe.children.forEach((m,i)=>{m.rotation.y+=.01+i*.001});
-    if(this.renderer&&this.scene&&this.camera)this.renderer.render(this.scene,this.camera);
+    this.renderer.render(this.scene,this.camera);
   }
 };
 
-
 // ============================================================
-// Game loop (v4 with v5 fun-mode hooks)
+// game loop (extended for multiplayer)
 // ============================================================
 const Game={
   selectedHandIdx:null,
   selectedAttacker:null,
-  mvp:{me:null,foe:null},
-  async newMatch(opponent,opts){
-    opts=opts||{};
-    let myCards;
-    if(opts.autoDeck||state.mode==='fun'){
-      myCards=await buildAutoDeck();
-      state.deck=myCards.map(c=>c.id);
-    }else{
-      if(state.deck.length!==30){alert('your deck must be 30 cards');return}
-      myCards=state.deck.map(id=>state.pool.find(c=>c.id===id)).filter(Boolean);
-      if(myCards.length<30){alert('deck refs missing cards');return}
-    }
+  mvp:{me:null,foe:null}, // highest-impact card per side
+  newMatch(opponent){
+    if(state.deck.length!==30){alert('your deck must be 30 cards');return}
+    const myCards=state.deck.map(id=>state.pool.find(c=>c.id===id)).filter(Boolean);
+    // opponent: either remote deck (multiplayer) or AI
     let aiCards=[];
     if(opponent&&opponent.deck){
       aiCards=opponent.deck.map(c=>state.pool.find(x=>x.id===c.id)||c).filter(Boolean);
-    }else if(state.mode==='fun'){
-      // AI also uses an auto-built deck
-      aiCards=await buildAutoDeck();
     }else{
-      const pool=[...state.pool].filter(c=>!c.isStarter);
+      const pool=[...state.pool];
       while(aiCards.length<30&&pool.length){
         const c=pool[Math.floor(Math.random()*pool.length)];
         const n=aiCards.filter(x=>x.id===c.id).length;
         const limit=c.rarity==='legendary'?1:2;
         if(n<limit)aiCards.push(c);
-      }
-      if(aiCards.length<30){
-        // pad with starters
-        for(const s of STARTER_DECK){if(aiCards.length>=30)break;aiCards.push(s)}
       }
     }
     const mp=!!opponent;
@@ -1451,8 +1201,7 @@ const Game={
       opponentName:opponent?.name||'AI',
       myFaction:dominantFaction(myCards),
       foeFaction:dominantFaction(aiCards),
-      damageDone:{me:{},foe:{}},
-      mode:state.mode
+      damageDone:{me:{},foe:{}}
     };
     for(let i=0;i<3;i++)this.draw('me');
     for(let i=0;i<4;i++)this.draw('foe');
@@ -1460,8 +1209,7 @@ const Game={
     $('#btnEndTurn').style.display='';
     $('#btnConcede').style.display='';
     $('#btnNewMatch').style.display='none';
-    $('#funResult').classList.remove('show');
-    log(`match started Â· ${mp?'vs '+state.match.opponentName+' (live)':'vs AI'} Â· you go first Â· ${state.mode} mode`,'evt');
+    log(`match started · ${mp?'vs '+state.match.opponentName+' (live)':'vs AI'} · you go first`,'evt');
     Scene.renderBoard();
     this.renderUI();
   },
@@ -1501,7 +1249,7 @@ const Game={
       battlecry:card.ability.includes('BATTLECRY')
     };
     state.match.board[side].push(minion);
-    log(`${side==='me'?'you':'foe'} play ${card.name}${card.konomiMaster?' â—ŠÂ·Îº=1':card.elite?' â˜…':card.isStarter?' (starter)':''}`,side==='me'?'mine':'foe');
+    log(`${side==='me'?'you':'foe'} play ${card.name}${card.konomiMaster?' ◊·κ=1':card.elite?' ★':''}`,side==='me'?'mine':'foe');
     const pos=this.boardPos(side,state.match.board[side].length-1);
     Scene.burst(pos.x,pos.y+.5,pos.z,parseInt((FACTIONS[card.faction]?.col||'#888').slice(1),16));
     if(minion.battlecry){
@@ -1517,6 +1265,7 @@ const Game={
     }
     this.recomputeSpellPower(side);
     Scene.renderBoard();this.renderUI();this.checkWin();
+    // multiplayer broadcast
     if(state.match.multiplayer&&side==='me')MP.send({type:'play',handIdx,target,uid:card.uid});
     return true;
   },
@@ -1590,10 +1339,11 @@ const Game={
       state.match.mana.foe=state.match.maxMana.foe;
       state.match.board.foe.forEach(m=>m.canAttack=true);
       this.draw('foe');
-      log(`â€” foe turn ${state.match.turn} â€”`,'foe');
+      log(`— foe turn ${state.match.turn} —`,'foe');
       Scene.renderBoard();this.renderUI();
       if(state.match.multiplayer){
         MP.send({type:'endturn'});
+        // remote opponent will drive their turn
       }else{
         setTimeout(()=>this.aiTurn(),700);
       }
@@ -1604,7 +1354,7 @@ const Game={
       state.match.mana.me=state.match.maxMana.me;
       state.match.board.me.forEach(m=>m.canAttack=true);
       this.draw('me');
-      log(`â€” your turn ${state.match.turn} â€”`,'mine');
+      log(`— your turn ${state.match.turn} —`,'mine');
       Scene.renderBoard();this.renderUI();
     }
   },
@@ -1662,7 +1412,7 @@ const Game={
   },
   async endMatch(winner){
     state.match.over=true;state.match.winner=winner;
-    log(winner==='me'?'â˜… VICTORY â˜…':winner==='foe'?'â˜  DEFEAT â˜ ':'â€” DRAW â€”','evt');
+    log(winner==='me'?'★ VICTORY ★':winner==='foe'?'☠ DEFEAT ☠':'— DRAW —','evt');
     try{
       await IDB.put('matches',{
         startedAt:state.match.startedAt,endedAt:Date.now(),
@@ -1673,29 +1423,17 @@ const Game={
         opponentName:state.match.opponentName,
         myFaction:state.match.myFaction,
         foeFaction:state.match.foeFaction,
-        mvp:this.computeMVP('me'),
-        mode:state.match.mode||state.mode
+        mvp:this.computeMVP('me')
       });
     }catch(e){}
     $('#btnEndTurn').style.display='none';
     $('#btnConcede').style.display='none';
     $('#btnNewMatch').style.display='';
-    renderHistory();this.renderUI();refreshLandingHist();
+    document.body.classList.remove('in-match');
+    renderHistory();this.renderUI();
     if(state.match.multiplayer){MP.send({type:'over',winner:winner==='me'?'foe':winner==='foe'?'me':'draw'})}
-    if(state.mode==='fun'){
-      // simple WIN/LOSS overlay
-      const fr=$('#funResult');
-      const t=$('#frTitle');const s=$('#frSub');
-      t.classList.remove('win','loss','draw');
-      if(winner==='me'){t.textContent='WIN';t.classList.add('win')}
-      else if(winner==='foe'){t.textContent='LOSS';t.classList.add('loss')}
-      else{t.textContent='DRAW';t.classList.add('draw')}
-      s.textContent=`${state.match.turns} turns Â· vs AI`;
-      setTimeout(()=>fr.classList.add('show'),600);
-    }else{
-      // elite mode opens share modal
-      setTimeout(()=>openShareModal(),800);
-    }
+    // open share modal
+    setTimeout(()=>openShareModal(),800);
   },
   computeMVP(side){
     const dmg=state.match.damageDone[side]||{};
@@ -1706,8 +1444,8 @@ const Game={
   },
   concede(){if(state.match&&!state.match.over)this.endMatch('foe')},
   renderUI(){
-    if(!state.match){$('#turnInd').textContent='â€” Â· no match';return}
-    $('#turnInd').textContent=`turn ${state.match.turn} Â· ${state.match.active==='me'?'YOUR TURN':(state.match.multiplayer?state.match.opponentName:'foe')+' turn'}`;
+    if(!state.match){$('#turnInd').textContent='— · no match';return}
+    $('#turnInd').textContent=`turn ${state.match.turn} · ${state.match.active==='me'?'YOUR TURN':(state.match.multiplayer?state.match.opponentName:'foe')+' turn'}`;
     $('#hudTurn').textContent=state.match.turn;
     $('#hudMeHp').textContent=state.match.hp.me;
     $('#hudFoeHp').textContent=state.match.hp.foe;
@@ -1724,11 +1462,10 @@ const Game={
       el.className='hand-card';
       if(card.elite)el.classList.add('elite');
       if(card.konomiMaster)el.classList.add('konomi-master');
-      if(card.isStarter)el.classList.add('starter');
       const playable=state.match.active==='me'&&state.match.mana.me>=card.cost&&state.match.board.me.length<7&&!state.match.over;
       if(!playable)el.classList.add('unplayable');
       const rcol={legendary:'#ff8c00',epic:'#8b5cf6',rare:'#60a5fa',common:'#999'}[card.rarity];
-      if(!card.isStarter)el.style.borderColor=rcol;
+      el.style.borderColor=rcol;
       const cv=document.createElement('canvas');cv.width=86;cv.height=86;
       el.innerHTML=`<div class="h-cost">${card.cost}</div>
         <div class="h-art"></div>
@@ -1745,16 +1482,14 @@ const Game={
     });
   },
   renderMatchDeck(){
-    const el=$('#matchDeck');if(!el)return;
-    el.innerHTML='';
+    const el=$('#matchDeck');el.innerHTML='';
     if(!state.match)return;
-    $('#matchDeckCount').textContent=`${state.match.deck.me.length} left Â· ${state.match.hand.me.length} in hand`;
+    $('#matchDeckCount').textContent=`${state.match.deck.me.length} left · ${state.match.hand.me.length} in hand`;
     state.match.deck.me.slice(0,12).forEach(c=>{
       const r=document.createElement('div');
       r.className='card-row '+c.rarity;
       if(c.elite)r.classList.add('elite');
       if(c.konomiMaster)r.classList.add('konomi-master');
-      if(c.isStarter)r.classList.add('starter');
       r.innerHTML=`<div class="cost">${c.cost}</div><div class="meta"><div class="nm">${esc(c.name)}</div><div class="sub">${c.faction}</div></div><div class="stats">${c.attack}/${c.health}</div>`;
       r.addEventListener('click',()=>showCardDetail(c));
       el.appendChild(r);
@@ -1774,13 +1509,12 @@ function serializeTarget(t){
   return null;
 }
 
-
 // ============================================================
-// Â§3 Â· multiplayer over PeerJS (v4 verbatim Â· elite-only)
+// §3 · multiplayer over PeerJS
 // ============================================================
 const MP={
   init(){
-    if(!window.Peer){log('PeerJS not loaded Â· multiplayer disabled','evt');return}
+    if(!window.Peer){log('PeerJS not loaded · multiplayer disabled','evt');return}
     if(state.mp.peer)return state.mp.peer;
     const peer=new Peer(undefined,{debug:1});
     state.mp.peer=peer;
@@ -1806,10 +1540,10 @@ const MP={
   attach(conn,role){
     state.mp.conn=conn;state.mp.role=role;
     const s=$('#mpStatus');
-    s.textContent='connectingâ€¦';s.className='mp-status';
+    s.textContent='connecting…';s.className='mp-status';
     conn.on('open',()=>{
       state.mp.connected=true;
-      s.textContent='connected as '+role+' Â· exchanging decksâ€¦';
+      s.textContent='connected as '+role+' · exchanging decks…';
       s.className='mp-status connected';
       $('#mpDisconnect').style.display='';
       $('#mpBadge').textContent='online';
@@ -1821,7 +1555,7 @@ const MP={
       state.mp.connected=false;
       s.textContent='opponent disconnected';s.className='mp-status error';
       $('#mpBadge').textContent='offline';
-      if(state.match&&!state.match.over){log('opponent disconnected Â· forfeit','evt');Game.endMatch('me')}
+      if(state.match&&!state.match.over){log('opponent disconnected · forfeit','evt');Game.endMatch('me')}
     });
   },
   send(msg){
@@ -1833,18 +1567,25 @@ const MP={
     if(msg.type==='hello'){
       state.mp.foeName=msg.name||'opponent';
       state.mp.foeDeck=msg.deck||[];
-      const s=$('#mpStatus');s.textContent=`opponent: ${state.mp.foeName} Â· ${state.mp.foeDeck.length} cards Â· startingâ€¦`;s.className='mp-status connected';
+      const s=$('#mpStatus');s.textContent=`opponent: ${state.mp.foeName} · ${state.mp.foeDeck.length} cards · starting…`;s.className='mp-status connected';
+      // host starts the game
       if(state.mp.role==='host'){
         $('#mpModal').classList.remove('show');
         Game.newMatch({deck:state.mp.foeDeck,name:state.mp.foeName});
       }else{
+        // client waits for 'start'
         $('#mpModal').classList.remove('show');
         Game.newMatch({deck:state.mp.foeDeck,name:state.mp.foeName});
+        // client's local-only "me" is foe-on-host, so flip:
+        // simplification: both players run their own simulation; authoritative state is whoever's turn it is.
+        // Each player sees "me" as themselves locally.
       }
     }else if(msg.type==='play'){
+      // remote opponent played a card from their hand
       const card=state.match.hand.foe[msg.handIdx];
       if(card)Game.playCard('foe',msg.handIdx,msg.target);
     }else if(msg.type==='attack'){
+      // remote opponent attacked
       let target;
       if(msg.target&&msg.target.type==='hero')target={type:'hero'};
       else if(msg.target&&msg.target.type==='minion'){
@@ -1854,13 +1595,14 @@ const MP={
       }
       Game.attack('foe',msg.attackerIdx,target||{type:'hero'});
     }else if(msg.type==='endturn'){
+      // remote opponent ended their turn → become our turn
       if(state.match&&state.match.active==='foe'){
         state.match.active='me';state.match.turn++;state.match.turns++;
         state.match.maxMana.me=Math.min(10,state.match.maxMana.me+1);
         state.match.mana.me=state.match.maxMana.me;
         state.match.board.me.forEach(m=>m.canAttack=true);
         Game.draw('me');
-        log(`â€” your turn ${state.match.turn} â€”`,'mine');
+        log(`— your turn ${state.match.turn} —`,'mine');
         Scene.renderBoard();Game.renderUI();
       }
     }else if(msg.type==='over'){
@@ -1877,13 +1619,14 @@ const MP={
   }
 };
 function stripCardForWire(c){
-  return{id:c.id,name:c.name,prime:c.prime,cost:c.cost,attack:c.attack,health:c.health,rarity:c.rarity,faction:c.faction,ability:c.ability,modResidue:c.modResidue,spineFactors:c.spineFactors,elite:c.elite,konomiMaster:c.konomiMaster,isStarter:!!c.isStarter};
+  return{id:c.id,name:c.name,prime:c.prime,cost:c.cost,attack:c.attack,health:c.health,rarity:c.rarity,faction:c.faction,ability:c.ability,modResidue:c.modResidue,spineFactors:c.spineFactors,elite:c.elite,konomiMaster:c.konomiMaster};
 }
 
+// async fallback: challenge file export/import
 function asyncExport(){
   if(!state.match){alert('no active match');return}
   const challenge={
-    v:1,kard:'v5',
+    v:1,kard:'v4',
     timestamp:Date.now(),
     sender:state.settings.displayName||'anonymous',
     state:{
@@ -1899,7 +1642,7 @@ function asyncExport(){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=`kard-turn-${state.match.turn}.kard.json`;a.click();
   URL.revokeObjectURL(url);
-  $('#asyncStatus').textContent='exported Â· send the file to your opponent';
+  $('#asyncStatus').textContent='exported · send the file to your opponent';
   $('#asyncStatus').className='mp-status connected';
 }
 function asyncImport(file){
@@ -1907,7 +1650,8 @@ function asyncImport(file){
   fr.onload=()=>{
     try{
       const ch=JSON.parse(fr.result);
-      if(ch.kard!=='v5'&&ch.kard!=='v4')throw new Error('not a v4/v5 challenge file');
+      if(ch.kard!=='v4')throw new Error('not a v4 challenge file');
+      // swap perspective: their 'me' becomes our 'foe' and vice-versa
       const s=ch.state;
       state.match={
         turn:s.turn,active:'me',
@@ -1921,14 +1665,13 @@ function asyncImport(file){
         multiplayer:true,opponentName:ch.sender||'async-foe',
         myFaction:dominantFaction(s.deck.foe.map(c=>state.pool.find(x=>x.id===c.id)||c)),
         foeFaction:dominantFaction(s.deck.me.map(c=>state.pool.find(x=>x.id===c.id)||c)),
-        damageDone:{me:{},foe:{}},
-        mode:'elite'
+        damageDone:{me:{},foe:{}}
       };
       state.match.board.me.forEach(m=>m.canAttack=true);
       document.body.classList.add('in-match');
       $('#btnEndTurn').style.display='';$('#btnConcede').style.display='';$('#btnNewMatch').style.display='none';
       Scene.renderBoard();Game.renderUI();
-      $('#asyncStatus').textContent=`imported turn ${s.turn} from ${ch.sender||'opponent'} Â· take your turn then export`;
+      $('#asyncStatus').textContent=`imported turn ${s.turn} from ${ch.sender||'opponent'} · take your turn then export`;
       $('#asyncStatus').className='mp-status connected';
       $('#mpModal').classList.remove('show');
       log(`async match imported from ${ch.sender||'opponent'}`,'evt');
@@ -1940,70 +1683,82 @@ function asyncImport(file){
 }
 
 // ============================================================
-// Â§4 Â· LinkedIn share Â· battle-result PNG (elite-only)
+// §4 · LinkedIn share · battle-result PNG
 // ============================================================
 function paintShareCanvas(){
   const cv=$('#shareCanvas');if(!cv||!state.match)return;
   const ctx=cv.getContext('2d');
   const W=1200,H=627;
+  // estate dark bg
   const g=ctx.createLinearGradient(0,0,W,H);
   g.addColorStop(0,'#0b0a0f');g.addColorStop(.5,'#13121a');g.addColorStop(1,'#0b0a0f');
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // subtle grid
   ctx.strokeStyle='rgba(184,151,74,.06)';ctx.lineWidth=1;
   for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
   for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+  // brass border
   ctx.strokeStyle='#b8974a';ctx.lineWidth=4;ctx.strokeRect(8,8,W-16,H-16);
   ctx.strokeStyle='#ff8c00';ctx.lineWidth=1;ctx.strokeRect(20,20,W-40,H-40);
+  // brand
   ctx.fillStyle='#ff8c00';ctx.font='bold 80px Georgia,serif';ctx.textAlign='left';ctx.textBaseline='middle';
-  ctx.fillText('â—Š',60,90);
+  ctx.fillText('◊',60,90);
   ctx.fillStyle='#e6e1d6';ctx.font='bold 36px Georgia,serif';
   ctx.fillText('KARD',130,80);
   ctx.fillStyle='#a8a395';ctx.font='18px IBM Plex Mono,monospace';
-  ctx.fillText('v5 Â· the registry duel',130,108);
+  ctx.fillText('v4 · the registry duel',130,108);
+  // result
   const w=state.match.winner;
   const winTxt=w==='me'?'WIN':w==='foe'?'LOSS':'DRAW';
   const winCol=w==='me'?'#4ade80':w==='foe'?'#ef4444':'#a8a395';
   ctx.fillStyle=winCol;ctx.font='bold 140px Georgia,serif';ctx.textAlign='center';
   ctx.fillText(winTxt,W/2,220);
+  // sub
   ctx.fillStyle='#e6e1d6';ctx.font='28px Inter,sans-serif';
-  ctx.fillText(`${state.match.turns} turns Â· ${state.match.multiplayer?'multiplayer':'vs AI'}`,W/2,300);
+  ctx.fillText(`${state.match.turns} turns · ${state.match.multiplayer?'multiplayer':'vs AI'}`,W/2,300);
+  // players
   const me=state.settings.displayName||'you';
   const foe=state.match.opponentName||'AI';
   const myF=state.match.myFaction||'SCRIBE';
   const foeF=state.match.foeFaction||'SCRIBE';
   const myCol=FACTIONS[myF]?.col||'#888';
   const foeCol=FACTIONS[foeF]?.col||'#888';
+  // left player
   ctx.textAlign='left';
   ctx.fillStyle='#e6e1d6';ctx.font='bold 32px Inter,sans-serif';
   ctx.fillText(me,80,400);
   ctx.fillStyle=myCol;ctx.font='22px IBM Plex Mono,monospace';
   ctx.fillText(myF,80,432);
   ctx.fillStyle='#a8a395';ctx.font='16px IBM Plex Mono,monospace';
-  ctx.fillText(`â™¥ ${state.match.hp.me}`,80,460);
+  ctx.fillText(`♥ ${state.match.hp.me}`,80,460);
+  // vs
   ctx.fillStyle='#b8974a';ctx.font='bold 40px Georgia,serif';ctx.textAlign='center';
-  ctx.fillText('âš”',W/2,420);
+  ctx.fillText('⚔',W/2,420);
+  // right player
   ctx.textAlign='right';
   ctx.fillStyle='#e6e1d6';ctx.font='bold 32px Inter,sans-serif';
   ctx.fillText(foe,W-80,400);
   ctx.fillStyle=foeCol;ctx.font='22px IBM Plex Mono,monospace';
   ctx.fillText(foeF,W-80,432);
   ctx.fillStyle='#a8a395';ctx.font='16px IBM Plex Mono,monospace';
-  ctx.fillText(`â™¥ ${state.match.hp.foe}`,W-80,460);
+  ctx.fillText(`♥ ${state.match.hp.foe}`,W-80,460);
+  // MVP
   const mvp=Game.computeMVP('me');
   if(mvp){
     const card=state.pool.find(c=>c.id===mvp.cardId);
     ctx.textAlign='center';
     ctx.fillStyle='#b8974a';ctx.font='14px IBM Plex Mono,monospace';
-    ctx.fillText(`MVP: ${card?card.name:mvp.cardId} Â· ${mvp.damage} damage`,W/2,510);
+    ctx.fillText(`MVP: ${card?card.name:mvp.cardId} · ${mvp.damage} damage`,W/2,510);
   }
+  // seal
   ctx.textAlign='center';
   ctx.fillStyle='#4ade80';ctx.font='bold 20px IBM Plex Mono,monospace';
-  ctx.fillText('â—ŠÂ·Îº=1',W/2,H-50);
+  ctx.fillText('◊·κ=1',W/2,H-50);
   ctx.fillStyle='#6e6a5e';ctx.font='13px IBM Plex Mono,monospace';
-  ctx.fillText(new Date().toLocaleDateString()+' Â· github.com/sjgant80-hub/kard-v5',W/2,H-28);
+  ctx.fillText(new Date().toLocaleDateString()+' · github.com/sjgant80-hub/kard',W/2,H-28);
 }
 function openShareModal(){
-  if(!state.match||state.mode==='fun')return;
+  if(!state.match)return;
   paintShareCanvas();
   $('#shareModal').classList.add('show');
 }
@@ -2011,7 +1766,7 @@ function downloadSharePNG(){
   const cv=$('#shareCanvas');
   cv.toBlob(blob=>{
     const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');a.href=url;a.download=`kard-v5-match-${Date.now()}.png`;a.click();
+    const a=document.createElement('a');a.href=url;a.download=`kard-v4-match-${Date.now()}.png`;a.click();
     URL.revokeObjectURL(url);
   });
 }
@@ -2020,33 +1775,29 @@ function shareTextFor(){
   const result=w==='me'?'took it':w==='foe'?'fell short':'drew';
   const foe=state.match.opponentName||'AI';
   const f=state.match.myFaction||'SCRIBE';
-  return `âš” Just battled ${foe} in KARD v5 Â· the registry duel. My ${f} deck ${result} in ${state.match.turns} turns. Every card is a GitHub repo Â· play your own at github.com/sjgant80-hub/kard-v5 Â· #sovereignsoftware #konomi`;
+  return `⚔ Just battled ${foe} in KARD v4 · the registry duel. My ${f} deck ${result} in ${state.match.turns} turns. Every card is a GitHub repo · play your own at github.com/sjgant80-hub/kard · #sovereignsoftware #konomi`;
 }
 function openLinkedInShare(){
   const txt=encodeURIComponent(shareTextFor());
-  const url=`https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fsjgant80-hub.github.io%2Fkard-v5%2F&summary=${txt}`;
+  const url=`https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fsjgant80-hub.github.io%2Fkard%2F&summary=${txt}`;
   window.open(url,'_blank');
 }
 async function copyShareText(){
   try{await navigator.clipboard.writeText(shareTextFor());log('post text copied','evt')}catch(e){alert(shareTextFor())}
 }
 
-
 // ============================================================
-// deck builder UI (v4 with v5 starter filter)
+// deck builder UI (extended for elite/master tags)
 // ============================================================
 function renderPool(){
-  const el=$('#cardPool');if(!el)return;
   const filter={
     q:($('#cardSearch')?.value||'').toLowerCase().trim(),
     f:$('#factionFilter')?.value||'',
     r:$('#rarityFilter')?.value||''
   };
-  const showStarters=$('#togStarters')?.checked||state.settings.showStartersInPool;
-  el.innerHTML='';
+  const el=$('#cardPool');el.innerHTML='';
   let shown=0;
   state.pool.forEach(c=>{
-    if(c.isStarter&&!showStarters)return;
     if(filter.q&&!c.name.toLowerCase().includes(filter.q))return;
     if(filter.f&&c.faction!==filter.f)return;
     if(filter.r&&c.rarity!==filter.r)return;
@@ -2055,11 +1806,10 @@ function renderPool(){
     r.className='card-row '+c.rarity;
     if(c.elite&&!c.konomiMaster)r.classList.add('elite');
     if(c.konomiMaster)r.classList.add('konomi-master');
-    if(c.isStarter)r.classList.add('starter');
     if(cnt>=(c.rarity==='legendary'?1:2))r.classList.add('in-deck');
-    const badge=c.konomiMaster?`<span class="k-badge km">â—ŠÂ·Îº=1</span>`:c.elite?`<span class="k-badge">ELITE</span>`:c.isStarter?`<span class="k-badge st">ST</span>`:'';
+    const badge=c.konomiMaster?`<span class="k-badge km">◊·κ=1</span>`:c.elite?`<span class="k-badge">ELITE</span>`:'';
     r.innerHTML=`<div class="cost">${c.cost}</div>
-      <div class="meta"><div class="nm">${esc(c.name)} ${cnt?'Ã—'+cnt:''}</div><div class="sub">${c.faction} Â· ${c.rarity}${c.kBonus?' Â· +'+c.kBonus:''}</div></div>
+      <div class="meta"><div class="nm">${esc(c.name)} ${cnt?'×'+cnt:''}</div><div class="sub">${c.faction} · ${c.rarity}${c.kBonus?' · +'+c.kBonus:''}</div></div>
       <div class="stats">${c.attack}/${c.health}</div>${badge}`;
     r.addEventListener('click',(e)=>{
       if(e.shiftKey){showCardDetail(c);return}
@@ -2069,7 +1819,7 @@ function renderPool(){
     el.appendChild(r);
     shown++;
   });
-  if(!shown){el.innerHTML='<div class="empty-state"><span class="glyph">âˆ…</span>no cards match</div>'}
+  if(!shown){el.innerHTML='<div class="empty-state"><span class="glyph">∅</span>no cards match</div>'}
   renderDeck();
 }
 function addToDeck(c){
@@ -2085,15 +1835,14 @@ function removeFromDeck(id){
   state.deck.splice(i,1);renderPool();
 }
 function renderDeck(){
-  const el=$('#currentDeck');if(!el)return;
-  el.innerHTML='';
+  const el=$('#currentDeck');el.innerHTML='';
   const counts={};
   state.deck.forEach(id=>counts[id]=(counts[id]||0)+1);
   const sorted=Object.keys(counts).map(id=>state.pool.find(c=>c.id===id)).filter(Boolean).sort((a,b)=>a.cost-b.cost);
   sorted.forEach(c=>{
     const r=document.createElement('div');
     r.className='deck-card';
-    r.innerHTML=`<div class="dc-cost">${c.cost}</div><div class="dc-nm">${esc(c.name)}</div><div class="dc-ct">Ã—${counts[c.id]}</div><div class="dc-rm">âˆ’</div>`;
+    r.innerHTML=`<div class="dc-cost">${c.cost}</div><div class="dc-nm">${esc(c.name)}</div><div class="dc-ct">×${counts[c.id]}</div><div class="dc-rm">−</div>`;
     r.querySelector('.dc-rm').addEventListener('click',(e)=>{e.stopPropagation();removeFromDeck(c.id)});
     r.addEventListener('click',()=>showCardDetail(c));
     el.appendChild(r);
@@ -2119,24 +1868,19 @@ function renderDeck(){
       if(n>lim)bad=true;
     }
     st.className=bad?'dk-status invalid':'dk-status valid';
-    st.textContent=bad?'invalid Â· check copies':'valid Â· ready to duel';
+    st.textContent=bad?'invalid · check copies':'valid · ready to duel';
   }else{
     st.className='dk-status';st.textContent=`need ${30-state.deck.length} more`;
   }
 }
 function autoDeck(){
   state.deck=[];
-  const pool=[...state.pool].filter(c=>!c.isStarter).sort(()=>Math.random()-.5);
+  const pool=[...state.pool].sort(()=>Math.random()-.5);
   for(const c of pool){
     if(state.deck.length>=30)break;
     const cnt=state.deck.filter(id=>id===c.id).length;
     const lim=c.rarity==='legendary'?1:2;
     if(cnt<lim&&c.cost<=8)state.deck.push(c.id);
-  }
-  // pad with starter cards if pool too small
-  for(const s of STARTER_DECK){
-    if(state.deck.length>=30)break;
-    state.deck.push(s.id);
   }
   renderPool();
 }
@@ -2149,58 +1893,33 @@ async function loadDeck(slot){
 }
 
 // ============================================================
-// card detail modal (v4 verbatim Â· trimmed for fun mode)
+// card detail modal (extended with konomi report)
 // ============================================================
 function showCardDetail(card){
-  $('#cdTitle').textContent=card.name+(card.konomiMaster?' Â· â—ŠÂ·Îº=1':card.elite?' Â· ELITE':card.isStarter?' Â· STARTER':'');
+  $('#cdTitle').textContent=card.name+(card.konomiMaster?' · ◊·κ=1':card.elite?' · ELITE':'');
   const body=$('#cdBody');
-  const abilTxt=(card.ability||[]).length?(card.ability.map(a=>{const x=ABILITY_DESC[a];return x?`<b>${x.name}</b>: ${x.desc}`:''}).filter(Boolean).join('<br>')):(card.text?`<i>${esc(card.text)}</i>`:'<i>vanilla minion (no abilities)</i>');
+  const abilTxt=(card.ability||[]).length?(card.ability.map(a=>{const x=ABILITY_DESC[a];return x?`<b>${x.name}</b>: ${x.desc}`:''}).filter(Boolean).join('<br>')):'<i>vanilla minion (no abilities)</i>';
   const fact=FACTIONS[card.faction];
-
-  if(state.mode==='fun'){
-    // simplified card detail Â· no prime / spine / konomi / nft
-    body.innerHTML=`
-      <div class="cd-row">
-        <div class="cd-art"><canvas id="cdCanvas" width="140" height="200"></canvas></div>
-        <div class="cd-info">
-          <dl>
-            <dt>cost</dt><dd>${card.cost} mana</dd>
-            <dt>attack</dt><dd>${card.attack}</dd>
-            <dt>health</dt><dd>${card.health}</dd>
-            <dt>faction</dt><dd style="color:${fact?.col}">${card.faction}</dd>
-            <dt>type</dt><dd>${card.isStarter?'starter card':'repo card'}</dd>
-          </dl>
-        </div>
-      </div>
-      <div class="cd-abil">${abilTxt}</div>
-    `;
-    paintCard(card,$('#cdCanvas'));
-    $('#cardModal').classList.add('show');
-    return;
-  }
-
-  // elite mode Â· full v4 report
   let reportHtml='';
   if(card.konomi){
     const k=card.konomi;
     reportHtml=`<div class="k-report">
-      <div class="k-hd"><span>konomi compliance Â· 7-check</span><span class="k-score">${k.score}/7 ${k.konomiMaster?'Â· KONOMI MASTER':k.elite?'Â· ELITE':''}</span></div>
-      ${k.checks.map(c=>`<div class="k-row ${c.pass?'pass':'fail'}"><span class="k-mark">${c.pass?'âœ“':'âœ—'}</span><span class="k-lbl">${esc(c.label)}</span></div>`).join('')}
+      <div class="k-hd"><span>konomi compliance · 7-check</span><span class="k-score">${k.score}/7 ${k.konomiMaster?'· KONOMI MASTER':k.elite?'· ELITE':''}</span></div>
+      ${k.checks.map(c=>`<div class="k-row ${c.pass?'pass':'fail'}"><span class="k-mark">${c.pass?'✓':'✗'}</span><span class="k-lbl">${esc(c.label)}</span></div>`).join('')}
     </div>`;
   }
-  const canMint=!card.isStarter;
   body.innerHTML=`
     <div class="cd-row">
       <div class="cd-art"><canvas id="cdCanvas" width="140" height="200"></canvas></div>
       <div class="cd-info">
         <dl>
-          <dt>prime</dt><dd>${card.isStarter?'(starter Â· no prime)':card.prime}</dd>
+          <dt>prime</dt><dd>${card.prime}</dd>
           <dt>cost</dt><dd>${card.cost} mana</dd>
           <dt>attack</dt><dd>${card.attack}${card.kBonus?' <span style="color:var(--green)">(+'+card.kBonus+')</span>':''}</dd>
           <dt>health</dt><dd>${card.health}${card.kBonus?' <span style="color:var(--green)">(+'+card.kBonus+')</span>':''}</dd>
           <dt>faction</dt><dd style="color:${fact?.col}">${card.faction}</dd>
           <dt>rarity</dt><dd>${card.rarity}</dd>
-          ${card.isStarter?'':`<dt>mod 127</dt><dd>${card.modResidue} (spine: ${(card.spineFactors||[]).join('Â·')||'none'})</dd>`}
+          <dt>mod 127</dt><dd>${card.modResidue} (spine: ${(card.spineFactors||[]).join('·')||'none'})</dd>
           ${card.app?.source?`<dt>source</dt><dd style="font-size:9px">${esc(card.app.source)}</dd>`:''}
         </dl>
       </div>
@@ -2208,21 +1927,19 @@ function showCardDetail(card){
     <div class="cd-abil">${abilTxt}</div>
     ${reportHtml}
     <div class="cd-actions">
-      ${canMint?`<button class="tbtn" id="cdMint">mint NFT (konomi)</button>`:`<button class="tbtn" disabled title="starter cards cannot be minted">mint NFT</button>`}
+      <button class="tbtn" id="cdMint">mint NFT (konomi)</button>
       <button class="tbtn" id="cdAdd">add to deck</button>
-      ${card.app?.source||(card.app?.name&&!card.isStarter)?`<button class="tbtn" id="cdRepo">view repo</button>`:''}
+      ${card.app?.source?`<button class="tbtn" id="cdRepo">view repo</button>`:card.app?.name?`<button class="tbtn" id="cdRepo">view repo</button>`:''}
     </div>
     <div id="cdMintOut" style="margin-top:10px"></div>
   `;
   paintCard(card,$('#cdCanvas'));
-  if(canMint){
-    $('#cdMint').addEventListener('click',async()=>{
-      const ownerKey=state.settings.ownerKey||'anon-'+(navigator.userAgent.slice(0,8));
-      const tok=await window.KONOMI.nft.mint(card,ownerKey);
-      $('#cdMintOut').innerHTML=`<div class="nft-tok">tokenId: ${tok.tokenId.slice(0,32)}â€¦</div><div style="font-size:10px;color:var(--cream-muted);margin-top:4px">minted to ${ownerKey} Â· _impl: ${window.KONOMI.nft._impl}</div>`;
-      renderWallet();
-    });
-  }
+  $('#cdMint').addEventListener('click',async()=>{
+    const ownerKey=state.settings.ownerKey||'anon-'+(navigator.userAgent.slice(0,8));
+    const tok=await window.KONOMI.nft.mint(card,ownerKey);
+    $('#cdMintOut').innerHTML=`<div class="nft-tok">tokenId: ${tok.tokenId.slice(0,32)}…</div><div style="font-size:10px;color:var(--cream-muted);margin-top:4px">minted to ${ownerKey} · _impl: ${window.KONOMI.nft._impl}</div>`;
+    renderWallet();
+  });
   $('#cdAdd').addEventListener('click',()=>{addToDeck(card)});
   const repoBtn=$('#cdRepo');
   if(repoBtn){
@@ -2235,88 +1952,81 @@ function showCardDetail(card){
 }
 
 // ============================================================
-// log + history + wallet (v4 + split fun/elite buckets in view)
+// log + history + wallet
 // ============================================================
 function log(msg,cls){
   const el=document.createElement('div');
   el.className='log '+(cls||'');
   el.textContent=msg;
-  const lp=$('#logPanel');if(lp){lp.appendChild(el);lp.scrollTop=lp.scrollHeight}
+  $('#logPanel').appendChild(el);
+  $('#logPanel').scrollTop=$('#logPanel').scrollHeight;
   if(state.match)state.match.log.push({msg,cls,t:Date.now()});
 }
 async function renderHistory(){
-  const el=$('#histPanel');if(!el)return;
-  el.innerHTML='';
+  const el=$('#histPanel');el.innerHTML='';
   try{
     const matches=await IDB.all('matches');
-    if(!matches.length){el.innerHTML='<div class="empty-state"><span class="glyph">âŒ›</span>no matches yet</div>';return}
-    // filter by current mode if we are in a mode (split buckets)
-    const view=state.mode==='fun'||state.mode==='elite'?matches.filter(m=>(m.mode||'elite')===state.mode):matches;
-    if(!view.length){el.innerHTML='<div class="empty-state"><span class="glyph">âŒ›</span>no '+state.mode+' matches yet</div>';return}
-    view.sort((a,b)=>b.endedAt-a.endedAt).slice(0,40).forEach(m=>{
+    if(!matches.length){el.innerHTML='<div class="empty-state"><span class="glyph">⌛</span>no matches yet</div>';return}
+    matches.sort((a,b)=>b.endedAt-a.endedAt).slice(0,40).forEach(m=>{
       const r=document.createElement('div');
       r.className='card-row';
-      const w=m.winner==='me'?'â˜… WIN':m.winner==='foe'?'â˜  LOSS':'â€” DRAW';
+      const w=m.winner==='me'?'★ WIN':m.winner==='foe'?'☠ LOSS':'— DRAW';
       const col=m.winner==='me'?'var(--green)':m.winner==='foe'?'var(--red)':'var(--cream-muted)';
-      const mpTag=m.multiplayer?` Â· vs ${esc(m.opponentName||'foe')}`:'';
-      const modeTag=m.mode?` Â· ${m.mode}`:'';
-      r.innerHTML=`<div class="meta"><div class="nm" style="color:${col}">${w}${mpTag}</div><div class="sub">${m.turns} turns Â· you ${m.myHp} Â· foe ${m.foeHp}${m.myFaction?' Â· '+m.myFaction:''}${modeTag}</div></div><div class="stats">${new Date(m.endedAt).toLocaleDateString()}</div>`;
+      const mpTag=m.multiplayer?` · vs ${esc(m.opponentName||'foe')}`:'';
+      r.innerHTML=`<div class="meta"><div class="nm" style="color:${col}">${w}${mpTag}</div><div class="sub">${m.turns} turns · you ${m.myHp} · foe ${m.foeHp}${m.myFaction?' · '+m.myFaction:''}</div></div><div class="stats">${new Date(m.endedAt).toLocaleDateString()}</div>`;
       el.appendChild(r);
     });
   }catch(e){el.innerHTML='<div class="empty-state">history unavailable</div>'}
 }
 async function renderWallet(){
-  const el=$('#walletPanel');if(!el)return;
-  el.innerHTML='';
+  const el=$('#walletPanel');el.innerHTML='';
   try{
     const toks=await IDB.all('wallet');
     state.wallet=toks;
-    if(!toks.length){el.innerHTML='<div class="empty-state"><span class="glyph">â—Š</span>no NFTs minted yet<div style="margin-top:8px;font-size:10px">elite mode Â· click a card â†’ mint NFT</div></div>';return}
+    if(!toks.length){el.innerHTML='<div class="empty-state"><span class="glyph">◊</span>no NFTs minted yet<div style="margin-top:8px;font-size:10px">click a card → mint NFT</div></div>';return}
     toks.forEach(t=>{
       const r=document.createElement('div');
       r.className='card-row';
-      r.innerHTML=`<div class="meta"><div class="nm">${esc(t.card)}</div><div class="sub" style="word-break:break-all">${t.tokenId.slice(0,20)}â€¦</div></div>`;
+      r.innerHTML=`<div class="meta"><div class="nm">${esc(t.card)}</div><div class="sub" style="word-break:break-all">${t.tokenId.slice(0,20)}…</div></div>`;
       r.addEventListener('click',()=>{const c=state.pool.find(c=>c.id===t.card);if(c)showCardDetail(c)});
       el.appendChild(r);
     });
   }catch(e){}
 }
 
-
 // ============================================================
-// Cascade T0/T2/T3 + Î© autopilot palette (v4 verbatim Â· elite-only)
+// Cascade T0/T2/T3
 // ============================================================
 const Cascade={
   async detectTier(){if(await this._probe())return'T2';const s=state.settings;if(s.anthropicKey||s.openaiKey||s.geminiKey||s.openrouterKey)return'T3';return'T0'},
   async _probe(){if(this._p!==undefined)return this._p;try{this._p=await Promise.race([fetch('http://127.0.0.1:11434/api/tags').then(r=>r.ok),new Promise(r=>setTimeout(()=>r(false),350))])}catch(e){this._p=false}return this._p},
   async generate(sys,user,maxTok){const s=state.settings,max=maxTok||1200;
-    if(s.anthropicKey)try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':s.anthropicKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:max,system:sys,messages:[{role:'user',content:user}]})});const d=await r.json();return{tier:'T3Â·Claude',text:d?.content?.[0]?.text||''}}catch(e){}
-    if(s.geminiKey)try{const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${s.geminiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents:[{parts:[{text:user}]}]})});const d=await r.json();return{tier:'T3Â·Gemini',text:d?.candidates?.[0]?.content?.parts?.[0]?.text||''}}catch(e){}
-    if(s.openaiKey)try{const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.openaiKey},body:JSON.stringify({model:'gpt-4o-mini',messages:[{role:'system',content:sys},{role:'user',content:user}]})});const d=await r.json();return{tier:'T3Â·GPT',text:d?.choices?.[0]?.message?.content||''}}catch(e){}
-    if(s.openrouterKey)try{const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.openrouterKey,'HTTP-Referer':location.origin},body:JSON.stringify({model:'anthropic/claude-haiku-4-5',messages:[{role:'system',content:sys},{role:'user',content:user}]})});const d=await r.json();return{tier:'T3Â·OpenRouter',text:d?.choices?.[0]?.message?.content||''}}catch(e){}
+    if(s.anthropicKey)try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':s.anthropicKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:max,system:sys,messages:[{role:'user',content:user}]})});const d=await r.json();return{tier:'T3·Claude',text:d?.content?.[0]?.text||''}}catch(e){}
+    if(s.geminiKey)try{const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${s.geminiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents:[{parts:[{text:user}]}]})});const d=await r.json();return{tier:'T3·Gemini',text:d?.candidates?.[0]?.content?.parts?.[0]?.text||''}}catch(e){}
+    if(s.openaiKey)try{const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.openaiKey},body:JSON.stringify({model:'gpt-4o-mini',messages:[{role:'system',content:sys},{role:'user',content:user}]})});const d=await r.json();return{tier:'T3·GPT',text:d?.choices?.[0]?.message?.content||''}}catch(e){}
+    if(s.openrouterKey)try{const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.openrouterKey,'HTTP-Referer':location.origin},body:JSON.stringify({model:'anthropic/claude-haiku-4-5',messages:[{role:'system',content:sys},{role:'user',content:user}]})});const d=await r.json();return{tier:'T3·OpenRouter',text:d?.choices?.[0]?.message?.content||''}}catch(e){}
     return{tier:'T0',text:null}
   }
 };
 async function updateTierBadge(){const t=await Cascade.detectTier();const el=document.getElementById('tierBadge');if(el){el.textContent=t==='T0'?'offline':t;el.classList.toggle('t3',t!=='T0')}const pt=document.getElementById('pTier');if(pt){pt.textContent=t==='T0'?'T0':t;pt.classList.toggle('t3',t!=='T0')}}
 
+// ============================================================
+// Ω autopilot palette (extended)
+// ============================================================
 const Palette={
-  open(){
-    if(state.mode==='fun'){log('Î© autopilot is elite-only Â· switch to elite mode','evt');return}
-    $('#palette').classList.add('show');$('#pInput').value='';$('#pInput').focus();this.render([
-      {name:'import a GitHub repo',sub:'opens the import modal',run:()=>{openImportModal();this.close()}},
-      {name:'play online (PeerJS)',sub:'opens the multiplayer modal',run:()=>{openMpModal();this.close()}},
-      {name:'find KONOMI master cards',sub:'7/7 compliance Â· rainbow frame',run:()=>this.findElite('km')},
-      {name:'find elite cards',sub:'â‰¥5/7 compliance Â· amber frame',run:()=>this.findElite('elite')},
-      {name:'find legendary cards',sub:'show all A-tier cards',run:()=>this.findRarity('legendary')},
-      {name:'show match history',sub:'recent duels',run:()=>{selectTab('hist');this.close()}},
-      {name:'show NFT wallet',sub:'minted tokens',run:()=>{selectTab('wallet');this.close()}},
-      {name:'share last match',sub:'open LinkedIn share modal',run:()=>{if(state.match)openShareModal();this.close()}},
-      {name:'new match',sub:'start vs AI',run:()=>{Game.newMatch();this.close()}},
-      {name:'auto-build deck',sub:'random 30',run:()=>{autoDeck();this.close()}},
-      {name:'concede',sub:'forfeit current match',run:()=>{Game.concede();this.close()}},
-      {name:'switch to fun mode',sub:'one-click vs AI',run:()=>{enterMode('fun');this.close()}},
-    ])
-  },
+  open(){$('#palette').classList.add('show');$('#pInput').value='';$('#pInput').focus();this.render([
+    {name:'import a GitHub repo',sub:'opens the import modal',run:()=>{openImportModal();this.close()}},
+    {name:'play online (PeerJS)',sub:'opens the multiplayer modal',run:()=>{openMpModal();this.close()}},
+    {name:'find KONOMI master cards',sub:'7/7 compliance · rainbow frame',run:()=>this.findElite('km')},
+    {name:'find elite cards',sub:'≥5/7 compliance · amber frame',run:()=>this.findElite('elite')},
+    {name:'find legendary cards',sub:'show all A-tier cards',run:()=>this.findRarity('legendary')},
+    {name:'show match history',sub:'recent duels',run:()=>{selectTab('hist');this.close()}},
+    {name:'show NFT wallet',sub:'minted tokens',run:()=>{selectTab('wallet');this.close()}},
+    {name:'share last match',sub:'open LinkedIn share modal',run:()=>{if(state.match)openShareModal();this.close()}},
+    {name:'new match',sub:'start vs AI',run:()=>{Game.newMatch();this.close()}},
+    {name:'auto-build deck',sub:'random 30',run:()=>{autoDeck();this.close()}},
+    {name:'concede',sub:'forfeit current match',run:()=>{Game.concede();this.close()}},
+  ])},
   close(){$('#palette').classList.remove('show')},
   render(items){
     const b=$('#pBody');b.innerHTML='';
@@ -2328,17 +2038,18 @@ const Palette={
     });
   },
   findRarity(rar){
-    const cards=state.pool.filter(c=>c.rarity===rar&&!c.isStarter);
-    this.render(cards.map(c=>({name:c.name,sub:`${c.faction} Â· ${c.cost}mp Â· ${c.attack}/${c.health} Â· Ï€${c.prime}`,run:()=>{showCardDetail(c);this.close()}})));
+    const cards=state.pool.filter(c=>c.rarity===rar);
+    this.render(cards.map(c=>({name:c.name,sub:`${c.faction} · ${c.cost}mp · ${c.attack}/${c.health} · π${c.prime}`,run:()=>{showCardDetail(c);this.close()}})));
   },
   findElite(kind){
     const cards=state.pool.filter(c=>kind==='km'?c.konomiMaster:c.elite);
     if(!cards.length){this.render([{name:'no '+kind+' cards yet',sub:'try importing a high-quality repo',run:()=>{}}]);return}
-    this.render(cards.map(c=>({name:c.name+(c.konomiMaster?' â—ŠÂ·Îº=1':' â˜…'),sub:`${c.faction} Â· ${c.cost}mp Â· ${c.attack}/${c.health} Â· score ${c.konomi?.score}/7`,run:()=>{showCardDetail(c);this.close()}})));
+    this.render(cards.map(c=>({name:c.name+(c.konomiMaster?' ◊·κ=1':' ★'),sub:`${c.faction} · ${c.cost}mp · ${c.attack}/${c.health} · score ${c.konomi?.score}/7`,run:()=>{showCardDetail(c);this.close()}})));
   },
   async handle(q){
     q=q.trim();if(!q)return;
     const lc=q.toLowerCase();
+    // T0 keyword routing
     const importMatch=q.match(/^(?:import\s+)?([\w-]+\/[\w.-]+)$/i)||q.match(/(?:github\.com\/)([\w-]+\/[\w.-]+)/i);
     if(importMatch){
       openImportModal();$('#impUrl').value=importMatch[1];
@@ -2346,8 +2057,6 @@ const Palette={
     }
     if(/\b(import|fetch repo|add repo)\b/.test(lc)){openImportModal();return this.close()}
     if(/\b(online|peer|multiplayer|play vs)\b/.test(lc)){openMpModal();return this.close()}
-    if(/\b(elite mode)\b/.test(lc)){enterMode('elite');return this.close()}
-    if(/\b(fun mode)\b/.test(lc)){enterMode('fun');return this.close()}
     if(/\b(elite)\b/.test(lc))return this.findElite('elite');
     if(/\b(konomi master|km|7\/7|master)\b/.test(lc))return this.findElite('km');
     if(/\b(legend(ary)?|a[- ]tier)\b/.test(lc))return this.findRarity('legendary');
@@ -2361,7 +2070,7 @@ const Palette={
     if(/\b(auto|random) ?deck\b/.test(lc)){autoDeck();return this.close()}
     for(const f of state.factions){
       if(lc.includes(f.toLowerCase())){
-        const cards=state.pool.filter(c=>c.faction===f&&!c.isStarter);
+        const cards=state.pool.filter(c=>c.faction===f);
         if(/\b(build|deck)\b/.test(lc)){
           state.deck=[];
           const sorted=[...cards].sort((a,b)=>a.cost-b.cost);
@@ -2372,7 +2081,7 @@ const Palette={
             if(cnt<lim)state.deck.push(c.id);
           }
           if(state.deck.length<30){
-            const rest=state.pool.filter(c=>c.faction!==f&&!c.isStarter).sort((a,b)=>a.cost-b.cost);
+            const rest=state.pool.filter(c=>c.faction!==f).sort((a,b)=>a.cost-b.cost);
             for(const c of rest){
               if(state.deck.length>=30)break;
               const cnt=state.deck.filter(id=>id===c.id).length;
@@ -2380,25 +2089,22 @@ const Palette={
               if(cnt<lim)state.deck.push(c.id);
             }
           }
-          if(state.deck.length<30){
-            for(const s of STARTER_DECK){if(state.deck.length>=30)break;state.deck.push(s.id)}
-          }
           renderPool();log(`built deck around ${f}`,'evt');
           return this.close();
         }
-        return this.render(cards.map(c=>({name:c.name,sub:`${f} Â· ${c.cost}mp Â· ${c.attack}/${c.health}`,run:()=>{showCardDetail(c);this.close()}})));
+        return this.render(cards.map(c=>({name:c.name,sub:`${f} · ${c.cost}mp · ${c.attack}/${c.health}`,run:()=>{showCardDetail(c);this.close()}})));
       }
     }
     const tier=await Cascade.detectTier();
     if(tier!=='T0'){
-      const cardSummary=state.pool.filter(c=>!c.isStarter).slice(0,30).map(c=>`${c.name}(${c.faction},${c.cost}mp,${c.attack}/${c.health},${c.rarity})`).join('; ');
-      const sys=`You are an advisor for KARD v5 (sovereign CCG Â· cards are GitHub repos). Cards: ${cardSummary}. Factions: ${state.factions.join(',')}. Answer concisely (<150 words).`;
+      const cardSummary=state.pool.slice(0,30).map(c=>`${c.name}(${c.faction},${c.cost}mp,${c.attack}/${c.health},${c.rarity})`).join('; ');
+      const sys=`You are an advisor for KARD v4 (sovereign CCG · cards are GitHub repos). Cards: ${cardSummary}. Factions: ${state.factions.join(',')}. Answer concisely (<150 words).`;
       const r=await Cascade.generate(sys,q,400);
       this.render([{name:'autopilot reply',sub:tier,run:()=>{}}]);
       const d=document.createElement('div');d.style.padding='14px';d.style.fontSize='12px';d.textContent=r.text||'(no reply)';
       $('#pBody').appendChild(d);
     }else{
-      this.render([{name:'unknown intent',sub:'try: import owner/repo Â· play online Â· elite Â· legendaries',run:()=>{}}]);
+      this.render([{name:'unknown intent',sub:'try: import owner/repo · play online · elite · legendaries',run:()=>{}}]);
     }
   }
 };
@@ -2414,11 +2120,10 @@ async function sha256(str){
 
 window.KONOMI={active:true,tier:'sovereign',prime:PRIME,check:()=>({ok:true,tier:'sovereign'})};
 
-// KONOMI_NFT_HOOK Â· sovereign IDB stub
+// KONOMI_NFT_HOOK · sovereign IDB stub
 window.KONOMI.nft={
   async mint(card,ownerKey){
-    if(card.isStarter)throw new Error('starter cards cannot be minted');
-    const seed=card.id+'Â·'+card.prime+'Â·'+ownerKey+'Â·'+Date.now()+'Â·'+Math.random();
+    const seed=card.id+'·'+card.prime+'·'+ownerKey+'·'+Date.now()+'·'+Math.random();
     const tokenId=await sha256(seed);
     const token={tokenId,ownerKey,mintedAt:new Date().toISOString(),txHash:null,card:card.id,prime:card.prime};
     try{await IDB.put('wallet',token)}catch(e){}
@@ -2446,16 +2151,15 @@ try{
 window.addEventListener('message',async e=>{
   const m=e.data;if(!m||m.target!==TOOLNAME||!m.action)return;
   let r=null;
-  if(m.action==='ping')r={ok:true,prime:PRIME,version:VERSION,mode:state.mode};
+  if(m.action==='ping')r={ok:true,prime:PRIME,version:VERSION};
   else if(m.action==='cards')r={count:state.pool.length,cards:state.pool.slice(0,30)};
   else if(m.action==='import'&&m.repo)try{r=await importAnyRepo(m.repo,()=>{})}catch(e){r={error:e.message}}
   else if(m.action==='mint'&&m.card)r=await window.KONOMI.nft.mint(m.card,m.ownerKey||'mesh-anon');
   e.source?.postMessage({target:m.source||'*',responseTo:m.action,data:r},'*');
 });
 
-
 // ============================================================
-// boot Â· mode router Â· landing
+// boot
 // ============================================================
 const $=s=>document.querySelector(s);
 const el=id=>document.getElementById(id);
@@ -2466,8 +2170,8 @@ function selectTab(name){
 }
 async function loadSettings(){
   try{
-    for(const k of ['ownerKey','displayName','anthropicKey','openaiKey','geminiKey','openrouterKey','lastMode','showStartersInPool']){
-      const v=await IDB.get('settings',k);if(v!==undefined&&v!==null)state.settings[k]=v.v;
+    for(const k of ['ownerKey','displayName','anthropicKey','openaiKey','geminiKey','openrouterKey']){
+      const v=await IDB.get('settings',k);if(v)state.settings[k]=v.v;
     }
   }catch(e){}
 }
@@ -2484,113 +2188,28 @@ async function saveSettings(){
   $('#setModal').classList.remove('show');
   log('settings saved','evt');
 }
-async function persistMode(m){
-  state.settings.lastMode=m;
-  try{await IDB.put('settings',{k:'lastMode',v:m})}catch(e){}
-}
 
-function openImportModal(){$('#impUrl').value='';$('#impProg').textContent='paste a public github repo url Â· we will run the 7-check konomi compliance scorer Â· score â‰¥5 = elite card Â· 7/7 = KONOMI MASTER';$('#impModal').classList.add('show');setTimeout(()=>$('#impUrl').focus(),50)}
+function openImportModal(){$('#impUrl').value='';$('#impProg').textContent='paste a public github repo url · we will run the 7-check konomi compliance scorer · score ≥5 = elite card · 7/7 = KONOMI MASTER';$('#impModal').classList.add('show');setTimeout(()=>$('#impUrl').focus(),50)}
 async function doImport(){
   const url=$('#impUrl').value.trim();
   if(!url){$('#impProg').textContent='enter a url first';return}
   const prog=$('#impProg');prog.innerHTML='';
-  const out=(cls,t)=>{const s=document.createElement('div');s.className=cls;s.textContent=(cls==='step'?'â†’ ':cls==='ok'?'âœ“ ':'âœ— ')+t;prog.appendChild(s)};
+  const out=(cls,t)=>{const s=document.createElement('div');s.className=cls;s.textContent=(cls==='step'?'→ ':cls==='ok'?'✓ ':'✗ ')+t;prog.appendChild(s)};
   try{
-    out('step','parsing urlâ€¦');
+    out('step','parsing url…');
     const c=await importAnyRepo(url,out);
-    out('ok',`${c.name} ready Â· faction ${c.faction} Â· ${c.rarity}`);
+    out('ok',`${c.name} ready · faction ${c.faction} · ${c.rarity}`);
   }catch(e){out('err','import failed: '+e.message)}
 }
 
 function openMpModal(){
-  if(state.mode==='fun'){log('multiplayer is elite-only Â· switch to elite mode','evt');return}
   if(!state.mp.peer)MP.init();
   $('#mpModal').classList.add('show');
 }
 
-// ============================================================
-// v5 Â· mode router
-// ============================================================
-async function refreshLandingDeckPrev(){
-  try{
-    const c=await describeAutoDeckComposition();
-    const myRepos=await loadImportedRepoCards();
-    const top=myRepos.slice(0,Math.min(5,c.personal)).map(r=>r.faction);
-    const fc={};for(const f of top)fc[f]=(fc[f]||0)+1;
-    const breakdown=Object.entries(fc).map(([f,n])=>`${f}Ã—${n}`).join(' Â· ')||'starter mix';
-    const el=$('#landDeckPrev');
-    if(el)el.innerHTML=`your deck: <b>${c.personal}</b> of your repos + <b>${c.starter}</b> starter${c.personal?' Â· '+breakdown:''}`;
-  }catch(e){}
-}
-async function refreshLandingHist(){
-  try{
-    const matches=await IDB.all('matches');
-    if(!matches.length){$('#landHist').textContent='last 3 matches: none yet';return}
-    matches.sort((a,b)=>b.endedAt-a.endedAt);
-    const last3=matches.slice(0,3);
-    const parts=last3.map(m=>{
-      const w=m.winner==='me'?'W':m.winner==='foe'?'L':'D';
-      const cls=w==='W'?'w':w==='L'?'l':'d';
-      return `<span class="${cls}">${w}</span>`;
-    });
-    $('#landHist').innerHTML='last 3 matches: '+parts.join(' / ');
-  }catch(e){}
-}
-
-function showLanding(){
-  state.mode='landing';
-  document.body.classList.remove('mode-fun','mode-elite','in-match');
-  $('#landing').classList.remove('hide');
-  $('#turnInd').textContent='â€” Â· landing';
-  $('#modeBadge').textContent='â€”';
-  $('#btnNewMatch').style.display='none';
-  $('#btnEndTurn').style.display='none';
-  $('#btnConcede').style.display='none';
-  $('#funResult').classList.remove('show');
-  refreshLandingDeckPrev();
-  refreshLandingHist();
-}
-
-async function enterMode(mode){
-  state.mode=mode;
-  await persistMode(mode);
-  document.body.classList.remove('mode-fun','mode-elite');
-  document.body.classList.add('mode-'+mode);
-  $('#landing').classList.add('hide');
-  $('#modeBadge').textContent=mode;
-  // make sure scene is initialised
-  if(!Scene._initialized){Scene.init()}
-  setTimeout(()=>Scene.onResize(),100);
-
-  await renderHistory();
-
-  if(mode==='fun'){
-    // jump straight into a match vs AI with auto-built deck
-    $('#btnNewMatch').style.display='none';
-    log('entering Fun Mode Â· auto-deck Â· vs AI','evt');
-    await Game.newMatch(null,{autoDeck:true});
-  }else{
-    // elite: full v4 UI
-    $('#btnNewMatch').style.display='';
-    if(state.deck.length<30){
-      // attempt to autoload default deck
-      await loadDeck('default');
-    }
-    log('entering Elite Mode Â· full deck builder + features','evt');
-  }
-}
-
 async function boot(){
   await loadSettings();
-  // wire landing
-  $('#brandHome').addEventListener('click',()=>showLanding());
-  $('#btnHome').addEventListener('click',()=>showLanding());
-  $('#landPlay').addEventListener('click',()=>enterMode('fun'));
-  $('#landElite').addEventListener('click',()=>enterMode('elite'));
-  // fun result overlay
-  $('#frRematch').addEventListener('click',()=>{$('#funResult').classList.remove('show');Game.newMatch(null,{autoDeck:true})});
-  $('#frLanding').addEventListener('click',()=>{$('#funResult').classList.remove('show');showLanding()});
-
+  Scene.init();
   $('#cardSearch').addEventListener('input',renderPool);
   $('#factionFilter').addEventListener('change',renderPool);
   $('#rarityFilter').addEventListener('change',renderPool);
@@ -2598,16 +2217,7 @@ async function boot(){
   $('#btnClearDeck').addEventListener('click',()=>{state.deck=[];renderPool()});
   $('#btnSaveDeck').addEventListener('click',saveDeck);
   $('#deckSlot').addEventListener('change',e=>loadDeck(e.target.value));
-  $('#togStarters').checked=!!state.settings.showStartersInPool;
-  $('#togStarters').addEventListener('change',async(e)=>{
-    state.settings.showStartersInPool=e.target.checked;
-    try{await IDB.put('settings',{k:'showStartersInPool',v:e.target.checked})}catch(err){}
-    renderPool();
-  });
-  $('#btnNewMatch').addEventListener('click',()=>{
-    if(state.mode==='fun')Game.newMatch(null,{autoDeck:true});
-    else Game.newMatch();
-  });
+  $('#btnNewMatch').addEventListener('click',()=>Game.newMatch());
   $('#btnEndTurn').addEventListener('click',()=>Game.endTurn());
   $('#btnConcede').addEventListener('click',()=>{if(confirm('concede match?'))Game.concede()});
   $('#btnSettings').addEventListener('click',()=>{
@@ -2627,11 +2237,13 @@ async function boot(){
     location.reload();
   });
   $('#btnPalette').addEventListener('click',()=>Palette.open());
+  // import
   $('#btnImportRepo').addEventListener('click',openImportModal);
   $('#impClose').addEventListener('click',()=>$('#impModal').classList.remove('show'));
   $('#impModal').addEventListener('click',e=>{if(e.target.id==='impModal')$('#impModal').classList.remove('show')});
   $('#impGo').addEventListener('click',doImport);
   $('#impUrl').addEventListener('keydown',e=>{if(e.key==='Enter')doImport()});
+  // multiplayer
   $('#btnMultiplayer').addEventListener('click',openMpModal);
   $('#mpClose').addEventListener('click',()=>$('#mpModal').classList.remove('show'));
   $('#mpModal').addEventListener('click',e=>{if(e.target.id==='mpModal')$('#mpModal').classList.remove('show')});
@@ -2647,11 +2259,13 @@ async function boot(){
   $('#asyncExport').addEventListener('click',asyncExport);
   $('#asyncImport').addEventListener('click',()=>$('#asyncFile').click());
   $('#asyncFile').addEventListener('change',e=>{if(e.target.files[0])asyncImport(e.target.files[0])});
+  // share
   $('#shareClose').addEventListener('click',()=>$('#shareModal').classList.remove('show'));
   $('#shareModal').addEventListener('click',e=>{if(e.target.id==='shareModal')$('#shareModal').classList.remove('show')});
   $('#shareDownload').addEventListener('click',downloadSharePNG);
   $('#shareLinkedIn').addEventListener('click',openLinkedInShare);
   $('#shareCopy').addEventListener('click',copyShareText);
+  // keyboard
   document.addEventListener('keydown',e=>{
     if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();Palette.open()}
     if(e.key==='Escape'){
@@ -2669,34 +2283,21 @@ async function boot(){
   $('#setModal').addEventListener('click',e=>{if(e.target.id==='setModal')$('#setModal').classList.remove('show')});
   $('#palette').addEventListener('click',e=>{if(e.target.id==='palette')Palette.close()});
   document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>selectTab(t.dataset.tab)));
-
-  // initialise Scene early so it is warm when a mode is selected
-  Scene.init();
-
   await loadRegistry();
   await loadDeck('default');
   await renderHistory();
   await renderWallet();
   await updateTierBadge();
-  setTimeout(()=>{try{MP.init()}catch(e){}},300);
-  log('KARD v5 ready Â· prime 787 Â· pool '+state.pool.filter(c=>!c.isStarter).length+' cards + '+STARTER_DECK.length+' starters','evt');
-  log('pick fun mode (one click vs AI) or elite mode (full deck-builder)','evt');
-
-  await refreshLandingDeckPrev();
-  await refreshLandingHist();
-
-  // honour persisted last mode Â· but still show landing unless URL hint says skip
-  const hash=location.hash.toLowerCase();
-  if(hash==='#fun'){enterMode('fun');return}
-  if(hash==='#elite'){enterMode('elite');return}
-  // always show landing on cold-start; persisted mode just primes the recall
-  showLanding();
+  // init peer eagerly so peer id is ready when modal opens
+  setTimeout(()=>MP.init(),300);
+  log('KARD v4 ready · prime 787 · pool '+state.pool.length+' cards','evt');
+  log('build a deck · import a repo · play online · or press Ctrl+K','evt');
 }
 
-window.KARD={state,Game,Scene,Cascade,MP,repoToCard,importAnyRepo,checkKonomiCompliance,KONOMI_CHECKS,parseRepoUrl,FACTIONS,ABILITY_DESC,PRIME,VERSION,TOOLNAME,STARTER_DECK,buildAutoDeck,enterMode,showLanding};
+// expose for debugging / mesh
+window.KARD={state,Game,Scene,Cascade,MP,repoToCard,importAnyRepo,checkKonomiCompliance,KONOMI_CHECKS,parseRepoUrl,FACTIONS,ABILITY_DESC,PRIME,VERSION,TOOLNAME};
 
 boot();
 </script>
 </body>
 </html>
-
