@@ -256,14 +256,19 @@ body.in-match #btnHome{display:block}
 }
 
 /* mobile */
+.mobile-only{display:none}
+#panelScrim{display:none}
 @media(max-width:880px){
   #main{grid-template-columns:1fr}
-  #left,#right{display:none;position:absolute;top:48px;bottom:0;width:280px;z-index:50}
+  #left,#right{display:none;position:absolute;top:48px;bottom:0;width:280px;z-index:50;box-shadow:0 0 24px rgba(0,0,0,.65)}
   #left.show,#right.show{display:flex}
   #right{right:0}
   #hand{height:130px}
   .hand-card{width:72px;height:104px}
   .tbtn{padding:5px 7px;font-size:10px}
+  body.mode-elite .mobile-only{display:inline-block}
+  #panelScrim{position:fixed;inset:48px 0 0 0;background:rgba(0,0,0,.4);z-index:49;display:none;pointer-events:auto}
+  #panelScrim.show{display:block}
 }
 
 /* in-match deck-builder hidden */
@@ -309,6 +314,8 @@ body.mode-fun.in-match #hand{pointer-events:auto}
     <span class="badge mode" id="modeBadge">—</span>
     <span class="badge" id="poolBadge">0 cards</span>
     <span class="badge" id="mpBadge" style="display:none">offline</span>
+    <button class="tbtn elite-only mobile-only" id="btnTogLeft" title="deck builder · pool · search">☷ deck</button>
+    <button class="tbtn elite-only mobile-only" id="btnTogRight" title="log · history · wallet">▤ log</button>
     <button class="tbtn elite-only" id="btnImportRepo">+ import repo</button>
     <button class="tbtn elite-only" id="btnMultiplayer">⚔ play online</button>
     <button class="tbtn" id="btnNewMatch" style="display:none">new match</button>
@@ -553,7 +560,7 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 // ============================================================
 const TOOLNAME='kard-v5';
 const PRIME=787;
-const VERSION='5.0.1';
+const VERSION='5.0.2';
 const REGISTRY_URL_PRIMARY='https://raw.githubusercontent.com/sjgant80-hub/kard-v5/main/index.json';
 const REGISTRY_URL_FALLBACK='https://raw.githubusercontent.com/sjgant80-hub/fall-registry/main/index.json';
 
@@ -2612,6 +2619,19 @@ async function boot(){
   $('#btnHome').addEventListener('click',()=>showLanding());
   $('#landPlay').addEventListener('click',()=>enterMode('fun'));
   $('#landElite').addEventListener('click',()=>enterMode('elite'));
+  // v5.0.2 mobile panel toggles for elite mode
+  if(!document.getElementById('panelScrim')){
+    const scrim=document.createElement('div');scrim.id='panelScrim';document.body.appendChild(scrim);
+    scrim.addEventListener('click',()=>{document.querySelectorAll('#left.show,#right.show').forEach(p=>p.classList.remove('show'));scrim.classList.remove('show')});
+  }
+  const togglePanel=(which)=>{
+    const open=document.querySelector('#'+which);const other=document.querySelector(which==='left'?'#right':'#left');
+    other.classList.remove('show');
+    open.classList.toggle('show');
+    document.getElementById('panelScrim').classList.toggle('show',open.classList.contains('show'));
+  };
+  $('#btnTogLeft')?.addEventListener('click',()=>togglePanel('left'));
+  $('#btnTogRight')?.addEventListener('click',()=>togglePanel('right'));
   // fun result overlay
   $('#frRematch').addEventListener('click',()=>{$('#funResult').classList.remove('show');Game.newMatch(null,{autoDeck:true})});
   $('#frLanding').addEventListener('click',()=>{$('#funResult').classList.remove('show');showLanding()});
